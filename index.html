@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Statistics &amp; Scientific Graphing</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+
+<style>
+  html { color-scheme: dark; }
+  body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  /* Data grid — uniform cells, group-name aligned with its column */
+  table.grid { table-layout: fixed; border-collapse: collapse; }
+  table.grid td, table.grid th { padding: 2px 4px; box-sizing: border-box; }
+  .cell-input { width: 100%; box-sizing: border-box; padding: 4px 6px; font-size: 14px; line-height: 20px; border: 1px solid #333333; border-radius: 5px; text-align: right; font-variant-numeric: tabular-nums; background: transparent; color: #e5e5e5; transition: border-color .12s, background .12s; }
+  .cell-input:focus { outline: none; border-color: #a3a3a3; background: #171717; }
+  .cell-input.bad { background: #3f1d1d; border-color: #ef4444; color: #fecaca; }
+  /* group-name shares the exact column width of its cells; right padding clears the × button */
+  .grp-name { width: 100%; box-sizing: border-box; padding: 4px 24px 4px 6px; font-size: 14px; line-height: 20px; font-weight: 600; text-align: center; border: 1px solid #333333; border-radius: 5px; background: transparent; color: #f5f5f5; transition: border-color .12s, background .12s; }
+  .grp-name:focus { outline: none; border-color: #a3a3a3; background: #171717; }
+  .delGrp { font-size: 13px !important; line-height: 1; }
+  .stat-table { border-collapse: collapse; width: 100%; font-size: 13px; color: #e5e5e5; }
+  .stat-table th, .stat-table td { border: 1px solid #333333; padding: 6px 10px; text-align: left; }
+  .stat-table thead th { background: #171717; font-weight: 600; }
+  .stat-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .stat-table tr:nth-child(even) td { background: #0d0d0d; }
+  .pill { display:inline-block; padding:2px 8px; border-radius:9999px; font-size:11px; font-weight:600; }
+  .scroll-thin::-webkit-scrollbar { height:8px; width:8px; }
+  .scroll-thin::-webkit-scrollbar-thumb { background:#404040; border-radius:4px; }
+  [id^="sec-"] { scroll-margin-top: 68px; }
+  details > summary { cursor: pointer; list-style: none; }
+  details > summary::-webkit-details-marker { display:none; }
+  select option { background:#171717; color:#e5e5e5; }
+  input::placeholder, textarea::placeholder { color:#737373; }
+  /* form field polish (settings + graph toolbar) */
+  #sec-settings select, #sec-settings input:not([type="checkbox"]):not([type="file"]),
+  #sec-graph input[type="number"], #sec-data textarea {
+    transition: border-color .15s, background-color .15s, box-shadow .15s;
+  }
+  #sec-settings select:hover, #sec-settings input:not([type="checkbox"]):not([type="file"]):hover { border-color: #525252; background: #1c1c1c; }
+  #sec-settings select:focus, #sec-settings input:not([type="checkbox"]):not([type="file"]):focus,
+  #sec-graph input[type="number"]:focus, #sec-data textarea:focus { border-color: #a3a3a3; box-shadow: 0 0 0 3px rgba(163,163,163,.15); }
+  /* buttons */
+  main button { transition: background-color .15s, color .15s, transform .08s; }
+  main button:active { transform: scale(.97); }
+  /* white plot surface lifted slightly off the dark card */
+  #plot { border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,.45); }
+</style>
+</head>
+
+<body class="bg-black text-neutral-200 min-h-screen">
+  <main class="max-w-[1100px] mx-auto p-3 flex flex-col gap-3">
+
+    <!-- ============ LEFT: DATA → SETTINGS ============ -->
+    <div id="sec-data" class="bg-black rounded-xl border border-neutral-800 p-3">
+      <div class="flex items-center justify-between mb-2 flex-wrap gap-1.5">
+        <h2 class="font-semibold text-neutral-100 flex items-center gap-2">Data</h2>
+        <div class="flex gap-1.5 flex-wrap">
+          <button id="addRowBtn" class="text-xs px-2.5 py-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-200 font-medium">+ Row</button>
+          <button id="addGroupBtn" class="text-xs px-2.5 py-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-200 font-medium">+ Group</button>
+          <button id="clearBtn" class="text-xs px-2.5 py-1.5 rounded-md bg-neutral-800 hover:bg-red-900 hover:text-red-200 text-neutral-200 font-medium">✕ Clear</button>
+          <button id="exportBtn" class="text-xs px-2.5 py-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-200 font-medium">⬇ Export .jgz</button>
+          <label for="importJH" class="text-xs px-2.5 py-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-200 font-medium cursor-pointer">⬆ Import .jgz</label>
+          <input id="importJH" type="file" accept=".jgz,.jh" class="hidden" />
+        </div>
+      </div>
+
+      <div class="overflow-auto scroll-thin border border-neutral-700 rounded-lg" style="max-height: 360px;">
+        <table class="grid text-sm" id="dataTable"></table>
+      </div>
+      <p class="mt-1.5 text-[11px] text-neutral-400">Tip: copy a block from Excel/Sheets, click a cell, and paste (⌘/Ctrl+V) — rows &amp; groups fill automatically.</p>
+
+      <div id="parseWarn" class="hidden mt-2 text-xs text-amber-300 bg-amber-500/10 border border-amber-500/30 rounded-md px-3 py-2"></div>
+
+      <details class="mt-2">
+        <summary class="text-xs font-medium text-neutral-400 hover:text-neutral-200 select-none">⌗ Paste / import TSV or CSV (from Excel, Sheets…)</summary>
+        <div class="mt-2">
+          <textarea id="pasteBox" rows="5" placeholder="Optionally include a header row of group names.&#10;Control&#9;Drug A&#9;Drug B&#10;5.1&#9;7.2&#9;9.8&#10;4.8&#9;6.9&#9;10.2" class="w-full text-xs font-mono border border-neutral-700 rounded-md p-2 bg-neutral-800 text-neutral-100 focus:outline-none focus:border-neutral-400"></textarea>
+          <div class="flex gap-2 mt-2">
+            <button id="importBtn" class="text-xs px-3 py-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-200 font-medium">Import into grid</button>
+            <button id="loadDemoBtn" class="text-xs px-3 py-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-200 font-medium">Reset to demo data</button>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <div id="sec-settings" class="bg-black rounded-xl border border-neutral-800 p-3">
+      <h2 class="font-semibold text-neutral-100 flex items-center gap-2 mb-2">Analysis</h2>
+
+      <label class="block text-xs font-medium text-neutral-400 mb-1">Test</label>
+      <select id="testSelect" class="w-full text-sm border border-neutral-700 rounded-md p-2 mb-2 bg-neutral-800 text-neutral-100 focus:outline-none focus:border-neutral-400">
+        <option value="ttest">Student's / Welch's t-test (2 groups)</option>
+        <option value="mwu">Mann–Whitney U / Wilcoxon rank-sum (2 groups)</option>
+        <option value="anova">One-way ANOVA + post-hoc (2+ groups)</option>
+      </select>
+
+      <div id="opt_ttest" class="test-opts">
+        <label class="flex items-center gap-2 text-sm mb-2">
+          <input type="checkbox" id="welchChk" class="accent-neutral-400" />
+          <span>Welch's correction <span class="text-neutral-400">(unequal variances)</span></span>
+        </label>
+      </div>
+
+      <div id="opt_anova" class="test-opts hidden">
+        <label class="block text-xs font-medium text-neutral-400 mb-1">Post-hoc correction</label>
+        <select id="posthocSelect" class="w-full text-sm border border-neutral-700 rounded-md p-2 mb-2 bg-neutral-800 text-neutral-100 focus:outline-none focus:border-neutral-400">
+          <option value="tukey">Tukey's HSD</option>
+          <option value="bonferroni">Bonferroni pairwise t-tests</option>
+        </select>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2 mt-2">
+        <div>
+          <label class="block text-xs font-medium text-neutral-400 mb-1">Chart type</label>
+          <select id="chartType" class="w-full text-sm border border-neutral-700 rounded-md p-2 bg-neutral-800 text-neutral-100 focus:outline-none focus:border-neutral-400">
+            <option value="bar">Bar + error bars</option>
+            <option value="box">Box &amp; whisker</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-neutral-400 mb-1">Error bars</label>
+          <select id="errType" class="w-full text-sm border border-neutral-700 rounded-md p-2 bg-neutral-800 text-neutral-100 focus:outline-none focus:border-neutral-400">
+            <option value="sd">Mean ± SD</option>
+            <option value="sem" selected>Mean ± SEM</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-neutral-400 mb-1">Theme</label>
+          <select id="themeSelect" class="w-full text-sm border border-neutral-700 rounded-md p-2 bg-neutral-800 text-neutral-100 focus:outline-none focus:border-neutral-400">
+            <option value="prism">Classic Prism</option>
+            <option value="pastel">Pastel</option>
+            <option value="vibrant">Vibrant</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-neutral-400 mb-1">Significance</label>
+          <select id="sigLabel" class="w-full text-sm border border-neutral-700 rounded-md p-2 bg-neutral-800 text-neutral-100 focus:outline-none focus:border-neutral-400">
+            <option value="stars">Asterisks (*)</option>
+            <option value="pval">p-value</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-neutral-400 mb-1">X-axis title</label>
+          <input id="xLabel" value="Group" class="w-full text-sm border border-neutral-700 rounded-md p-2 bg-neutral-800 text-neutral-100 focus:outline-none focus:border-neutral-400" />
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-neutral-400 mb-1">Y-axis title</label>
+          <input id="yLabel" value="Value" class="w-full text-sm border border-neutral-700 rounded-md p-2 bg-neutral-800 text-neutral-100 focus:outline-none focus:border-neutral-400" />
+        </div>
+      </div>
+
+      <button id="runBtn" class="w-full mt-3 py-2 rounded-lg bg-neutral-200 text-neutral-900 font-semibold hover:bg-white active:scale-[.99] transition">
+        Analyze ▸
+      </button>
+    </div>
+
+    <div id="sec-report" class="bg-black rounded-xl border border-neutral-800 p-3">
+      <div class="flex items-center justify-between mb-2">
+        <h2 class="font-semibold text-neutral-100">Stat</h2>
+        <button id="copyStats" class="text-xs px-2.5 py-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-200 font-medium">⧉ Copy table</button>
+      </div>
+      <div id="verdict" class="mb-2"></div>
+      <div id="report" class="space-y-3 overflow-x-auto scroll-thin"></div>
+    </div>
+
+    <div id="sec-graph" class="bg-black rounded-xl border border-neutral-800 p-3">
+      <div class="flex items-center justify-between mb-2">
+        <h2 class="font-semibold text-neutral-100 flex items-center gap-2">Figure</h2>
+        <div class="flex items-center gap-1.5 flex-wrap justify-end">
+          <div class="flex items-center gap-1 text-xs text-neutral-500 mr-1">
+            <span>W</span><input id="plotW" type="number" min="220" step="20" value="300" class="w-14 border border-neutral-700 rounded px-1.5 py-1 text-right bg-neutral-800 text-neutral-100 focus:outline-none focus:border-neutral-400" />
+            <span>H</span><input id="plotH" type="number" min="220" step="20" value="400" class="w-14 border border-neutral-700 rounded px-1.5 py-1 text-right bg-neutral-800 text-neutral-100 focus:outline-none focus:border-neutral-400" />
+            <span>Dot</span><input id="dotSize" type="number" min="2" max="20" step="1" value="6" class="w-12 border border-neutral-700 rounded px-1.5 py-1 text-right bg-neutral-800 text-neutral-100 focus:outline-none focus:border-neutral-400" />
+            <span class="text-neutral-400">px</span>
+          </div>
+          <button id="resetGraph" class="text-xs px-2.5 py-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-200 font-medium" title="Restore graph to default options, size &amp; view">↺ Reset</button>
+          <button id="dlPng" class="text-xs px-2.5 py-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-200 font-medium">⬇ PNG</button>
+          <button id="dlSvg" class="text-xs px-2.5 py-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-200 font-medium">⬇ SVG</button>
+        </div>
+      </div>
+      <div id="plot" class="w-full" style="height: 400px;"></div>
+    </div>
+  </main>
+
+<script>
+"use strict";
+
+/* ============================================================
+   THEMES
+   ============================================================ */
+// Light-mode themes (white graph paper). Lines/fonts are dark for contrast.
+const PAPER = "#ffffff", GRIDCOL = "#e5e7eb";
+const THEMES = {
+  prism:   { colors: ["#0173b2","#de8f05","#029e73","#d55e00","#cc78bc","#56b4e9","#949494","#fbafe4"], line:"#1f2937", markerLine:"#1f2937", paper:PAPER, font:"#1f2937" },
+  pastel:  { colors: ["#7dd3fc","#fca5a5","#6ee7b7","#fcd34d","#c4b5fd","#f9a8d4","#67e8f9","#fdba74"], line:"#374151", markerLine:"#374151", paper:PAPER, font:"#374151" },
+  vibrant: { colors: ["#2563eb","#dc2626","#16a34a","#eab308","#7c3aed","#db2777","#0891b2","#ea580c"], line:"#0f172a", markerLine:"#0f172a", paper:PAPER, font:"#0f172a" },
+};
+
+/* ============================================================
+   STATE  +  DATA GRID
+   ============================================================ */
+const DEMO = [
+  { name: "Control",   values: [5.1, 4.8, 5.5, 4.9, 5.3, 5.0, 4.7, 5.2] },
+  { name: "Treatment", values: [7.2, 6.9, 7.8, 7.1, 6.5, 7.4, 7.0, 6.8] },
+];
+
+let grid = []; // array of groups: {name, cells:[string,...]}
+const $ = (id) => document.getElementById(id);
+const DEFAULT_ROWS = 10;
+
+function seedFromDemo() {
+  const maxLen = Math.max(...DEMO.map(g => g.values.length));
+  grid = DEMO.map(g => ({
+    name: g.name,
+    cells: Array.from({ length: maxLen }, (_, i) => (g.values[i] != null ? String(g.values[i]) : "")),
+  }));
+  renderGrid();
+}
+function seedBlank() {
+  grid = [
+    { name: "Group 1", cells: Array(DEFAULT_ROWS).fill("") },
+    { name: "Group 2", cells: Array(DEFAULT_ROWS).fill("") },
+  ];
+  renderGrid();
+}
+
+function renderGrid() {
+  const table = $("dataTable");
+  const nRows = grid.length ? grid[0].cells.length : 0;
+  let html = "<thead><tr><th class='text-xs text-neutral-500 font-normal' style='width:34px'></th>";
+  grid.forEach((g, gi) => {
+    html += `<th style="width:118px">
+        <div class="relative">
+          <input class="grp-name" data-g="${gi}" value="${escapeHtml(g.name)}" />
+          ${grid.length > 1 ? `<button class="delGrp text-neutral-500 hover:text-red-400 text-sm leading-none" style="position:absolute;top:50%;right:3px;transform:translateY(-50%)" data-g="${gi}" title="Delete group">×</button>` : ""}
+        </div></th>`;
+  });
+  html += "</tr></thead><tbody>";
+  for (let r = 0; r < nRows; r++) {
+    html += `<tr><td class="text-[10px] text-neutral-500 text-center align-middle">
+      <button class="delRow hover:text-red-400" data-r="${r}" title="Delete row">${r + 1}</button></td>`;
+    grid.forEach((g, gi) => {
+      const v = g.cells[r] ?? "";
+      const bad = v.trim() !== "" && !isFinite(parseNum(v)) ? "bad" : "";
+      html += `<td><input class="cell-input ${bad}" data-g="${gi}" data-r="${r}" value="${escapeHtml(v)}" /></td>`;
+    });
+    html += "</tr>";
+  }
+  html += "</tbody>";
+  table.innerHTML = html;
+  wireGridEvents();
+}
+
+function wireGridEvents() {
+  document.querySelectorAll(".cell-input").forEach(inp => {
+    inp.addEventListener("input", e => {
+      const gi = +e.target.dataset.g, r = +e.target.dataset.r;
+      grid[gi].cells[r] = e.target.value;
+      const bad = e.target.value.trim() !== "" && !isFinite(parseNum(e.target.value));
+      e.target.classList.toggle("bad", bad);
+    });
+    inp.addEventListener("paste", e => onCellPaste(e, +e.target.dataset.g, +e.target.dataset.r));
+  });
+  document.querySelectorAll(".grp-name").forEach(inp => {
+    inp.addEventListener("input", e => { grid[+e.target.dataset.g].name = e.target.value; });
+  });
+  document.querySelectorAll(".delGrp").forEach(b => {
+    b.addEventListener("click", e => { grid.splice(+e.currentTarget.dataset.g, 1); renderGrid(); });
+  });
+  document.querySelectorAll(".delRow").forEach(b => {
+    b.addEventListener("click", e => {
+      const r = +e.currentTarget.dataset.r;
+      grid.forEach(g => g.cells.splice(r, 1));
+      renderGrid();
+    });
+  });
+}
+
+/* Paste a block copied from Excel/Sheets directly into the grid,
+   starting at the focused cell. Expands rows & groups as needed and
+   detects a leading header row of group names on a top-left paste. */
+function onCellPaste(e, startG, startR) {
+  const text = (e.clipboardData || window.clipboardData).getData("text");
+  if (!/[\t\n]/.test(text)) return; // single value → let the browser handle it
+  e.preventDefault();
+  let matrix = text.replace(/\r/g, "").replace(/\n+$/, "").split("\n").map(l => l.split("\t"));
+  const width = Math.max(...matrix.map(r => r.length));
+  while (grid.length < startG + width) grid.push({ name: nextGroupName(), cells: [] });
+
+  // header row: pasted top-left and first row is entirely non-numeric text
+  if (startR === 0 && matrix.length > 1 && matrix[0].every(c => c.trim() !== "" && !isFinite(parseNum(c)))) {
+    matrix[0].forEach((nm, c) => { if (nm.trim()) grid[startG + c].name = nm.trim(); });
+    matrix = matrix.slice(1);
+  }
+
+  const needRows = Math.max(startR + matrix.length, ...grid.map(g => g.cells.length));
+  grid.forEach(g => { while (g.cells.length < needRows) g.cells.push(""); });
+  matrix.forEach((row, r) => row.forEach((val, c) => {
+    grid[startG + c].cells[startR + r] = String(val).trim();
+  }));
+  renderGrid();
+}
+
+$("addRowBtn").onclick = () => { grid.forEach(g => g.cells.push("")); if (!grid.length) grid.push({ name:"Group 1", cells:[""] }); renderGrid(); };
+$("addGroupBtn").onclick = () => {
+  const nRows = grid.length ? grid[0].cells.length : DEFAULT_ROWS;
+  grid.push({ name: nextGroupName(), cells: Array(nRows).fill("") });
+  renderGrid();
+};
+$("clearBtn").onclick = () => {
+  seedBlank();
+  $("pasteBox").value = "";
+  $("parseWarn").classList.add("hidden");
+  $("verdict").innerHTML = "";
+  $("report").innerHTML = "";
+  lastReportTSV = "";
+  try { Plotly.purge("plot"); } catch (e) {}
+  flash($("clearBtn"), "✓ Cleared");
+};
+function nextGroupName() {
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  return "Group " + (letters[grid.length] || grid.length + 1);
+}
+
+$("importBtn").onclick = () => importPaste($("pasteBox").value);
+$("loadDemoBtn").onclick = () => { seedFromDemo(); $("pasteBox").value = ""; run(); };
+
+function importPaste(text) {
+  if (!text.trim()) return;
+  const rows = text.replace(/\r/g, "").split("\n").filter(l => l.trim() !== "").map(l => l.split(/\t|,|;/).map(c => c.trim()));
+  if (!rows.length) return;
+  // detect header (first row all non-numeric)
+  const firstNumeric = rows[0].every(c => c === "" || isFinite(parseNum(c)));
+  let names, dataRows;
+  if (!firstNumeric) { names = rows[0]; dataRows = rows.slice(1); }
+  else { names = rows[0].map((_, i) => "Group " + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[i]); dataRows = rows; }
+  const nCols = Math.max(...rows.map(r => r.length));
+  grid = [];
+  for (let c = 0; c < nCols; c++) {
+    grid.push({ name: names[c] || ("Group " + (c + 1)), cells: dataRows.map(r => r[c] ?? "") });
+  }
+  renderGrid();
+}
+
+/* ============================================================
+   PARSING  +  NUMERIC HELPERS
+   ============================================================ */
+function parseNum(s) {
+  if (typeof s === "number") return s;
+  if (s == null) return NaN;
+  const t = String(s).trim().replace(/,/g, "");
+  if (t === "") return NaN;
+  return Number(t);
+}
+
+function collectGroups() {
+  const warns = [];
+  const groups = grid.map(g => {
+    const vals = [];
+    g.cells.forEach((c, r) => {
+      const t = String(c).trim();
+      if (t === "") return;
+      const n = parseNum(t);
+      if (isFinite(n)) vals.push(n);
+      else warns.push(`"${t}" in ${g.name || "a group"} (row ${r + 1}) is not a number — skipped.`);
+    });
+    return { name: g.name || "Group", values: vals };
+  });
+  return { groups, warns };
+}
+
+const fmt = (x, d = 4) => (x == null || !isFinite(x)) ? "—" : (Math.abs(x) >= 1e5 || (Math.abs(x) < 1e-4 && x !== 0) ? x.toExponential(2) : (+x.toFixed(d)).toString());
+const fmtP = (p) => (p == null || !isFinite(p)) ? "—" : (p < 0.0001 ? "< 0.0001" : p.toFixed(4));
+
+/* ---- descriptive stats ---- */
+function describe(v) {
+  const n = v.length;
+  if (n === 0) return { n:0 };
+  const mean = jStat.mean(v);
+  const sd = n > 1 ? jStat.stdev(v, true) : NaN;      // sample SD (n-1)
+  const sem = n > 1 ? sd / Math.sqrt(n) : NaN;
+  const sorted = [...v].sort((a, b) => a - b);
+  const median = jStat.median(sorted);
+  const q1 = quantile(sorted, 0.25), q3 = quantile(sorted, 0.75);
+  return { n, mean, sd, sem, median, min: sorted[0], max: sorted[n - 1], q1, q3, iqr: q3 - q1, variance: n > 1 ? sd * sd : NaN };
+}
+function quantile(sorted, p) {  // linear interpolation (type-7, matches Excel/R default)
+  const n = sorted.length;
+  if (n === 1) return sorted[0];
+  const h = (n - 1) * p, lo = Math.floor(h);
+  return sorted[lo] + (h - lo) * (sorted[Math.min(lo + 1, n - 1)] - sorted[lo]);
+}
+
+/* ============================================================
+   TESTS
+   ============================================================ */
+function starsFor(p) {
+  if (p == null || !isFinite(p)) return "ns";
+  if (p < 0.001) return "***";
+  if (p < 0.01) return "**";
+  if (p < 0.05) return "*";
+  return "ns";
+}
+
+function tTest(a, b, welch) {
+  const A = describe(a.values), B = describe(b.values);
+  const n1 = A.n, n2 = B.n, m1 = A.mean, m2 = B.mean, v1 = A.variance, v2 = B.variance;
+  const diff = m1 - m2;
+  let t, df, se;
+  if (welch) {
+    se = Math.sqrt(v1 / n1 + v2 / n2);
+    const num = Math.pow(v1 / n1 + v2 / n2, 2);
+    const den = Math.pow(v1 / n1, 2) / (n1 - 1) + Math.pow(v2 / n2, 2) / (n2 - 1);
+    df = num / den;
+  } else {
+    const sp2 = ((n1 - 1) * v1 + (n2 - 1) * v2) / (n1 + n2 - 2);
+    se = Math.sqrt(sp2 * (1 / n1 + 1 / n2));
+    df = n1 + n2 - 2;
+  }
+  t = diff / se;
+  const p = 2 * (1 - jStat.studentt.cdf(Math.abs(t), df));
+  // 95% CI of difference
+  const tcrit = jStat.studentt.inv(0.975, df);
+  return { A, B, diff, t, df, se, p, ci: [diff - tcrit * se, diff + tcrit * se], welch };
+}
+
+function mannWhitney(a, b) {
+  const A = describe(a.values), B = describe(b.values);
+  const n1 = A.n, n2 = B.n, N = n1 + n2;
+  // combined ranks with tie handling
+  const all = a.values.map(x => ({ x, g: 0 })).concat(b.values.map(x => ({ x, g: 1 })));
+  all.sort((p, q) => p.x - q.x);
+  const ranks = new Array(N);
+  let tieSum = 0;
+  for (let i = 0; i < N;) {
+    let j = i;
+    while (j < N && all[j].x === all[i].x) j++;
+    const avg = (i + 1 + j) / 2; // average rank (1-based)
+    const t = j - i;
+    tieSum += t * t * t - t;
+    for (let k = i; k < j; k++) ranks[k] = avg;
+    i = j;
+  }
+  let R1 = 0;
+  for (let i = 0; i < N; i++) if (all[i].g === 0) R1 += ranks[i];
+  const U1 = R1 - n1 * (n1 + 1) / 2;
+  const U2 = n1 * n2 - U1;
+  const U = Math.min(U1, U2);
+  const mu = n1 * n2 / 2;
+  const sigma = Math.sqrt((n1 * n2 / 12) * ((N + 1) - tieSum / (N * (N - 1))));
+  const z = (U - mu + 0.5 * Math.sign(mu - U)) / sigma; // continuity correction
+  const p = 2 * (1 - jStat.normal.cdf(Math.abs(z), 0, 1));
+  return { A, B, U1, U2, U, z, p, R1 };
+}
+
+function anova(groups) {
+  const k = groups.length;
+  const all = [];
+  groups.forEach(g => g.values.forEach(v => all.push(v)));
+  const N = all.length;
+  const grand = jStat.mean(all);
+  const desc = groups.map(g => describe(g.values));
+  let ssB = 0, ssW = 0;
+  groups.forEach((g, i) => {
+    ssB += g.values.length * Math.pow(desc[i].mean - grand, 2);
+    g.values.forEach(v => ssW += Math.pow(v - desc[i].mean, 2));
+  });
+  const dfB = k - 1, dfW = N - k;
+  const msB = ssB / dfB, msW = ssW / dfW;
+  const F = msB / msW;
+  const p = 1 - jStat.centralF.cdf(F, dfB, dfW);
+  const ssT = ssB + ssW;
+  return { k, N, grand, desc, ssB, ssW, ssT, dfB, dfW, msB, msW, F, p, groups };
+}
+
+/* ---- post-hoc ---- */
+function posthocPairs(av, method) {
+  const { groups, desc, msW, dfW, k } = av;
+  const pairs = [];
+  const nComp = k * (k - 1) / 2;
+  for (let i = 0; i < k; i++) for (let j = i + 1; j < k; j++) {
+    const ni = desc[i].n, nj = desc[j].n;
+    const md = desc[i].mean - desc[j].mean;
+    let p;
+    if (method === "bonferroni") {
+      const se = Math.sqrt(msW * (1 / ni + 1 / nj));
+      const t = md / se;
+      const praw = 2 * (1 - jStat.studentt.cdf(Math.abs(t), dfW));
+      p = Math.min(1, praw * nComp);
+    } else { // tukey
+      const se = Math.sqrt(msW / 2 * (1 / ni + 1 / nj));
+      const q = Math.abs(md) / se;
+      p = 1 - ptukey(q, k, dfW);
+    }
+    pairs.push({ i, j, gi: groups[i].name, gj: groups[j].name, diff: md, p });
+  }
+  return pairs;
+}
+
+/* ---- studentized range distribution (Tukey), numerical integration ---- */
+function ptukey(q, k, df) {
+  if (q <= 0) return 0;
+  // P(range < q) for k std normals divided by chi/df
+  const wprob = (w) => {
+    // integral over z of k*phi(z)*[Phi(z)-Phi(z-w)]^(k-1)
+    const lo = -8, hi = 8, steps = 400, h = (hi - lo) / steps;
+    let s = 0;
+    for (let m = 0; m <= steps; m++) {
+      const z = lo + m * h;
+      const inner = jStat.normal.cdf(z, 0, 1) - jStat.normal.cdf(z - w, 0, 1);
+      const f = normpdf(z) * Math.pow(inner, k - 1);
+      s += (m === 0 || m === steps ? 0.5 : 1) * f;
+    }
+    return k * s * h;
+  };
+  if (df > 300) return Math.min(1, wprob(q));
+  // outer integral over s ~ (chi2_df/df)^{1/2}
+  const lo = 0.0001, hi = 4, steps = 200, h = (hi - lo) / steps;
+  const c = df / 2;
+  const logConst = c * Math.log(df) - jStat.gammaln(c) - (c - 1) * Math.LN2; // for s^{df-1} form below
+  let s = 0;
+  for (let m = 0; m <= steps; m++) {
+    const u = lo + m * h; // u = s (sd estimate)
+    // density of u: f(u) = 2 * (df/2)^{df/2}/Gamma(df/2) * u^{df-1} exp(-df u^2/2)
+    const logf = Math.log(2) + c * Math.log(c) - jStat.gammaln(c) + (df - 1) * Math.log(u) - c * u * u;
+    const dens = Math.exp(logf);
+    const val = wprob(q * u) * dens;
+    s += (m === 0 || m === steps ? 0.5 : 1) * val;
+  }
+  return Math.min(1, Math.max(0, s * h));
+}
+function normpdf(z) { return Math.exp(-0.5 * z * z) / Math.sqrt(2 * Math.PI); }
+
+/* ============================================================
+   COMPACT LETTER DISPLAY  (maximal cliques of non-significance graph)
+   ============================================================ */
+function compactLetters(k, pairs, means, alpha = 0.05) {
+  // adjacency: edge if NOT significant (p >= alpha)  -> groups "the same"
+  // NOTE: no self-loops — Bron–Kerbosch pivoting requires a simple graph.
+  const adj = Array.from({ length: k }, () => new Set());
+  pairs.forEach(pr => { if (!(pr.p < alpha)) { adj[pr.i].add(pr.j); adj[pr.j].add(pr.i); } });
+
+  // Bron–Kerbosch (with pivot) to enumerate maximal cliques
+  const cliques = [];
+  const R = new Set(), P = new Set([...Array(k).keys()]), X = new Set();
+  bronKerbosch(R, P, X, adj, cliques);
+
+  // sort cliques by descending average mean so 'a' = highest group
+  cliques.forEach(c => c.avg = [...c].reduce((s, g) => s + means[g], 0) / c.size);
+  cliques.sort((c1, c2) => c2.avg - c1.avg);
+
+  const alphabet = "abcdefghijklmnopqrstuvwxyz";
+  const labels = Array.from({ length: k }, () => []);
+  cliques.forEach((c, idx) => { c.forEach(g => labels[g].push(alphabet[idx] || ("[" + (idx + 1) + "]"))); });
+  return labels.map(ls => ls.sort().join("") || "a");
+}
+function bronKerbosch(R, P, X, adj, out) {
+  if (P.size === 0 && X.size === 0) { out.push(new Set(R)); return; }
+  // choose pivot from P∪X with max neighbors in P
+  const PX = new Set([...P, ...X]);
+  let pivot = -1, best = -1;
+  PX.forEach(u => { const c = [...P].filter(v => adj[u].has(v)).length; if (c > best) { best = c; pivot = u; } });
+  const candidates = [...P].filter(v => !adj[pivot].has(v));
+  candidates.forEach(v => {
+    const Rn = new Set(R); Rn.add(v);
+    const Pn = new Set([...P].filter(u => adj[v].has(u)));
+    const Xn = new Set([...X].filter(u => adj[v].has(u)));
+    bronKerbosch(Rn, Pn, Xn, adj, out);
+    P.delete(v); X.add(v);
+  });
+}
+
+/* ============================================================
+   CONTROLLER
+   ============================================================ */
+$("testSelect").onchange = () => {
+  const t = $("testSelect").value;
+  $("opt_ttest").classList.toggle("hidden", t !== "ttest");
+  $("opt_anova").classList.toggle("hidden", t !== "anova");
+};
+
+let lastReportTSV = "";
+
+$("runBtn").onclick = run;
+function run() {
+  const { groups: rawGroups, warns } = collectGroups();
+  const groups = rawGroups.filter(g => g.values.length > 0);
+  const warnBox = $("parseWarn");
+  const problems = [...warns];
+
+  const test = $("testSelect").value;
+  if (groups.length < 2) problems.push("Need at least 2 non-empty groups to run a test.");
+  if ((test === "ttest" || test === "mwu") && groups.length !== 2)
+    problems.push("This test uses exactly 2 groups — the first 2 non-empty groups will be used.");
+  if (groups.some(g => g.values.length < 2))
+    problems.push("Some groups have < 2 values; SD/variance-based results may be undefined.");
+
+  if (problems.length) { warnBox.innerHTML = problems.map(p => "• " + escapeHtml(p)).join("<br>"); warnBox.classList.remove("hidden"); }
+  else warnBox.classList.add("hidden");
+
+  if (groups.length < 2) return;
+
+  const btn = $("runBtn"); btn.disabled = true; btn.textContent = "Analyzing…";
+  setTimeout(() => {
+    try {
+      if (test === "ttest") renderTTest(groups);
+      else if (test === "mwu") renderMWU(groups);
+      else renderANOVA(groups);
+    } catch (err) {
+      $("report").innerHTML = `<div class="text-red-400 text-sm">Error: ${escapeHtml(err.message)}</div>`;
+      console.error(err);
+    } finally { btn.disabled = false; btn.textContent = "Analyze ▸"; }
+  }, 20);
+}
+
+/* ---------- renderers ---------- */
+function verdictBox(yes, text) {
+  const cls = yes ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-300" : "bg-neutral-800 border-neutral-700 text-neutral-300";
+  $("verdict").innerHTML = `<div class="border ${cls} rounded-lg px-4 py-3 text-sm font-medium">${text}</div>`;
+}
+
+function descTable(names, descs) {
+  let h = `<table class="stat-table"><thead><tr><th>Statistic</th>${names.map(n => `<th class="num">${escapeHtml(n)}</th>`).join("")}</tr></thead><tbody>`;
+  // Streamlined on-screen view: core stats only. Full detail goes into the exported report.
+  const rows = [
+    ["N", d => d.n], ["Mean", d => fmt(d.mean)], ["Std. Deviation", d => fmt(d.sd)],
+    ["Std. Error (SEM)", d => fmt(d.sem)], ["Median", d => fmt(d.median)],
+  ];
+  rows.forEach(([label, fn]) => {
+    h += `<tr><td>${label}</td>${descs.map(d => `<td class="num">${fn(d)}</td>`).join("")}</tr>`;
+  });
+  h += "</tbody></table>";
+  return h;
+}
+
+function resultTable(title, rows) {
+  let h = `<div><h3 class="font-semibold text-sm text-neutral-200 mb-1.5">${title}</h3><table class="stat-table"><tbody>`;
+  rows.forEach(([k, v]) => { h += `<tr><td class="font-medium w-1/2">${k}</td><td class="num">${v}</td></tr>`; });
+  h += "</tbody></table></div>";
+  return h;
+}
+
+function renderTTest(groups) {
+  const a = groups[0], b = groups[1];
+  const welch = $("welchChk").checked;
+  const r = tTest(a, b, welch);
+  verdictBox(r.p < 0.05,
+    `Are the means significantly different? <b>${r.p < 0.05 ? "Yes" : "No"}</b> (${welch ? "Welch's" : "Student's"} t-test, <i>P</i> = ${fmtP(r.p)}, ${starsFor(r.p)}).`);
+
+  const sections = [
+    `<div><h3 class="font-semibold text-sm text-neutral-200 mb-1.5">Descriptive statistics</h3>${descTable([a.name, b.name], [r.A, r.B])}</div>`,
+    resultTable(`${welch ? "Welch's" : "Student's"} unpaired t-test`, [
+      ["Mean difference (" + escapeHtml(a.name) + " − " + escapeHtml(b.name) + ")", fmt(r.diff)],
+      ["t", fmt(r.t)], ["df", fmt(r.df, 2)],
+      ["<i>P</i> value (two-tailed)", `<b>${fmtP(r.p)}</b>`],
+      ["Significance", `<span class="pill ${r.p < 0.05 ? "bg-emerald-500/15 text-emerald-300" : "bg-neutral-700 text-neutral-300"}">${starsFor(r.p)}</span>`],
+    ]),
+  ];
+  $("report").innerHTML = sections.join("");
+  buildReportTSV("t-test", [a.name, b.name], [r.A, r.B], [
+    ["Mean difference", fmt(r.diff)], ["95% CI of difference", `${fmt(r.ci[0])} to ${fmt(r.ci[1])}`],
+    ["Std. error of difference", fmt(r.se)], ["t", fmt(r.t)], ["df", fmt(r.df, 2)], ["<i>P</i> (two-tailed)", fmtP(r.p)],
+  ]);
+  drawPlot(groups, { mode: "two", p: r.p });
+}
+
+function renderMWU(groups) {
+  const a = groups[0], b = groups[1];
+  const r = mannWhitney(a, b);
+  verdictBox(r.p < 0.05,
+    `Are the distributions significantly different? <b>${r.p < 0.05 ? "Yes" : "No"}</b> (Mann–Whitney U, <i>P</i> = ${fmtP(r.p)}, ${starsFor(r.p)}).`);
+  const sections = [
+    `<div><h3 class="font-semibold text-sm text-neutral-200 mb-1.5">Descriptive statistics</h3>${descTable([a.name, b.name], [r.A, r.B])}</div>`,
+    resultTable("Mann–Whitney U / Wilcoxon rank-sum", [
+      ["U statistic", fmt(r.U, 1)], ["Z (normal approx., tie &amp; continuity corrected)", fmt(r.z)],
+      ["<i>P</i> value (two-tailed)", `<b>${fmtP(r.p)}</b>`],
+      ["Significance", `<span class="pill ${r.p < 0.05 ? "bg-emerald-500/15 text-emerald-300" : "bg-neutral-700 text-neutral-300"}">${starsFor(r.p)}</span>`],
+    ]),
+  ];
+  $("report").innerHTML = sections.join("");
+  buildReportTSV("Mann-Whitney U", [a.name, b.name], [r.A, r.B], [
+    ["Sum of ranks (" + a.name + ")", fmt(r.R1, 1)], ["U (" + a.name + ")", fmt(r.U1, 1)],
+    ["U (" + b.name + ")", fmt(r.U2, 1)], ["U statistic", fmt(r.U, 1)], ["Z", fmt(r.z)], ["<i>P</i> (two-tailed)", fmtP(r.p)],
+  ]);
+  drawPlot(groups, { mode: "two", p: r.p });
+}
+
+function renderANOVA(groups) {
+  const av = anova(groups);
+  const method = $("posthocSelect").value;
+  const pairs = posthocPairs(av, method);
+  const means = av.desc.map(d => d.mean);
+  const letters = compactLetters(av.k, pairs, means);
+
+  verdictBox(av.p < 0.05,
+    `Is there a significant difference among the ${av.k} group means? <b>${av.p < 0.05 ? "Yes" : "No"}</b> (One-way ANOVA, F(${av.dfB}, ${av.dfW}) = ${fmt(av.F, 3)}, <i>P</i> = ${fmtP(av.p)}).`);
+
+  // ANOVA table
+  let anovaTbl = `<div><h3 class="font-semibold text-sm text-neutral-200 mb-1.5">One-way ANOVA</h3>
+    <table class="stat-table"><thead><tr><th>Source</th><th class="num">SS</th><th class="num">df</th><th class="num">MS</th><th class="num">F</th><th class="num"><i>P</i></th></tr></thead><tbody>
+    <tr><td>Between groups</td><td class="num">${fmt(av.ssB)}</td><td class="num">${av.dfB}</td><td class="num">${fmt(av.msB)}</td><td class="num">${fmt(av.F, 3)}</td><td class="num"><b>${fmtP(av.p)}</b></td></tr>
+    <tr><td>Within groups</td><td class="num">${fmt(av.ssW)}</td><td class="num">${av.dfW}</td><td class="num">${fmt(av.msW)}</td><td class="num">—</td><td class="num">—</td></tr>
+    <tr><td>Total</td><td class="num">${fmt(av.ssT)}</td><td class="num">${av.dfB + av.dfW}</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
+    </tbody></table></div>`;
+
+  // post-hoc table
+  let phTbl = `<div><h3 class="font-semibold text-sm text-neutral-200 mb-1.5">Post-hoc pairwise comparisons — ${method === "tukey" ? "Tukey's HSD" : "Bonferroni"}</h3>
+    <table class="stat-table"><thead><tr><th>Comparison</th><th class="num">Adj. <i>P</i></th><th class="num">Sig.</th></tr></thead><tbody>`;
+  pairs.forEach(pr => {
+    phTbl += `<tr><td>${escapeHtml(pr.gi)} vs ${escapeHtml(pr.gj)}</td><td class="num">${fmtP(pr.p)}</td>
+      <td class="num"><span class="pill ${pr.p < 0.05 ? "bg-emerald-500/15 text-emerald-300" : "bg-neutral-700 text-neutral-300"}">${starsFor(pr.p)}</span></td></tr>`;
+  });
+  phTbl += "</tbody></table></div>";
+
+  // CLD table
+  let cldTbl = `<div><h3 class="font-semibold text-sm text-neutral-200 mb-1.5">Compact letter display <span class="text-xs font-normal text-neutral-400">(groups sharing a letter are not significantly different)</span></h3>
+    <table class="stat-table"><thead><tr><th>Group</th><th class="num">Mean</th><th class="num">Group</th></tr></thead><tbody>`;
+  groups.forEach((g, i) => {
+    cldTbl += `<tr><td>${escapeHtml(g.name)}</td><td class="num">${fmt(means[i])}</td><td class="num"><b>${letters[i]}</b></td></tr>`;
+  });
+  cldTbl += "</tbody></table></div>";
+
+  const descBlock = `<div><h3 class="font-semibold text-sm text-neutral-200 mb-1.5">Descriptive statistics</h3>${descTable(groups.map(g => g.name), av.desc)}</div>`;
+  $("report").innerHTML = [descBlock, anovaTbl, phTbl, cldTbl].join('<div class="h-1"></div>');
+
+  buildReportTSV("One-way ANOVA", groups.map(g => g.name), av.desc,
+    [["SS between", fmt(av.ssB)], ["SS within", fmt(av.ssW)], ["SS total", fmt(av.ssT)],
+     ["MS between", fmt(av.msB)], ["MS within", fmt(av.msW)],
+     ["F", fmt(av.F, 3)], ["df between", av.dfB], ["df within", av.dfW], ["<i>P</i>", fmtP(av.p)]],
+    { pairs, letters, groupNames: groups.map(g => g.name) });
+
+  drawPlot(groups, { mode: "anova", letters });
+}
+
+/* ============================================================
+   PLOTTING
+   ============================================================ */
+function drawPlot(groups, opts) {
+  const theme = THEMES[$("themeSelect").value];
+  const errType = $("errType").value;
+  const chartType = $("chartType").value;
+  const dotSize = Math.max(2, parseInt($("dotSize").value, 10) || 6);
+  const descs = groups.map(g => describe(g.values));
+  const xIdx = groups.map((_, i) => i);
+  const names = groups.map(g => g.name);
+
+  const traces = [];
+  const layout = {
+    paper_bgcolor: theme.paper, plot_bgcolor: theme.paper,
+    font: { color: theme.font, family: "Arial, Helvetica, sans-serif", size: 13 },
+    showlegend: false, margin: { t: 40, r: 20, b: 55, l: 60 },
+    xaxis: { title: { text: $("xLabel").value, font: { size: 14, family: "Arial, Helvetica, sans-serif" } }, tickvals: xIdx, ticktext: names,
+             range: [-0.7, groups.length - 0.3], zeroline: false, showgrid: false,
+             showline: true, mirror: true, linecolor: theme.line, linewidth: 1.5, ticks: "" },
+    yaxis: { title: { text: $("yLabel").value, font: { size: 14, family: "Arial, Helvetica, sans-serif" } }, zeroline: false,
+             gridcolor: GRIDCOL, showline: true, mirror: true, linecolor: theme.line, linewidth: 1.5, ticks: "" },
+    annotations: [], shapes: [],
+  };
+
+  let yMax = -Infinity, yMin = Infinity;
+  groups.forEach(g => g.values.forEach(v => { yMax = Math.max(yMax, v); yMin = Math.min(yMin, v); }));
+
+  if (chartType === "bar") {
+    traces.push({
+      type: "bar", x: xIdx, y: descs.map(d => d.mean),
+      marker: { color: names.map((_, i) => theme.colors[i % theme.colors.length]), line: { color: theme.markerLine, width: 1.5 } },
+      width: 0.6,
+      error_y: { type: "data", array: descs.map(d => errType === "sd" ? d.sd : d.sem), visible: true, color: theme.line, thickness: 1.6, width: 6 },
+      hovertemplate: "%{x}<br>mean %{y:.3f}<extra></extra>",
+      customdata: names,
+    });
+    descs.forEach(d => { yMax = Math.max(yMax, d.mean + (errType === "sd" ? d.sd : d.sem)); });
+  } else {
+    // box & whisker, one trace per group positioned on numeric axis
+    groups.forEach((g, i) => {
+      traces.push({
+        type: "box", y: g.values, x: g.values.map(() => i),
+        name: g.name, boxpoints: false, width: 0.5,
+        line: { color: theme.markerLine, width: 1.5 },
+        fillcolor: theme.colors[i % theme.colors.length],
+        marker: { color: theme.colors[i % theme.colors.length] },
+        hovertemplate: g.name + "<br>%{y:.3f}<extra></extra>",
+      });
+    });
+  }
+
+  // jittered raw points overlay — transparent fill, black border, adjustable size
+  groups.forEach((g, i) => {
+    traces.push({
+      type: "scatter", mode: "markers",
+      x: g.values.map(() => i + (Math.random() - 0.5) * 0.28),
+      y: g.values,
+      marker: { color: "rgba(0,0,0,0)", size: dotSize,
+                line: { color: "#000000", width: 1 } },
+      hovertemplate: g.name + "<br>%{y:.3f}<extra></extra>",
+      showlegend: false,
+    });
+  });
+
+  const span = (yMax - yMin) || 1;
+  // Adaptive top padding so significance brackets / letters never overflow the frame.
+  const sigPad = opts.mode === "two" ? 0.28 : (opts.mode === "anova" ? 0.16 : 0.12);
+  const top = yMax + span * sigPad;
+  layout.yaxis.range = [Math.min(0, yMin - span * 0.05), top];
+  layout.margin.t = 36;
+
+  // annotations
+  if (opts.mode === "anova" && opts.letters) {
+    descs.forEach((d, i) => {
+      const yTop = (chartType === "bar" ? d.mean + (errType === "sd" ? d.sd : d.sem) : Math.max(...groups[i].values));
+      layout.annotations.push({
+        x: i, y: yTop + span * 0.04, text: "<b>" + opts.letters[i] + "</b>",
+        showarrow: false, font: { size: 15, color: theme.font }, yanchor: "bottom",
+      });
+    });
+  } else if (opts.mode === "two") {
+    // significance bracket between the two groups — sits safely inside the padded range
+    const label = $("sigLabel").value === "pval" ? ("<i>P</i> = " + fmtP(opts.p)) : starsFor(opts.p);
+    const yBar = yMax + span * 0.12;
+    const yLeg = yMax + span * 0.03;
+    layout.shapes.push(
+      { type: "line", x0: 0, x1: 0, y0: yLeg, y1: yBar, line: { color: theme.line, width: 1.4 } },
+      { type: "line", x0: 1, x1: 1, y0: yLeg, y1: yBar, line: { color: theme.line, width: 1.4 } },
+      { type: "line", x0: 0, x1: 1, y0: yBar, y1: yBar, line: { color: theme.line, width: 1.4 } },
+    );
+    layout.annotations.push({ x: 0.5, y: yBar, text: label, showarrow: false, yanchor: "bottom", font: { size: 14, color: theme.font } });
+  }
+
+  setPlotBox();
+  lastPlot = { groups, opts };
+  Plotly.newPlot("plot", traces, layout, { responsive: true, displayModeBar: false });
+}
+
+/* apply user-set width/height to the plot container (blank width = full width) */
+function setPlotBox() {
+  const el = $("plot");
+  const w = parseInt($("plotW").value, 10);
+  const h = parseInt($("plotH").value, 10);
+  el.style.width = (Number.isFinite(w) && w > 0) ? w + "px" : "100%";
+  el.style.height = ((Number.isFinite(h) && h > 0) ? h : 400) + "px";
+  return el;
+}
+["plotW", "plotH"].forEach(id => $(id).addEventListener("input", () => {
+  const el = setPlotBox();
+  if (el.data) Plotly.Plots.resize(el); // live resize without recomputing stats
+}));
+let lastPlot = null; // {groups, opts} of the most recent drawPlot, used for live re-style
+$("dotSize").addEventListener("input", () => { if (lastPlot) drawPlot(lastPlot.groups, lastPlot.opts); });
+
+/* ============================================================
+   EXPORT
+   ============================================================ */
+function buildReportTSV(testName, names, descs, keyvals, extra) {
+  const lines = [];
+  lines.push("Statistics report\t" + testName);
+  lines.push("");
+  lines.push("Descriptive statistics");
+  lines.push(["Statistic", ...names].join("\t"));
+  const rows = [["N", d => d.n], ["Mean", d => fmt(d.mean)], ["SD", d => fmt(d.sd)], ["SEM", d => fmt(d.sem)],
+    ["Variance", d => fmt(d.variance)], ["Median", d => fmt(d.median)], ["Min", d => fmt(d.min)], ["Max", d => fmt(d.max)],
+    ["Q1", d => fmt(d.q1)], ["Q3", d => fmt(d.q3)], ["IQR", d => fmt(d.iqr)]];
+  rows.forEach(([lab, fn]) => lines.push([lab, ...descs.map(fn)].join("\t")));
+  lines.push("");
+  lines.push("Test results");
+  keyvals.forEach(([k, v]) => lines.push(k + "\t" + String(v).replace(/<[^>]+>/g, "")));
+  if (extra && extra.pairs) {
+    lines.push("");
+    lines.push("Post-hoc comparisons");
+    lines.push(["Comparison", "Mean diff", "Adj. P", "Sig"].join("\t"));
+    extra.pairs.forEach(pr => lines.push([pr.gi + " vs " + pr.gj, fmt(pr.diff), fmtP(pr.p), starsFor(pr.p)].join("\t")));
+    lines.push("");
+    lines.push("Compact letter display");
+    extra.groupNames.forEach((n, i) => lines.push(n + "\t" + extra.letters[i]));
+  }
+  lastReportTSV = lines.join("\n");
+}
+
+$("copyStats").onclick = async () => {
+  if (!lastReportTSV) { flash($("copyStats"), "Run a test first"); return; }
+  try { await navigator.clipboard.writeText(lastReportTSV); flash($("copyStats"), "✓ Copied"); }
+  catch { flash($("copyStats"), "Copy failed"); }
+};
+const GRAPH_DEFAULTS = { chartType: "bar", errType: "sem", themeSelect: "prism", sigLabel: "stars", xLabel: "Group", yLabel: "Value", plotW: "300", plotH: "400", dotSize: "6" };
+$("resetGraph").onclick = () => {
+  Object.entries(GRAPH_DEFAULTS).forEach(([id, val]) => { $(id).value = val; });
+  run(); // recompute & redraw at default options (also clears any zoom/pan)
+  flash($("resetGraph"), "↺ Reset ✓");
+};
+
+$("dlPng").onclick = () => Plotly.downloadImage("plot", { format: "png", width: 1200, height: 800, scale: 3, filename: "graph" });
+$("dlSvg").onclick = () => {
+  const w = parseInt($("plotW").value, 10);
+  const h = parseInt($("plotH").value, 10);
+  Plotly.downloadImage("plot", { format: "svg", width: (Number.isFinite(w) && w > 0) ? w : 700, height: (Number.isFinite(h) && h > 0) ? h : 500, filename: "graph" });
+};
+
+/* ============================================================
+   SESSION EXPORT / IMPORT  (.jgz = gzip-compressed JSON)
+   ============================================================ */
+const SETTING_IDS = ["testSelect", "posthocSelect", "chartType", "errType", "themeSelect", "sigLabel", "xLabel", "yLabel", "plotW", "plotH", "dotSize"];
+function collectSettings() {
+  const s = {};
+  SETTING_IDS.forEach(id => { s[id] = $(id).value; });
+  s.welchChk = $("welchChk").checked;
+  return s;
+}
+function applySettings(s) {
+  if (!s) return;
+  SETTING_IDS.forEach(id => { if (s[id] != null) $(id).value = s[id]; });
+  if (typeof s.welchChk === "boolean") $("welchChk").checked = s.welchChk;
+  $("testSelect").onchange(); // sync which option panels are visible
+}
+
+async function exportJH() {
+  const payload = JSON.stringify({ app: "ministat", v: 2, savedAt: new Date().toISOString(), grid, settings: collectSettings(), report: lastReportTSV });
+  let blob;
+  if (typeof CompressionStream !== "undefined") {
+    const stream = new Blob([payload]).stream().pipeThrough(new CompressionStream("gzip"));
+    blob = await new Response(stream).blob();
+  } else {
+    blob = new Blob([payload], { type: "application/octet-stream" }); // uncompressed fallback
+  }
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "analysis-" + new Date().toISOString().slice(0, 10) + ".jgz";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+async function readJH(file) {
+  const buf = await file.arrayBuffer();
+  if (typeof DecompressionStream !== "undefined") {
+    try {
+      const stream = new Blob([buf]).stream().pipeThrough(new DecompressionStream("gzip"));
+      return JSON.parse(await new Response(stream).text());
+    } catch (e) { /* not gzip → fall through to plain */ }
+  }
+  return JSON.parse(new TextDecoder().decode(buf)); // uncompressed fallback
+}
+
+$("exportBtn").onclick = () => exportJH().then(() => flash($("exportBtn"), "✓ Saved")).catch(err => alert("Export failed: " + err.message));
+
+$("importJH").onchange = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  try {
+    const data = await readJH(file);
+    if (!data || !Array.isArray(data.grid)) throw new Error("not a valid .jgz analysis file");
+    grid = data.grid.map(g => ({ name: String(g.name ?? "Group"), cells: (g.cells || []).map(c => String(c)) }));
+    renderGrid();
+    applySettings(data.settings);
+    run(); // re-runs analysis so results table + graph appear immediately
+    flash($("importJH").previousElementSibling, "✓ Loaded");
+  } catch (err) {
+    alert("Could not import this file: " + err.message);
+  }
+  e.target.value = ""; // reset so the same file can be re-imported
+};
+
+function flash(btn, msg) { const o = btn.textContent; btn.textContent = msg; setTimeout(() => btn.textContent = o, 1400); }
+function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+
+/* ============================================================
+   INIT
+   ============================================================ */
+seedBlank();
+$("testSelect").value = "ttest";
+$("testSelect").onchange();
+</script>
+</body>
+</html>
