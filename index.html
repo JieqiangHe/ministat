@@ -5,7 +5,1266 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="description" content="Free in-browser statistics and scientific graphing: t-tests, Mann–Whitney, Wilcoxon, ANOVA, Kruskal–Wallis, post-hoc tests and publication-ready plots." />
 <title>ministat — Statistics &amp; Scientific Graphing</title>
-<link rel="stylesheet" href="styles.css" />
+<style>
+/* Tailwind source — build with `npm run build:css` → styles.css (committed, served by GitHub Pages) */
+
+*, ::before, ::after {
+  --tw-border-spacing-x: 0;
+  --tw-border-spacing-y: 0;
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
+  --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgb(59 130 246 / 0.5);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
+  --tw-contain-size:  ;
+  --tw-contain-layout:  ;
+  --tw-contain-paint:  ;
+  --tw-contain-style:  ;
+}
+
+::backdrop {
+  --tw-border-spacing-x: 0;
+  --tw-border-spacing-y: 0;
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
+  --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgb(59 130 246 / 0.5);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
+  --tw-contain-size:  ;
+  --tw-contain-layout:  ;
+  --tw-contain-paint:  ;
+  --tw-contain-style:  ;
+}
+
+/* ! tailwindcss v3.4.19 | MIT License | https://tailwindcss.com */
+
+/*
+1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
+2. Allow adding a border to an element by just adding a border-width. (https://github.com/tailwindcss/tailwindcss/pull/116)
+*/
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  /* 1 */
+  border-width: 0;
+  /* 2 */
+  border-style: solid;
+  /* 2 */
+  border-color: #e5e7eb;
+  /* 2 */
+}
+
+::before,
+::after {
+  --tw-content: '';
+}
+
+/*
+1. Use a consistent sensible line-height in all browsers.
+2. Prevent adjustments of font size after orientation changes in iOS.
+3. Use a more readable tab size.
+4. Use the user's configured `sans` font-family by default.
+5. Use the user's configured `sans` font-feature-settings by default.
+6. Use the user's configured `sans` font-variation-settings by default.
+7. Disable tap highlights on iOS
+*/
+
+html,
+:host {
+  line-height: 1.5;
+  /* 1 */
+  -webkit-text-size-adjust: 100%;
+  /* 2 */
+  -moz-tab-size: 4;
+  /* 3 */
+  -o-tab-size: 4;
+     tab-size: 4;
+  /* 3 */
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  /* 4 */
+  font-feature-settings: normal;
+  /* 5 */
+  font-variation-settings: normal;
+  /* 6 */
+  -webkit-tap-highlight-color: transparent;
+  /* 7 */
+}
+
+/*
+1. Remove the margin in all browsers.
+2. Inherit line-height from `html` so users can set them as a class directly on the `html` element.
+*/
+
+body {
+  margin: 0;
+  /* 1 */
+  line-height: inherit;
+  /* 2 */
+}
+
+/*
+1. Add the correct height in Firefox.
+2. Correct the inheritance of border color in Firefox. (https://bugzilla.mozilla.org/show_bug.cgi?id=190655)
+3. Ensure horizontal rules are visible by default.
+*/
+
+hr {
+  height: 0;
+  /* 1 */
+  color: inherit;
+  /* 2 */
+  border-top-width: 1px;
+  /* 3 */
+}
+
+/*
+Add the correct text decoration in Chrome, Edge, and Safari.
+*/
+
+abbr:where([title]) {
+  -webkit-text-decoration: underline dotted;
+          text-decoration: underline dotted;
+}
+
+/*
+Remove the default font size and weight for headings.
+*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+/*
+Reset links to optimize for opt-in styling instead of opt-out.
+*/
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+/*
+Add the correct font weight in Edge and Safari.
+*/
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+/*
+1. Use the user's configured `mono` font-family by default.
+2. Use the user's configured `mono` font-feature-settings by default.
+3. Use the user's configured `mono` font-variation-settings by default.
+4. Correct the odd `em` font sizing in all browsers.
+*/
+
+code,
+kbd,
+samp,
+pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  /* 1 */
+  font-feature-settings: normal;
+  /* 2 */
+  font-variation-settings: normal;
+  /* 3 */
+  font-size: 1em;
+  /* 4 */
+}
+
+/*
+Add the correct font size in all browsers.
+*/
+
+small {
+  font-size: 80%;
+}
+
+/*
+Prevent `sub` and `sup` elements from affecting the line height in all browsers.
+*/
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/*
+1. Remove text indentation from table contents in Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=999088, https://bugs.webkit.org/show_bug.cgi?id=201297)
+2. Correct table border color inheritance in all Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=935729, https://bugs.webkit.org/show_bug.cgi?id=195016)
+3. Remove gaps between table borders by default.
+*/
+
+table {
+  text-indent: 0;
+  /* 1 */
+  border-color: inherit;
+  /* 2 */
+  border-collapse: collapse;
+  /* 3 */
+}
+
+/*
+1. Change the font styles in all browsers.
+2. Remove the margin in Firefox and Safari.
+3. Remove default padding in all browsers.
+*/
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  /* 1 */
+  font-feature-settings: inherit;
+  /* 1 */
+  font-variation-settings: inherit;
+  /* 1 */
+  font-size: 100%;
+  /* 1 */
+  font-weight: inherit;
+  /* 1 */
+  line-height: inherit;
+  /* 1 */
+  letter-spacing: inherit;
+  /* 1 */
+  color: inherit;
+  /* 1 */
+  margin: 0;
+  /* 2 */
+  padding: 0;
+  /* 3 */
+}
+
+/*
+Remove the inheritance of text transform in Edge and Firefox.
+*/
+
+button,
+select {
+  text-transform: none;
+}
+
+/*
+1. Correct the inability to style clickable types in iOS and Safari.
+2. Remove default button styles.
+*/
+
+button,
+input:where([type='button']),
+input:where([type='reset']),
+input:where([type='submit']) {
+  -webkit-appearance: button;
+  /* 1 */
+  background-color: transparent;
+  /* 2 */
+  background-image: none;
+  /* 2 */
+}
+
+/*
+Use the modern Firefox focus style for all focusable elements.
+*/
+
+:-moz-focusring {
+  outline: auto;
+}
+
+/*
+Remove the additional `:invalid` styles in Firefox. (https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737)
+*/
+
+:-moz-ui-invalid {
+  box-shadow: none;
+}
+
+/*
+Add the correct vertical alignment in Chrome and Firefox.
+*/
+
+progress {
+  vertical-align: baseline;
+}
+
+/*
+Correct the cursor style of increment and decrement buttons in Safari.
+*/
+
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/*
+1. Correct the odd appearance in Chrome and Safari.
+2. Correct the outline style in Safari.
+*/
+
+[type='search'] {
+  -webkit-appearance: textfield;
+  /* 1 */
+  outline-offset: -2px;
+  /* 2 */
+}
+
+/*
+Remove the inner padding in Chrome and Safari on macOS.
+*/
+
+::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/*
+1. Correct the inability to style clickable types in iOS and Safari.
+2. Change font properties to `inherit` in Safari.
+*/
+
+::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  /* 1 */
+  font: inherit;
+  /* 2 */
+}
+
+/*
+Add the correct display in Chrome and Safari.
+*/
+
+summary {
+  display: list-item;
+}
+
+/*
+Removes the default spacing and border for appropriate elements.
+*/
+
+blockquote,
+dl,
+dd,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+figure,
+p,
+pre {
+  margin: 0;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+}
+
+legend {
+  padding: 0;
+}
+
+ol,
+ul,
+menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/*
+Reset default styling for dialogs.
+*/
+
+dialog {
+  padding: 0;
+}
+
+/*
+Prevent resizing textareas horizontally by default.
+*/
+
+textarea {
+  resize: vertical;
+}
+
+/*
+1. Reset the default placeholder opacity in Firefox. (https://github.com/tailwindlabs/tailwindcss/issues/3300)
+2. Set the default placeholder color to the user's configured gray 400 color.
+*/
+
+input::-moz-placeholder, textarea::-moz-placeholder {
+  opacity: 1;
+  /* 1 */
+  color: #9ca3af;
+  /* 2 */
+}
+
+input::placeholder,
+textarea::placeholder {
+  opacity: 1;
+  /* 1 */
+  color: #9ca3af;
+  /* 2 */
+}
+
+/*
+Set the default cursor for buttons.
+*/
+
+button,
+[role="button"] {
+  cursor: pointer;
+}
+
+/*
+Make sure disabled buttons don't get the pointer cursor.
+*/
+
+:disabled {
+  cursor: default;
+}
+
+/*
+1. Make replaced elements `display: block` by default. (https://github.com/mozdevs/cssremedy/issues/14)
+2. Add `vertical-align: middle` to align replaced elements more sensibly by default. (https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210)
+   This can trigger a poorly considered lint error in some tools but is included by design.
+*/
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+  /* 1 */
+  vertical-align: middle;
+  /* 2 */
+}
+
+/*
+Constrain images and videos to the parent width and preserve their intrinsic aspect ratio. (https://github.com/mozdevs/cssremedy/issues/14)
+*/
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Make elements with the HTML hidden attribute stay hidden by default */
+
+[hidden]:where(:not([hidden="until-found"])) {
+  display: none;
+}
+
+.tb-btn {
+  border-radius: 0.375rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(38 38 38 / var(--tw-bg-opacity, 1));
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  --tw-text-opacity: 1;
+  color: rgb(229 229 229 / var(--tw-text-opacity, 1));
+}
+
+.tb-btn:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(64 64 64 / var(--tw-bg-opacity, 1));
+}
+
+.tb-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.tb-btn:disabled:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(38 38 38 / var(--tw-bg-opacity, 1));
+}
+
+.field {
+  width: 100%;
+  border-radius: 0.375rem;
+  border-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(64 64 64 / var(--tw-border-opacity, 1));
+  --tw-bg-opacity: 1;
+  background-color: rgb(38 38 38 / var(--tw-bg-opacity, 1));
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  --tw-text-opacity: 1;
+  color: rgb(245 245 245 / var(--tw-text-opacity, 1));
+}
+
+.field:focus {
+  --tw-border-opacity: 1;
+  border-color: rgb(163 163 163 / var(--tw-border-opacity, 1));
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.field-label {
+  margin-bottom: 0.25rem;
+  display: block;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  --tw-text-opacity: 1;
+  color: rgb(163 163 163 / var(--tw-text-opacity, 1));
+}
+
+.num-field {
+  border-radius: 0.25rem;
+  border-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(64 64 64 / var(--tw-border-opacity, 1));
+  --tw-bg-opacity: 1;
+  background-color: rgb(38 38 38 / var(--tw-bg-opacity, 1));
+  padding-left: 0.375rem;
+  padding-right: 0.375rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  text-align: right;
+  --tw-text-opacity: 1;
+  color: rgb(245 245 245 / var(--tw-text-opacity, 1));
+}
+
+.num-field:focus {
+  --tw-border-opacity: 1;
+  border-color: rgb(163 163 163 / var(--tw-border-opacity, 1));
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.h3 {
+  margin-bottom: 0.375rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+  --tw-text-opacity: 1;
+  color: rgb(229 229 229 / var(--tw-text-opacity, 1));
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.visible {
+  visibility: visible;
+}
+
+.relative {
+  position: relative;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mr-1 {
+  margin-right: 0.25rem;
+}
+
+.mt-1 {
+  margin-top: 0.25rem;
+}
+
+.mt-1\.5 {
+  margin-top: 0.375rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.mt-3 {
+  margin-top: 0.75rem;
+}
+
+.block {
+  display: block;
+}
+
+.inline {
+  display: inline;
+}
+
+.flex {
+  display: flex;
+}
+
+.table {
+  display: table;
+}
+
+.\!grid {
+  display: grid !important;
+}
+
+.grid {
+  display: grid;
+}
+
+.hidden {
+  display: none;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.w-1\/2 {
+  width: 50%;
+}
+
+.w-12 {
+  width: 3rem;
+}
+
+.w-14 {
+  width: 3.5rem;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.max-w-\[1100px\] {
+  max-width: 1100px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.select-none {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+.resize {
+  resize: both;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-1 {
+  gap: 0.25rem;
+}
+
+.gap-1\.5 {
+  gap: 0.375rem;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.gap-3 {
+  gap: 0.75rem;
+}
+
+.space-y-3 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.rounded-md {
+  border-radius: 0.375rem;
+}
+
+.rounded-xl {
+  border-radius: 0.75rem;
+}
+
+.border {
+  border-width: 1px;
+}
+
+.border-amber-500\/30 {
+  border-color: rgb(245 158 11 / 0.3);
+}
+
+.border-emerald-500\/30 {
+  border-color: rgb(16 185 129 / 0.3);
+}
+
+.border-neutral-700 {
+  --tw-border-opacity: 1;
+  border-color: rgb(64 64 64 / var(--tw-border-opacity, 1));
+}
+
+.border-neutral-800 {
+  --tw-border-opacity: 1;
+  border-color: rgb(38 38 38 / var(--tw-border-opacity, 1));
+}
+
+.bg-amber-500\/10 {
+  background-color: rgb(245 158 11 / 0.1);
+}
+
+.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
+}
+
+.bg-emerald-500\/10 {
+  background-color: rgb(16 185 129 / 0.1);
+}
+
+.bg-emerald-500\/15 {
+  background-color: rgb(16 185 129 / 0.15);
+}
+
+.bg-neutral-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 229 229 / var(--tw-bg-opacity, 1));
+}
+
+.bg-neutral-700 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(64 64 64 / var(--tw-bg-opacity, 1));
+}
+
+.bg-neutral-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(38 38 38 / var(--tw-bg-opacity, 1));
+}
+
+.p-2 {
+  padding: 0.5rem;
+}
+
+.p-3 {
+  padding: 0.75rem;
+}
+
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.py-3 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.font-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.text-\[11px\] {
+  font-size: 11px;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.font-normal {
+  font-weight: 400;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.text-amber-300 {
+  --tw-text-opacity: 1;
+  color: rgb(252 211 77 / var(--tw-text-opacity, 1));
+}
+
+.text-emerald-300 {
+  --tw-text-opacity: 1;
+  color: rgb(110 231 183 / var(--tw-text-opacity, 1));
+}
+
+.text-neutral-100 {
+  --tw-text-opacity: 1;
+  color: rgb(245 245 245 / var(--tw-text-opacity, 1));
+}
+
+.text-neutral-200 {
+  --tw-text-opacity: 1;
+  color: rgb(229 229 229 / var(--tw-text-opacity, 1));
+}
+
+.text-neutral-300 {
+  --tw-text-opacity: 1;
+  color: rgb(212 212 212 / var(--tw-text-opacity, 1));
+}
+
+.text-neutral-400 {
+  --tw-text-opacity: 1;
+  color: rgb(163 163 163 / var(--tw-text-opacity, 1));
+}
+
+.text-neutral-500 {
+  --tw-text-opacity: 1;
+  color: rgb(115 115 115 / var(--tw-text-opacity, 1));
+}
+
+.text-neutral-900 {
+  --tw-text-opacity: 1;
+  color: rgb(23 23 23 / var(--tw-text-opacity, 1));
+}
+
+.text-red-400 {
+  --tw-text-opacity: 1;
+  color: rgb(248 113 113 / var(--tw-text-opacity, 1));
+}
+
+.accent-neutral-400 {
+  accent-color: #a3a3a3;
+}
+
+.blur {
+  --tw-blur: blur(8px);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+.filter {
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+.transition {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Data grid — uniform cells, group-name aligned with its column */
+
+table.data-grid {
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+table.data-grid td, table.data-grid th {
+  padding: 2px 4px;
+  box-sizing: border-box;
+}
+
+.cell-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px 6px;
+  font-size: 14px;
+  line-height: 20px;
+  border: 1px solid #333333;
+  border-radius: 5px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  background: transparent;
+  color: #e5e5e5;
+  transition: border-color .12s, background .12s;
+}
+
+.cell-input:focus {
+  outline: none;
+  border-color: #a3a3a3;
+  background: #171717;
+}
+
+.cell-input.bad {
+  background: #3f1d1d;
+  border-color: #ef4444;
+  color: #fecaca;
+}
+
+/* group-name shares the exact column width of its cells; right padding clears the × button */
+
+.grp-name {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px 24px 4px 6px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  text-align: center;
+  border: 1px solid #333333;
+  border-radius: 5px;
+  background: transparent;
+  color: #f5f5f5;
+  transition: border-color .12s, background .12s;
+}
+
+.grp-name:focus {
+  outline: none;
+  border-color: #a3a3a3;
+  background: #171717;
+}
+
+.delGrp {
+  position: absolute;
+  top: 50%;
+  right: 3px;
+  transform: translateY(-50%);
+  font-size: 13px;
+  line-height: 1;
+  color: #737373;
+}
+
+.delGrp:hover {
+  color: #f87171;
+}
+
+/* row header: shows the row number; the delete × only appears on hover / focus */
+
+.rowhdr {
+  font-size: 10px;
+  color: #737373;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.rowhdr .delRow {
+  display: none;
+  font-size: 13px;
+  line-height: 1;
+  color: #f87171;
+}
+
+tr:hover > .rowhdr .rn, tr:focus-within > .rowhdr .rn {
+  display: none;
+}
+
+tr:hover > .rowhdr .delRow, tr:focus-within > .rowhdr .delRow {
+  display: inline;
+}
+
+.stat-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+  color: #e5e5e5;
+}
+
+.stat-table th, .stat-table td {
+  border: 1px solid #333333;
+  padding: 6px 10px;
+  text-align: left;
+}
+
+.stat-table thead th {
+  background: #171717;
+  font-weight: 600;
+}
+
+.stat-table td.num, .stat-table th.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-table tr:nth-child(even) td {
+  background: #0d0d0d;
+}
+
+.pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.scroll-thin::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: #404040;
+  border-radius: 4px;
+}
+
+[id^="sec-"] {
+  scroll-margin-top: 68px;
+}
+
+details > summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+select option, select optgroup {
+  background: #171717;
+  color: #e5e5e5;
+}
+
+input::-moz-placeholder, textarea::-moz-placeholder {
+  color: #737373;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #737373;
+}
+
+/* form field polish (settings + graph toolbar) */
+
+#sec-settings select, #sec-settings input:not([type="checkbox"]):not([type="file"]),
+#sec-graph input[type="number"], #sec-data textarea {
+  transition: border-color .15s, background-color .15s, box-shadow .15s;
+}
+
+#sec-settings select:hover, #sec-settings input:not([type="checkbox"]):not([type="file"]):hover {
+  border-color: #525252;
+  background: #1c1c1c;
+}
+
+#sec-settings select:focus, #sec-settings input:not([type="checkbox"]):not([type="file"]):focus,
+#sec-graph input[type="number"]:focus, #sec-data textarea:focus {
+  border-color: #a3a3a3;
+  box-shadow: 0 0 0 3px rgba(163,163,163,.15);
+}
+
+/* buttons */
+
+main button {
+  transition: background-color .15s, color .15s, transform .08s;
+}
+
+main button:active:not(:disabled) {
+  transform: scale(.97);
+}
+
+/* white plot surface lifted slightly off the dark card */
+
+#plot {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.45);
+}
+
+.hover\:bg-red-900:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(127 29 29 / var(--tw-bg-opacity, 1));
+}
+
+.hover\:bg-white:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+}
+
+.hover\:text-neutral-200:hover {
+  --tw-text-opacity: 1;
+  color: rgb(229 229 229 / var(--tw-text-opacity, 1));
+}
+
+.hover\:text-red-200:hover {
+  --tw-text-opacity: 1;
+  color: rgb(254 202 202 / var(--tw-text-opacity, 1));
+}
+
+.focus\:border-neutral-400:focus {
+  --tw-border-opacity: 1;
+  border-color: rgb(163 163 163 / var(--tw-border-opacity, 1));
+}
+
+.focus\:outline-none:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.active\:scale-\[\.99\]:active {
+  --tw-scale-x: .99;
+  --tw-scale-y: .99;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+</style>
 </head>
 
 <body class="bg-black text-neutral-200 min-h-screen">
@@ -170,7 +1429,1473 @@
 
 <script src="https://cdn.jsdelivr.net/npm/jstat@1.9.6/dist/jstat.min.js" integrity="sha384-7uGOMhLhjroTamet5l69PR8EGxKUyWZlZOFFDRymtVqIfsh4Hj7uZRctW67ZCdkD" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/plotly.js-cartesian-dist-min@2.35.2/plotly-cartesian.min.js" integrity="sha384-gKF7EaMDoWW1zLWkouldmVWF5jqEKrAswAciW73iNzqlomabVVPO60XkJvL5q/Ie" crossorigin="anonymous"></script>
-<script src="stats.js"></script>
-<script src="app.js"></script>
+<script>
+"use strict";
+/* ============================================================
+   STATISTICS CORE — pure functions, no DOM (exposed as Stats)
+   ============================================================ */
+const Stats = (function (jStat) {
+"use strict";
+
+/* ============================================================
+   PARSING
+   ============================================================ */
+const NUM_RE = /^[+-]?(\d+\.?\d*|\.\d+)(e[+-]?\d+)?$/i;
+const THOUSANDS_RE = /^[+-]?\d{1,3}(,\d{3})+(\.\d*)?(e[+-]?\d+)?$/i;
+
+/* Strict number parser. Accepts "1.5", "-2e3", "1,234.5" (grouped thousands).
+   Rejects anything ambiguous — "1,5" (decimal comma), "0x1A", "12abc" — as NaN
+   so the grid can flag it instead of silently reading a wrong value. */
+function parseNum(s) {
+  if (typeof s === "number") return s;
+  if (s == null) return NaN;
+  let t = String(s).trim().replace(/[−‒–]/g, "-"); // typographic minus signs
+  if (t === "") return NaN;
+  if (THOUSANDS_RE.test(t)) t = t.replace(/,/g, "");
+  return NUM_RE.test(t) ? Number(t) : NaN;
+}
+
+/* Parse pasted TSV / CSV / semicolon-separated text into rows of cells.
+   The delimiter is chosen once from the first line (tab > ; > ,), so a
+   thousands separator inside a TSV cell is never split. Supports "quoted" cells. */
+function parseDelimited(text) {
+  const lines = String(text).replace(/\r\n?/g, "\n").split("\n").filter(l => l.trim() !== "");
+  if (!lines.length) return [];
+  const first = lines[0];
+  const delim = first.includes("\t") ? "\t" : (first.includes(";") ? ";" : ",");
+  return lines.map(l => splitLine(l, delim));
+}
+function splitLine(line, d) {
+  const out = [];
+  let cur = "", quoted = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (quoted) {
+      if (ch === '"') { if (line[i + 1] === '"') { cur += '"'; i++; } else quoted = false; }
+      else cur += ch;
+    } else if (ch === '"' && cur.trim() === "") { quoted = true; cur = ""; }
+    else if (ch === d) { out.push(cur.trim()); cur = ""; }
+    else cur += ch;
+  }
+  out.push(cur.trim());
+  return out;
+}
+
+/* ============================================================
+   DESCRIPTIVE
+   ============================================================ */
+function describe(v) {
+  const n = v.length;
+  if (n === 0) return { n: 0 };
+  const mean = jStat.mean(v);
+  const sd = n > 1 ? jStat.stdev(v, true) : NaN;      // sample SD (n-1)
+  const sem = n > 1 ? sd / Math.sqrt(n) : NaN;
+  const sorted = [...v].sort((a, b) => a - b);
+  const median = quantile(sorted, 0.5);
+  const q1 = quantile(sorted, 0.25), q3 = quantile(sorted, 0.75);
+  const tc = n > 1 ? jStat.studentt.inv(0.975, n - 1) : NaN;
+  return { n, mean, sd, sem, median, min: sorted[0], max: sorted[n - 1], q1, q3, iqr: q3 - q1,
+           variance: n > 1 ? sd * sd : NaN, ciLo: mean - tc * sem, ciHi: mean + tc * sem };
+}
+function quantile(sorted, p) {  // linear interpolation (type-7, matches Excel/R default)
+  const n = sorted.length;
+  if (n === 1) return sorted[0];
+  const h = (n - 1) * p, lo = Math.floor(h);
+  return sorted[lo] + (h - lo) * (sorted[Math.min(lo + 1, n - 1)] - sorted[lo]);
+}
+
+/* ============================================================
+   DISTRIBUTION HELPERS  (upper tails computed directly for precision)
+   ============================================================ */
+const normCdf = (z) => jStat.normal.cdf(z, 0, 1);
+const normpdf = (z) => Math.exp(-0.5 * z * z) / Math.sqrt(2 * Math.PI);
+const pNorm2 = (z) => Math.min(1, 2 * normCdf(-Math.abs(z)));                   // two-sided
+const pT2 = (t, df) => Math.min(1, 2 * jStat.studentt.cdf(-Math.abs(t), df));   // two-sided
+function pFUpper(F, d1, d2) {
+  if (F === Infinity) return 0;
+  if (!(F >= 0)) return NaN;
+  return jStat.ibeta(d2 / (d2 + d1 * F), d2 / 2, d1 / 2);
+}
+function pChi2Upper(x, df) {
+  if (!(x >= 0)) return NaN;
+  return Math.max(0, 1 - jStat.lowRegGamma(df / 2, x / 2));
+}
+
+/* ---- Gauss–Legendre quadrature nodes (computed once per order) ---- */
+const GL_CACHE = {};
+function gaussLegendre(n) {
+  if (GL_CACHE[n]) return GL_CACHE[n];
+  const x = new Float64Array(n), w = new Float64Array(n);
+  for (let i = 0; i < Math.ceil(n / 2); i++) {
+    let z = Math.cos(Math.PI * (i + 0.75) / (n + 0.5)), pp = 1;
+    for (let it = 0; it < 100; it++) {
+      let p1 = 1, p2 = 0;
+      for (let j = 1; j <= n; j++) { const p3 = p2; p2 = p1; p1 = ((2 * j - 1) * z * p2 - (j - 1) * p3) / j; }
+      pp = n * (z * p1 - p2) / (z * z - 1);
+      const z1 = z; z = z1 - p1 / pp;
+      if (Math.abs(z - z1) < 1e-15) break;
+    }
+    x[i] = -z; x[n - 1 - i] = z;
+    w[i] = w[n - 1 - i] = 2 / ((1 - z * z) * pp * pp);
+  }
+  return (GL_CACHE[n] = { x, w });
+}
+
+/* Integrate g(u) · f_df(u) over u = sqrt(chi2_df / df), the scale factor that
+   turns a normal statistic into a studentized one. Gauss–Legendre on a window of
+   ±9 approximate SDs around the density's mode — accurate to ~1e-7 for any df. */
+function integrateOverChi(df, g) {
+  if (!isFinite(df) || df > 25000) return g(1);
+  const c = df / 2;
+  const logK = Math.log(2) + c * Math.log(c) - jStat.gammaln(c);
+  const spread = 9 / Math.sqrt(2 * df);
+  const lo = Math.max(0, 1 - spread), hi = 1 + Math.max(spread, 3);
+  const { x, w } = gaussLegendre(64);
+  const half = (hi - lo) / 2, mid = (hi + lo) / 2;
+  let s = 0;
+  for (let i = 0; i < x.length; i++) {
+    const u = mid + half * x[i];
+    if (u <= 0) continue;
+    s += w[i] * g(u) * Math.exp(logK + (df - 1) * Math.log(u) - c * u * u);
+  }
+  return s * half;
+}
+
+/* Inner integrals over a standard normal z use the trapezoid rule on [-8, 8];
+   for smooth, Gaussian-decaying integrands it converges exponentially fast. */
+const Z_STEPS = 128, Z_LO = -8, Z_H = 16 / Z_STEPS;
+const Z_GRID = Float64Array.from({ length: Z_STEPS + 1 }, (_, m) => Z_LO + m * Z_H);
+const Z_PDF = Z_GRID.map(normpdf);
+const Z_CDF = Z_GRID.map(normCdf);
+
+/* ---- studentized range distribution (Tukey):  P(Q < q | k groups, df) ---- */
+function ptukey(q, k, df) {
+  if (!(q > 0)) return 0;
+  const wprob = (w) => {   // P(range of k std normals < w) = ∫ k φ(z) [Φ(z) − Φ(z − w)]^(k−1) dz
+    let s = 0;
+    for (let m = 0; m <= Z_STEPS; m++) {
+      const inner = Z_CDF[m] - normCdf(Z_GRID[m] - w);
+      s += (m === 0 || m === Z_STEPS ? 0.5 : 1) * Z_PDF[m] * Math.pow(inner, k - 1);
+    }
+    return k * s * Z_H;
+  };
+  return Math.min(1, Math.max(0, integrateOverChi(df, u => wprob(q * u))));
+}
+
+/* ---- Dunnett many-to-one:  P(max_i |T_i| < t) ----
+   Correlations between comparisons against the same control factor as
+   ρ_ij = λ_i λ_j with λ_i = sqrt(n_i / (n_0 + n_i)), so the multivariate-t
+   probability reduces to a 2-D integral (one shared normal, one chi scale). */
+function pdunnett(t, lambdas, df) {
+  if (!(t > 0)) return 0;
+  const sd = lambdas.map(l => Math.sqrt(1 - l * l));
+  const inner = (tu) => {
+    let s = 0;
+    for (let m = 0; m <= Z_STEPS; m++) {
+      const z = Z_GRID[m];
+      let prod = 1;
+      for (let i = 0; i < lambdas.length; i++) {
+        const lz = lambdas[i] * z;
+        prod *= normCdf((tu - lz) / sd[i]) - normCdf((-tu - lz) / sd[i]);
+      }
+      s += (m === 0 || m === Z_STEPS ? 0.5 : 1) * Z_PDF[m] * prod;
+    }
+    return s * Z_H;
+  };
+  return Math.min(1, Math.max(0, integrateOverChi(df, u => inner(t * u))));
+}
+
+/* invert a monotone CDF by bisection (used for simultaneous-CI critical values) */
+function invertCdf(cdf, target) {
+  let lo = 0, hi = 4, flo = cdf(lo) - target, fhi = cdf(hi) - target;
+  while (fhi < 0 && hi < 1e4) { lo = hi; flo = fhi; hi *= 2; fhi = cdf(hi) - target; }
+  // Illinois (modified regula falsi): bracketed like bisection, ~6–10 evaluations
+  let side = 0;
+  for (let i = 0; i < 60; i++) {
+    const x = (lo * fhi - hi * flo) / (fhi - flo), fx = cdf(x) - target;
+    if (Math.abs(fx) < 1e-9 || hi - lo < 1e-9) return x;
+    if (fx < 0) { lo = x; flo = fx; if (side === -1) fhi /= 2; side = -1; }
+    else { hi = x; fhi = fx; if (side === 1) flo /= 2; side = 1; }
+  }
+  return (lo + hi) / 2;
+}
+const qtukey = (p, k, df) => invertCdf(q => ptukey(q, k, df), p);
+const qdunnett = (p, lambdas, df) => invertCdf(t => pdunnett(t, lambdas, df), p);
+
+/* ---- multiple-comparison adjustment ---- */
+function adjustP(ps, method) {
+  const m = ps.length;
+  if (method === "bonferroni") return ps.map(p => Math.min(1, p * m));
+  if (method === "holm") {
+    const order = ps.map((p, i) => i).sort((a, b) => ps[a] - ps[b]);
+    const out = new Array(m);
+    let running = 0;
+    order.forEach((idx, rank) => {
+      running = Math.max(running, Math.min(1, (m - rank) * ps[idx]));
+      out[idx] = running;
+    });
+    return out;
+  }
+  return ps.slice();
+}
+
+/* ---- ranks with average ties; returns ranks + Σ(t³ − t) tie term ---- */
+function rankAll(values) {
+  const idx = values.map((x, i) => i).sort((a, b) => values[a] - values[b]);
+  const ranks = new Array(values.length);
+  let tieSum = 0;
+  for (let i = 0; i < idx.length;) {
+    let j = i;
+    while (j < idx.length && values[idx[j]] === values[idx[i]]) j++;
+    const avg = (i + 1 + j) / 2, t = j - i;
+    tieSum += t * t * t - t;
+    for (let q = i; q < j; q++) ranks[idx[q]] = avg;
+    i = j;
+  }
+  return { ranks, tieSum };
+}
+
+/* ============================================================
+   TWO-GROUP TESTS
+   ============================================================ */
+function tTest(a, b, welch) {
+  const A = describe(a), B = describe(b);
+  const n1 = A.n, n2 = B.n, v1 = A.variance, v2 = B.variance;
+  const diff = A.mean - B.mean;
+  let df, se;
+  const sp = Math.sqrt(((n1 - 1) * v1 + (n2 - 1) * v2) / (n1 + n2 - 2)); // pooled SD
+  if (welch) {
+    se = Math.sqrt(v1 / n1 + v2 / n2);
+    df = Math.pow(v1 / n1 + v2 / n2, 2) / (Math.pow(v1 / n1, 2) / (n1 - 1) + Math.pow(v2 / n2, 2) / (n2 - 1));
+  } else {
+    se = sp * Math.sqrt(1 / n1 + 1 / n2);
+    df = n1 + n2 - 2;
+  }
+  const t = diff / se;
+  const p = pT2(t, df);
+  const tcrit = jStat.studentt.inv(0.975, df);
+  const d = diff / sp;                                      // Cohen's d (pooled SD)
+  const g = d * (1 - 3 / (4 * (n1 + n2) - 9));              // Hedges' g (small-sample corrected)
+  return { A, B, diff, t, df, se, p, ci: [diff - tcrit * se, diff + tcrit * se], welch, d, g };
+}
+
+function pairedTTest(a, b) {
+  const d = a.map((x, i) => x - b[i]);
+  const D = describe(d), n = D.n;
+  const se = D.sd / Math.sqrt(n), df = n - 1;
+  const t = D.mean / se;
+  const tcrit = jStat.studentt.inv(0.975, df);
+  return { A: describe(a), B: describe(b), D, n, diff: D.mean, t, df, se, p: pT2(t, df),
+           ci: [D.mean - tcrit * se, D.mean + tcrit * se], dz: D.mean / D.sd };
+}
+
+/* Null distribution of the Mann–Whitney U for sizes (m, n), no ties: the
+   coefficients of the Gaussian binomial [m+n choose m]_q, built with the
+   q-Pascal rule [N,k] = [N-1,k-1] + q^k [N-1,k]. All additions, so no cancellation. */
+function mwuNullCounts(m, n) {
+  let rows = [Float64Array.of(1)];
+  for (let N = 1; N <= m + n; N++) {
+    const next = [];
+    for (let k = 0; k <= Math.min(N, m); k++) {
+      const c = new Float64Array(k * (N - k) + 1);
+      if (k > 0) { const a = rows[k - 1]; for (let i = 0; i < a.length; i++) c[i] += a[i]; }
+      if (k <= N - 1 && rows[k]) { const b = rows[k]; for (let i = 0; i < b.length; i++) c[i + k] += b[i]; }
+      next.push(c);
+    }
+    rows = next;
+  }
+  return rows[m];
+}
+/* Null distribution of the Wilcoxon signed-rank W+ for n pairs: subset sums of {1..n}. */
+function signedRankNullCounts(n) {
+  const S = n * (n + 1) / 2, c = new Float64Array(S + 1);
+  c[0] = 1;
+  for (let k = 1; k <= n; k++) for (let s = S; s >= k; s--) c[s] += c[s - k];
+  return c;
+}
+/* two-sided exact p: 2 · min(P(X ≤ x), P(X ≥ x)) */
+function exactTwoSided(counts, x) {
+  let total = 0, le = 0, ge = 0;
+  for (let i = 0; i < counts.length; i++) {
+    total += counts[i];
+    if (i <= x + 1e-9) le += counts[i];
+    if (i >= x - 1e-9) ge += counts[i];
+  }
+  return Math.min(1, 2 * Math.min(le, ge) / total);
+}
+
+/* Mann–Whitney U. Exact null distribution when both n < 50 and there are no
+   ties (same rule as R's wilcox.test); otherwise normal approximation with tie
+   and continuity correction. */
+function mannWhitney(a, b) {
+  const A = describe(a), B = describe(b);
+  const n1 = A.n, n2 = B.n, N = n1 + n2;
+  const { ranks, tieSum } = rankAll(a.concat(b));
+  let R1 = 0;
+  for (let i = 0; i < n1; i++) R1 += ranks[i];
+  const U1 = R1 - n1 * (n1 + 1) / 2;         // # pairs with a > b (ties count ½)
+  const U2 = n1 * n2 - U1;
+  const U = Math.min(U1, U2);
+  const r = (U1 - U2) / (n1 * n2);           // rank-biserial correlation (+ ⇒ A tends larger)
+  const exact = tieSum === 0 && n1 < 50 && n2 < 50;
+  let z = NaN, p;
+  if (exact) {
+    p = exactTwoSided(mwuNullCounts(n1, n2), U1);
+  } else {
+    const sigma = Math.sqrt((n1 * n2 / 12) * ((N + 1) - tieSum / (N * (N - 1))));
+    const dev = U1 - n1 * n2 / 2;
+    z = sigma > 0 ? (dev - 0.5 * Math.sign(dev)) / sigma : 0;
+    p = sigma > 0 ? pNorm2(z) : 1;
+  }
+  return { A, B, U1, U2, U, z, p, R1, r, exact };
+}
+
+/* Wilcoxon signed-rank (paired). Zero differences are dropped (Wilcoxon's
+   method); exact when n < 50 with no ties/zeros, else normal approximation. */
+function wilcoxonSignedRank(a, b) {
+  // round away float noise so e.g. 12.8−12.0 and 10.9−10.1 tie, as they should
+  const diffs = a.map((x, i) => +(x - b[i]).toPrecision(12));
+  const nz = diffs.filter(d => d !== 0);
+  const n = nz.length, zeros = diffs.length - n;
+  const out = { A: describe(a), B: describe(b), D: describe(diffs), nPairs: diffs.length, n, zeros };
+  if (n === 0) return Object.assign(out, { Wplus: 0, Wminus: 0, z: NaN, p: 1, r: 0, exact: false });
+  const { ranks, tieSum } = rankAll(nz.map(Math.abs));
+  let Wplus = 0;
+  nz.forEach((d, i) => { if (d > 0) Wplus += ranks[i]; });
+  const total = n * (n + 1) / 2, Wminus = total - Wplus;
+  const r = (Wplus - Wminus) / total;            // matched-pairs rank-biserial
+  const exact = tieSum === 0 && zeros === 0 && n < 50;
+  let z = NaN, p;
+  if (exact) p = exactTwoSided(signedRankNullCounts(n), Wplus);
+  else {
+    const sigma = Math.sqrt(n * (n + 1) * (2 * n + 1) / 24 - tieSum / 48);
+    const dev = Wplus - total / 2;
+    z = sigma > 0 ? (dev - 0.5 * Math.sign(dev)) / sigma : 0;
+    p = sigma > 0 ? pNorm2(z) : 1;
+  }
+  return Object.assign(out, { Wplus, Wminus, z, p, r, exact });
+}
+
+/* ============================================================
+   K-GROUP TESTS
+   ============================================================ */
+function anova(groups) {
+  const k = groups.length;
+  const all = [].concat(...groups);
+  const N = all.length;
+  const grand = jStat.mean(all);
+  const desc = groups.map(describe);
+  let ssB = 0, ssW = 0;
+  groups.forEach((g, i) => {
+    ssB += g.length * Math.pow(desc[i].mean - grand, 2);
+    g.forEach(v => { ssW += Math.pow(v - desc[i].mean, 2); });
+  });
+  const dfB = k - 1, dfW = N - k;
+  const msB = ssB / dfB, msW = ssW / dfW;
+  const F = msW > 0 ? msB / msW : (msB > 0 ? Infinity : NaN);
+  const p = pFUpper(F, dfB, dfW);
+  const ssT = ssB + ssW;
+  const eta2 = ssB / ssT;
+  const omega2 = (ssB - dfB * msW) / (ssT + msW);
+  return { k, N, grand, desc, ssB, ssW, ssT, dfB, dfW, msB, msW, F, p, eta2, omega2 };
+}
+
+/* Post-hoc for one-way ANOVA (pooled MS_within):
+   tukey | bonferroni | holm | dunnett (every group vs. group 0).
+   Each comparison: { i, j, diff (mean_i − mean_j), p (adjusted), ci: [lo, hi] | null } */
+function anovaPosthoc(av, method) {
+  const { desc, msW, dfW, k } = av;
+  const pairs = [];
+  if (method === "dunnett") {
+    const n0 = desc[0].n;
+    const lambdas = [];
+    for (let i = 1; i < k; i++) lambdas.push(Math.sqrt(desc[i].n / (n0 + desc[i].n)));
+    const crit = qdunnett(0.95, lambdas, dfW);
+    for (let i = 1; i < k; i++) {
+      const diff = desc[i].mean - desc[0].mean;
+      const se = Math.sqrt(msW * (1 / desc[i].n + 1 / n0));
+      const t = diff / se;
+      pairs.push({ i, j: 0, diff, stat: t, p: 1 - pdunnett(Math.abs(t), lambdas, dfW), ci: [diff - crit * se, diff + crit * se] });
+    }
+    return pairs;
+  }
+  const m = k * (k - 1) / 2;
+  const qcrit = method === "tukey" ? qtukey(0.95, k, dfW) : NaN;
+  const tBonf = jStat.studentt.inv(1 - 0.025 / m, dfW);
+  for (let i = 0; i < k; i++) for (let j = i + 1; j < k; j++) {
+    const ni = desc[i].n, nj = desc[j].n;
+    const diff = desc[i].mean - desc[j].mean;
+    const se = Math.sqrt(msW * (1 / ni + 1 / nj));
+    if (method === "tukey") {
+      const q = Math.abs(diff) / (se / Math.SQRT2);      // Tukey–Kramer
+      const h = qcrit * se / Math.SQRT2;
+      pairs.push({ i, j, diff, stat: q, p: 1 - ptukey(q, k, dfW), ci: [diff - h, diff + h] });
+    } else {
+      const t = diff / se;
+      pairs.push({ i, j, diff, stat: t, praw: pT2(t, dfW),
+                   ci: method === "bonferroni" ? [diff - tBonf * se, diff + tBonf * se] : null });
+    }
+  }
+  if (method !== "tukey") {
+    const adj = adjustP(pairs.map(pr => pr.praw), method);
+    pairs.forEach((pr, idx) => { pr.p = adj[idx]; });
+  }
+  return pairs;
+}
+
+/* Kruskal–Wallis H (tie-corrected), with Dunn's pairwise z-tests. */
+function kruskalWallis(groups) {
+  const k = groups.length;
+  const all = [].concat(...groups);
+  const N = all.length;
+  const { ranks, tieSum } = rankAll(all);
+  const meanRanks = [];
+  let off = 0, sum = 0;
+  groups.forEach(g => {
+    let R = 0;
+    for (let i = 0; i < g.length; i++) R += ranks[off + i];
+    off += g.length;
+    sum += R * R / g.length;
+    meanRanks.push(R / g.length);
+  });
+  const C = 1 - tieSum / (N * N * N - N);
+  const H = C > 0 ? (12 / (N * (N + 1)) * sum - 3 * (N + 1)) / C : 0;
+  const df = k - 1;
+  return { k, N, H, df, p: C > 0 ? pChi2Upper(H, df) : 1, eps2: H / (N - 1),
+           meanRanks, tieSum, desc: groups.map(describe), groups };
+}
+function dunnTest(kw, method) {
+  const { N, tieSum, meanRanks, groups, k } = kw;
+  const v = N * (N + 1) / 12 - tieSum / (12 * (N - 1));
+  const pairs = [];
+  for (let i = 0; i < k; i++) for (let j = i + 1; j < k; j++) {
+    const diff = meanRanks[i] - meanRanks[j];
+    const z = diff / Math.sqrt(v * (1 / groups[i].length + 1 / groups[j].length));
+    pairs.push({ i, j, diff, stat: z, praw: pNorm2(z), ci: null });
+  }
+  const adj = adjustP(pairs.map(pr => pr.praw), method);
+  pairs.forEach((pr, idx) => { pr.p = adj[idx]; });
+  return pairs;
+}
+
+/* ============================================================
+   ASSUMPTION CHECKS
+   ============================================================ */
+/* Shapiro–Wilk W (Royston 1995, algorithm AS R94 — same as R's shapiro.test).
+   Valid for 3 ≤ n ≤ 5000; returns null otherwise or when all values are equal. */
+function shapiroWilk(values) {
+  const x = [...values].sort((a, b) => a - b);
+  const n = x.length;
+  if (n < 3 || n > 5000) return null;
+  const range = x[n - 1] - x[0];
+  if (!(range > 1e-19 * Math.max(1, Math.abs(x[0])))) return null;
+  const poly = (cc, t) => { let r = 0; for (let i = cc.length - 1; i >= 0; i--) r = r * t + cc[i]; return r; };
+  const nn2 = Math.floor(n / 2);
+  let a;
+  if (n === 3) a = [Math.SQRT1_2];
+  else {
+    const c1 = [0, 0.221157, -0.147981, -2.07119, 4.434685, -2.706056];
+    const c2 = [0, 0.042981, -0.293762, -1.752461, 5.682633, -3.582633];
+    const m = [];
+    let summ2 = 0;
+    for (let i = 1; i <= nn2; i++) {
+      const v = jStat.normal.inv((i - 0.375) / (n + 0.25), 0, 1);
+      m.push(v); summ2 += v * v;
+    }
+    summ2 *= 2;
+    const ssumm2 = Math.sqrt(summ2), rsn = 1 / Math.sqrt(n);
+    const a1 = poly(c1, rsn) - m[0] / ssumm2;
+    a = m.slice();
+    let i1, fac;
+    if (n > 5) {
+      i1 = 3;
+      const a2 = -m[1] / ssumm2 + poly(c2, rsn);
+      fac = Math.sqrt((summ2 - 2 * m[0] * m[0] - 2 * m[1] * m[1]) / (1 - 2 * a1 * a1 - 2 * a2 * a2));
+      a[1] = a2;
+    } else {
+      i1 = 2;
+      fac = Math.sqrt((summ2 - 2 * m[0] * m[0]) / (1 - 2 * a1 * a1));
+    }
+    a[0] = a1;
+    for (let i = i1; i <= nn2; i++) a[i - 1] = -m[i - 1] / fac;
+  }
+  const mean = jStat.mean(x);
+  let ss = 0, num = 0;
+  x.forEach(v => { ss += (v - mean) * (v - mean); });
+  for (let i = 0; i < nn2; i++) num += a[i] * (x[n - 1 - i] - x[i]);
+  const W = Math.min(1, num * num / ss);
+
+  let p;
+  if (n === 3) p = Math.max(0, Math.min(1, (6 / Math.PI) * (Math.asin(Math.sqrt(W)) - Math.PI / 3)));
+  else {
+    let w1 = Math.log(1 - W), mu, s;
+    if (n <= 11) {
+      const gamma = -2.273 + 0.459 * n;
+      if (w1 >= gamma) return { W, p: 0, n };
+      w1 = -Math.log(gamma - w1);
+      mu = poly([0.544, -0.39978, 0.025054, -6.714e-4], n);
+      s = Math.exp(poly([1.3822, -0.77857, 0.062767, -0.0020322], n));
+    } else {
+      const ln = Math.log(n);
+      mu = poly([-1.5861, -0.31082, -0.083751, 0.0038915], ln);
+      s = Math.exp(poly([-0.4803, -0.082676, 0.0030302], ln));
+    }
+    p = normCdf(-(w1 - mu) / s);
+  }
+  return { W, p, n };
+}
+
+/* Brown–Forsythe (median-centred Levene) test for equal variances. */
+function brownForsythe(groups) {
+  const dev = groups.map(g => {
+    const med = quantile([...g].sort((a, b) => a - b), 0.5);
+    return g.map(v => Math.abs(v - med));
+  });
+  const av = anova(dev);
+  return { F: av.F, df1: av.dfB, df2: av.dfW, p: av.p };
+}
+
+/* ============================================================
+   COMPACT LETTER DISPLAY  (maximal cliques of the non-significance graph)
+   ============================================================ */
+function compactLetters(k, pairs, means, alpha = 0.05) {
+  // edge if NOT significant (p >= alpha) → groups "the same". No self-loops.
+  const adj = Array.from({ length: k }, () => new Set());
+  pairs.forEach(pr => { if (!(pr.p < alpha)) { adj[pr.i].add(pr.j); adj[pr.j].add(pr.i); } });
+  const cliques = [];
+  bronKerbosch(new Set(), new Set([...Array(k).keys()]), new Set(), adj, cliques);
+  // 'a' = clique with the highest average mean
+  const avg = c => [...c].reduce((s, g) => s + means[g], 0) / c.size;
+  cliques.sort((c1, c2) => avg(c2) - avg(c1));
+  const alphabet = "abcdefghijklmnopqrstuvwxyz";
+  const labels = Array.from({ length: k }, () => []);
+  cliques.forEach((c, idx) => { c.forEach(g => labels[g].push(alphabet[idx] || ("[" + (idx + 1) + "]"))); });
+  return labels.map(ls => ls.sort().join(""));
+}
+function bronKerbosch(R, P, X, adj, out) {
+  if (P.size === 0 && X.size === 0) { out.push(new Set(R)); return; }
+  let pivot = -1, best = -1;
+  new Set([...P, ...X]).forEach(u => { const c = [...P].filter(v => adj[u].has(v)).length; if (c > best) { best = c; pivot = u; } });
+  [...P].filter(v => !adj[pivot].has(v)).forEach(v => {
+    const Rn = new Set(R); Rn.add(v);
+    bronKerbosch(Rn, new Set([...P].filter(u => adj[v].has(u))), new Set([...X].filter(u => adj[v].has(u))), adj, out);
+    P.delete(v); X.add(v);
+  });
+}
+
+/* ============================================================
+   FORMATTING
+   ============================================================ */
+function starsFor(p) {
+  if (p == null || !isFinite(p)) return "ns";
+  if (p < 0.0001) return "****";
+  if (p < 0.001) return "***";
+  if (p < 0.01) return "**";
+  if (p < 0.05) return "*";
+  return "ns";
+}
+const fmt = (x, d = 4) => (x == null || !isFinite(x)) ? "—"
+  : (Math.abs(x) >= 1e5 || (Math.abs(x) < 1e-4 && x !== 0) ? x.toExponential(2) : (+x.toFixed(d)).toString());
+const fmtP = (p) => (p == null || !isFinite(p)) ? "—" : (p < 0.0001 ? "< 0.0001" : p.toFixed(4));
+
+return {
+  parseNum, parseDelimited, describe, quantile,
+  tTest, pairedTTest, mannWhitney, wilcoxonSignedRank,
+  anova, anovaPosthoc, kruskalWallis, dunnTest, adjustP,
+  shapiroWilk, brownForsythe, compactLetters,
+  ptukey, qtukey, pdunnett, qdunnett,
+  starsFor, fmt, fmtP,
+};
+})(window.jStat);
+
+/* ============================================================
+   ministat — UI: data grid, analysis controller, report, plotting
+   Statistics live in the Stats module above.
+   ============================================================ */
+const S = Stats;
+const { fmt, fmtP, starsFor } = S;
+/* "= 0.0123" or "< 0.0001" — for inline "P …" text */
+const pRel = (p) => { const t = fmtP(p); return t.startsWith("<") ? t : "= " + t; };
+const $ = (id) => document.getElementById(id);
+
+/* ============================================================
+   THEMES
+   ============================================================ */
+// Light-mode themes (white graph paper). Lines/fonts are dark for contrast.
+const PAPER = "#ffffff", GRIDCOL = "#e5e7eb";
+const THEMES = {
+  prism:   { colors: ["#0173b2","#de8f05","#029e73","#d55e00","#cc78bc","#56b4e9","#949494","#fbafe4"], line:"#1f2937", markerLine:"#1f2937", paper:PAPER, font:"#1f2937" },
+  pastel:  { colors: ["#7dd3fc","#fca5a5","#6ee7b7","#fcd34d","#c4b5fd","#f9a8d4","#67e8f9","#fdba74"], line:"#374151", markerLine:"#374151", paper:PAPER, font:"#374151" },
+  vibrant: { colors: ["#2563eb","#dc2626","#16a34a","#eab308","#7c3aed","#db2777","#0891b2","#ea580c"], line:"#0f172a", markerLine:"#0f172a", paper:PAPER, font:"#0f172a" },
+};
+
+/* ============================================================
+   STATE  +  PERSISTENCE  +  UNDO
+   ============================================================ */
+const DEMO = [
+  { name: "Control",   values: [5.1, 4.8, 5.5, 4.9, 5.3, 5.0, 4.7, 5.2] },
+  { name: "Treatment", values: [7.2, 6.9, 7.8, 7.1, 6.5, 7.4, 7.0, 6.8] },
+];
+const DEFAULT_ROWS = 10;
+const STORE_KEY = "ministat:v1";
+const SETTING_IDS = ["testSelect", "posthocSelect", "dunnAdj", "chartType", "errType", "themeSelect", "sigLabel", "xLabel", "yLabel", "plotW", "plotH", "dotSize"];
+const GRAPH_DEFAULTS = { chartType: "bar", errType: "sem", themeSelect: "prism", sigLabel: "stars", xLabel: "Group", yLabel: "Value", plotW: "300", plotH: "400", dotSize: "6" };
+
+let grid = [];          // array of groups: {name, cells:[string,...]}
+let lastReport = null;  // report model of the most recent analysis (drives screen + TSV)
+let lastPlot = null;    // plot spec of the most recent analysis (drives live re-styling)
+
+function collectSettings() {
+  const s = {};
+  SETTING_IDS.forEach(id => { s[id] = $(id).value; });
+  s.welchChk = $("welchChk").checked;
+  return s;
+}
+function applySettings(s) {
+  if (!s) return;
+  SETTING_IDS.forEach(id => {
+    if (s[id] == null) return;
+    const el = $(id);
+    // ignore values a <select> doesn't offer (e.g. from an older/newer file)
+    if (el.tagName === "SELECT" && ![...el.options].some(o => o.value === String(s[id]))) return;
+    el.value = s[id];
+  });
+  if (typeof s.welchChk === "boolean") $("welchChk").checked = s.welchChk;
+  syncTestOptions();
+}
+function sanitizeGrid(g) {
+  return g.map((c, i) => ({ name: String(c && c.name != null ? c.name : groupLabel(i)),
+                            cells: (c && Array.isArray(c.cells) ? c.cells : []).map(v => String(v ?? "")) }));
+}
+
+let saveTimer = null;
+function scheduleSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify({ grid, settings: collectSettings() })); } catch (e) { /* storage unavailable */ }
+  }, 300);
+}
+function loadSaved() {
+  try { const raw = localStorage.getItem(STORE_KEY); return raw ? JSON.parse(raw) : null; } catch (e) { return null; }
+}
+
+const undoStack = [], redoStack = [];
+const snapshot = () => JSON.stringify(grid);
+let editSnapshot = null;   // grid state when a grid field gained focus → one undo step per edit
+/* record any pending in-cell edit as its own undo step */
+function commitEdit() {
+  if (editSnapshot && editSnapshot !== snapshot()) pushHistory(editSnapshot);
+  editSnapshot = null;
+}
+function pushHistory(snap) {
+  if (snap === undefined) { commitEdit(); snap = snapshot(); }
+  if (undoStack[undoStack.length - 1] === snap) return;
+  undoStack.push(snap);
+  if (undoStack.length > 100) undoStack.shift();
+  redoStack.length = 0;
+  updateHistoryButtons();
+}
+function restore(from, to) {
+  if (!from.length) return;
+  to.push(snapshot());
+  grid = JSON.parse(from.pop());
+  renderGrid(); scheduleSave(); updateHistoryButtons();
+}
+const undo = () => restore(undoStack, redoStack);
+const redo = () => restore(redoStack, undoStack);
+function updateHistoryButtons() { $("undoBtn").disabled = !undoStack.length; $("redoBtn").disabled = !redoStack.length; }
+/* structural edit: snapshot → change → re-render → save */
+function mutate(fn) { pushHistory(); fn(); renderGrid(); scheduleSave(); }
+
+/* ============================================================
+   DATA GRID
+   ============================================================ */
+const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const groupLabel = (i) => "Group " + (i < 26 ? LETTERS[i] : i + 1);
+function nextGroupName() {
+  const used = new Set(grid.map(g => g.name));
+  for (let i = grid.length; ; i++) if (!used.has(groupLabel(i))) return groupLabel(i);
+}
+const nRows = () => (grid.length ? Math.max(...grid.map(g => g.cells.length)) : 0);
+const isBad = (v) => v.trim() !== "" && !isFinite(S.parseNum(v));
+const looksLikeHeader = (row) => row.some(c => /[a-z]/i.test(c)) && row.every(c => c.trim() === "" || !isFinite(S.parseNum(c)));
+
+function seedFromDemo() {
+  const maxLen = Math.max(...DEMO.map(g => g.values.length));
+  grid = DEMO.map(g => ({ name: g.name, cells: Array.from({ length: maxLen }, (_, i) => (g.values[i] != null ? String(g.values[i]) : "")) }));
+  renderGrid();
+}
+function seedBlank() {
+  grid = [
+    { name: groupLabel(0), cells: Array(DEFAULT_ROWS).fill("") },
+    { name: groupLabel(1), cells: Array(DEFAULT_ROWS).fill("") },
+  ];
+  renderGrid();
+}
+
+function renderGrid() {
+  const rows = nRows();
+  grid.forEach(g => { while (g.cells.length < rows) g.cells.push(""); });
+  let html = "<thead><tr><th style='width:34px'></th>";
+  grid.forEach((g, gi) => {
+    html += `<th style="width:118px"><div class="relative">
+        <input class="grp-name" data-g="${gi}" value="${escapeHtml(g.name)}" aria-label="Name of group ${gi + 1}" />
+        ${grid.length > 1 ? `<button class="delGrp" data-g="${gi}" title="Delete group" aria-label="Delete group ${escapeHtml(g.name)}">×</button>` : ""}
+      </div></th>`;
+  });
+  html += "</tr></thead><tbody>";
+  for (let r = 0; r < rows; r++) {
+    html += `<tr><td class="rowhdr"><span class="rn">${r + 1}</span><button class="delRow" data-r="${r}" title="Delete row ${r + 1}" aria-label="Delete row ${r + 1}">×</button></td>`;
+    grid.forEach((g, gi) => {
+      const v = g.cells[r];
+      html += `<td><input class="cell-input${isBad(v) ? " bad" : ""}" data-g="${gi}" data-r="${r}" value="${escapeHtml(v)}" aria-label="${escapeHtml(g.name)}, row ${r + 1}" inputmode="decimal" /></td>`;
+    });
+    html += "</tr>";
+  }
+  $("dataTable").innerHTML = html + "</tbody>";
+}
+
+function focusCell(g, r) {
+  const el = $("dataTable").querySelector(`.cell-input[data-g="${g}"][data-r="${r}"]`);
+  if (el) { el.focus(); el.select(); }
+}
+
+/* --- all grid events are delegated to the table (one listener each) --- */
+const table = $("dataTable");
+table.addEventListener("focusin", e => {
+  if (e.target.matches(".cell-input, .grp-name")) editSnapshot = snapshot();
+});
+table.addEventListener("change", () => { commitEdit(); editSnapshot = snapshot(); });
+table.addEventListener("input", e => {
+  const t = e.target, gi = +t.dataset.g;
+  if (t.classList.contains("cell-input")) {
+    grid[gi].cells[+t.dataset.r] = t.value;
+    t.classList.toggle("bad", isBad(t.value));
+  } else if (t.classList.contains("grp-name")) {
+    grid[gi].name = t.value;
+  }
+  scheduleSave();
+});
+table.addEventListener("click", e => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  if (b.classList.contains("delRow")) mutate(() => grid.forEach(g => g.cells.splice(+b.dataset.r, 1)));
+  else if (b.classList.contains("delGrp")) mutate(() => grid.splice(+b.dataset.g, 1));
+});
+table.addEventListener("paste", e => {
+  if (e.target.classList.contains("cell-input")) onCellPaste(e, +e.target.dataset.g, +e.target.dataset.r);
+});
+table.addEventListener("keydown", e => {
+  const t = e.target;
+  if (t.classList.contains("grp-name")) {
+    if (e.key === "Enter" || e.key === "ArrowDown") { e.preventDefault(); focusCell(+t.dataset.g, 0); }
+    return;
+  }
+  if (!t.classList.contains("cell-input")) return;
+  const g = +t.dataset.g, r = +t.dataset.r;
+  // ← → leave the cell at the text edge, or when the whole value is selected (just navigated in)
+  const all = t.selectionStart === 0 && t.selectionEnd === t.value.length;
+  const atStart = all || (t.selectionStart === 0 && t.selectionEnd === 0);
+  const atEnd = all || (t.selectionStart === t.value.length && t.selectionEnd === t.value.length);
+  let target = null;
+  if (e.key === "Enter") {
+    target = [g, e.shiftKey ? r - 1 : r + 1];
+    if (!e.shiftKey && r + 1 >= nRows()) { commitEdit(); grid.forEach(gr => gr.cells.push("")); renderGrid(); scheduleSave(); }
+  }
+  else if (e.key === "ArrowDown") target = [g, r + 1];
+  else if (e.key === "ArrowUp") target = [g, r - 1];
+  else if (e.key === "ArrowLeft" && atStart) target = [g - 1, r];
+  else if (e.key === "ArrowRight" && atEnd) target = [g + 1, r];
+  else if (e.key === "Escape") { t.blur(); return; }
+  if (!target) return;
+  e.preventDefault();
+  focusCell(target[0], target[1]);
+});
+
+/* Paste a block copied from Excel/Sheets directly into the grid, starting at
+   the focused cell. Expands rows & groups as needed and detects a leading
+   header row of group names on a paste into the first row. */
+function onCellPaste(e, startG, startR) {
+  const text = (e.clipboardData || window.clipboardData).getData("text");
+  if (!/[\t\n]/.test(text)) return; // single value → let the browser handle it
+  e.preventDefault();
+  let matrix = text.replace(/\r/g, "").replace(/\n+$/, "").split("\n").map(l => l.split("\t"));
+  mutate(() => {
+    const width = Math.max(...matrix.map(r => r.length));
+    while (grid.length < startG + width) grid.push({ name: nextGroupName(), cells: [] });
+    if (startR === 0 && matrix.length > 1 && looksLikeHeader(matrix[0])) {
+      matrix[0].forEach((nm, c) => { if (nm.trim()) grid[startG + c].name = nm.trim(); });
+      matrix = matrix.slice(1);
+    }
+    const need = Math.max(startR + matrix.length, nRows());
+    grid.forEach(g => { while (g.cells.length < need) g.cells.push(""); });
+    matrix.forEach((row, r) => row.forEach((val, c) => { grid[startG + c].cells[startR + r] = String(val).trim(); }));
+  });
+}
+
+function importPaste(text) {
+  const rows = S.parseDelimited(text);
+  if (!rows.length) return;
+  mutate(() => {
+    let names = [], dataRows = rows;
+    if (looksLikeHeader(rows[0])) { names = rows[0]; dataRows = rows.slice(1); }
+    const nCols = Math.max(...rows.map(r => r.length));
+    grid = [];
+    for (let c = 0; c < nCols; c++) grid.push({ name: names[c] || groupLabel(c), cells: dataRows.map(r => r[c] ?? "") });
+    if (!dataRows.length) grid.forEach(g => g.cells.push(""));
+  });
+}
+
+$("undoBtn").onclick = undo;
+$("redoBtn").onclick = redo;
+$("addRowBtn").onclick = () => mutate(() => {
+  if (!grid.length) grid.push({ name: groupLabel(0), cells: [] });
+  grid.forEach(g => g.cells.push(""));
+});
+$("addGroupBtn").onclick = () => mutate(() => grid.push({ name: nextGroupName(), cells: Array(nRows() || DEFAULT_ROWS).fill("") }));
+$("clearBtn").onclick = () => {
+  pushHistory();
+  seedBlank();
+  scheduleSave();
+  $("pasteBox").value = "";
+  clearResults();
+  flash($("clearBtn"), "✓ Cleared — Undo restores");
+};
+$("importBtn").onclick = () => importPaste($("pasteBox").value);
+$("loadDemoBtn").onclick = () => { pushHistory(); seedFromDemo(); scheduleSave(); $("pasteBox").value = ""; run(); };
+
+document.addEventListener("keydown", e => {
+  if (!(e.metaKey || e.ctrlKey) || e.altKey) return;
+  const k = e.key.toLowerCase();
+  if (k !== "z" && k !== "y") return;
+  // inside a text field, let the browser undo the typing itself
+  const a = document.activeElement;
+  if (a && (a.tagName === "TEXTAREA" || (a.tagName === "INPUT" && a.type !== "checkbox" && a.type !== "file"))) return;
+  e.preventDefault();
+  if (k === "y" || e.shiftKey) redo(); else undo();
+});
+
+/* ============================================================
+   COLLECTING DATA
+   ============================================================ */
+function collectGroups() {
+  const bad = [];
+  const groups = grid.map((g, gi) => {
+    const values = [], rows = [];
+    g.cells.forEach((c, r) => {
+      const t = String(c).trim();
+      if (t === "") return;
+      const n = S.parseNum(t);
+      if (isFinite(n)) { values.push(n); rows.push(r); }
+      else bad.push({ t, name: g.name || groupLabel(gi), r });
+    });
+    return { name: g.name.trim() || groupLabel(gi), values, rows };
+  });
+  const warns = bad.slice(0, 5).map(b => `“${b.t}” in ${b.name} (row ${b.r + 1}) is not a number — skipped.`);
+  if (bad.length > 5) warns.push(`…and ${bad.length - 5} more non-numeric cells.`);
+  const decimalComma = bad.some(b => /^[+-]?\d*,\d+$/.test(b.t));
+  return { groups, warns, decimalComma };
+}
+
+/* rows where both groups have a value → matched pairs */
+function pairUp(a, b) {
+  const mb = new Map(b.rows.map((r, i) => [r, b.values[i]]));
+  const x = [], y = [];
+  a.rows.forEach((r, i) => { if (mb.has(r)) { x.push(a.values[i]); y.push(mb.get(r)); } });
+  return { x, y, dropped: a.values.length + b.values.length - 2 * x.length };
+}
+
+function showWarnings(list, decimalComma) {
+  const box = $("parseWarn");
+  if (!list.length) { box.classList.add("hidden"); box.innerHTML = ""; return; }
+  box.innerHTML = list.map(p => "• " + escapeHtml(p)).join("<br>") +
+    (decimalComma ? `<div class="mt-1.5"><button id="fixCommaBtn" class="tb-btn">Convert decimal commas (1,5 → 1.5)</button></div>` : "");
+  box.classList.remove("hidden");
+  if (decimalComma) $("fixCommaBtn").onclick = () => {
+    mutate(() => grid.forEach(g => { g.cells = g.cells.map(c => /^\s*[+-]?\d*,\d+\s*$/.test(c) ? c.trim().replace(",", ".") : c); }));
+    run();
+  };
+}
+
+/* ============================================================
+   CONTROLLER
+   ============================================================ */
+const TWO_GROUP = new Set(["ttest", "mwu", "paired", "wilcoxon"]);
+function syncTestOptions() {
+  const t = $("testSelect").value;
+  $("opt_ttest").classList.toggle("hidden", t !== "ttest");
+  $("opt_anova").classList.toggle("hidden", t !== "anova");
+  $("opt_kruskal").classList.toggle("hidden", t !== "kruskal");
+}
+// analysis options: re-run immediately if results are already on screen
+["testSelect", "posthocSelect", "dunnAdj", "welchChk"].forEach(id => $(id).addEventListener("change", () => {
+  syncTestOptions(); scheduleSave();
+  if (lastReport) run();
+}));
+// graph options: restyle the existing figure without recomputing statistics
+["chartType", "errType", "themeSelect", "sigLabel"].forEach(id => $(id).addEventListener("change", () => { scheduleSave(); redraw(); }));
+["xLabel", "yLabel", "dotSize"].forEach(id => $(id).addEventListener("input", () => { scheduleSave(); redraw(); }));
+const redraw = () => { if (lastPlot) drawPlot(lastPlot); };
+
+$("runBtn").onclick = run;
+function run() {
+  const { groups: raw, warns, decimalComma } = collectGroups();
+  let groups = raw.filter(g => g.values.length > 0);
+  const test = $("testSelect").value;
+  const problems = [...warns];
+
+  if (groups.length < 2) problems.push("Need at least 2 non-empty groups to run a test.");
+  else if (TWO_GROUP.has(test) && groups.length > 2) {
+    problems.push(`This test compares 2 groups — using “${groups[0].name}” and “${groups[1].name}”.`);
+    groups = groups.slice(0, 2);
+  }
+  if (groups.length < 2) { showWarnings(problems, decimalComma); clearResults(); return; }
+
+  const btn = $("runBtn"); btn.disabled = true; btn.textContent = "Analyzing…";
+  setTimeout(() => {   // let the button repaint before a potentially slow post-hoc
+    try {
+      const res = ANALYSES[test](groups, problems);
+      showWarnings(problems, decimalComma);
+      if (!res) { clearResults(); return; }
+      lastReport = res.report;
+      verdictBox(res.verdict.sig, res.verdict.html);
+      $("report").innerHTML = reportHtml(res.report);
+      drawPlot(res.plot);
+    } catch (err) {
+      showWarnings(problems, decimalComma);
+      $("report").innerHTML = `<div class="text-red-400 text-sm">Error: ${escapeHtml(err.message)}</div>`;
+      console.error(err);
+    } finally { btn.disabled = false; btn.textContent = "Analyze ▸"; }
+  }, 20);
+}
+
+function clearResults() {
+  $("verdict").innerHTML = "";
+  $("report").innerHTML = "";
+  lastReport = null; lastPlot = null;
+  try { Plotly.purge("plot"); } catch (e) { /* nothing drawn yet */ }
+}
+
+/* ============================================================
+   REPORT MODEL
+   A report is { test, sections: [{ title, note?, head?, rows, extra? }] }.
+   Cells are plain strings, or { sig: p } for a significance pill, or { b: text } for bold.
+   The same model renders the on-screen tables and the copied TSV, so they can't drift.
+   `extra` rows are included in the TSV but tucked behind "more" on screen.
+   ============================================================ */
+const sigCell = (p) => ({ sig: p });
+const bold = (t) => ({ b: t });
+const cellText = (c) => (c && typeof c === "object") ? ("sig" in c ? starsFor(c.sig) : c.b) : String(c);
+function cellHtml(c) {
+  if (c && typeof c === "object") {
+    if ("sig" in c) return `<span class="pill ${c.sig < 0.05 ? "bg-emerald-500/15 text-emerald-300" : "bg-neutral-700 text-neutral-300"}">${starsFor(c.sig)}</span>`;
+    return `<b>${escapeHtml(c.b)}</b>`;
+  }
+  return escapeHtml(c);
+}
+function tableHtml(head, rows, kv) {
+  let h = `<table class="stat-table">`;
+  if (head) h += `<thead><tr>${head.map((x, i) => `<th${i ? ' class="num"' : ""}>${escapeHtml(x)}</th>`).join("")}</tr></thead>`;
+  h += "<tbody>" + rows.map(r => `<tr>${r.map((c, i) => `<td class="${i ? "num" : (kv ? "font-medium w-1/2" : "")}">${cellHtml(c)}</td>`).join("")}</tr>`).join("") + "</tbody></table>";
+  return h;
+}
+function reportHtml(rep) {
+  return rep.sections.map(s => {
+    let h = `<div><h3 class="h3">${escapeHtml(s.title)}${s.note ? ` <span class="text-xs font-normal text-neutral-400">${escapeHtml(s.note)}</span>` : ""}</h3>`;
+    h += tableHtml(s.head, s.rows, !s.head);
+    if (s.extra && s.extra.length) {
+      h += `<details class="mt-1"><summary class="text-xs text-neutral-400 hover:text-neutral-200">More…</summary><div class="mt-1">${tableHtml(s.head, s.extra, !s.head)}</div></details>`;
+    }
+    if (s.hint) h += `<p class="mt-1 text-xs text-amber-300">${escapeHtml(s.hint)}</p>`;
+    return h + "</div>";
+  }).join("");
+}
+function reportTSV(rep) {
+  const lines = ["Statistics report\t" + rep.test, ""];
+  rep.sections.forEach(s => {
+    lines.push(s.title + (s.note ? " " + s.note : ""));
+    if (s.head) lines.push(s.head.join("\t"));
+    [...s.rows, ...(s.extra || [])].forEach(r => lines.push(r.map(cellText).join("\t")));
+    if (s.hint) lines.push(s.hint);
+    lines.push("");
+  });
+  return lines.join("\n");
+}
+
+function verdictBox(yes, html) {
+  const cls = yes ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-300" : "bg-neutral-800 border-neutral-700 text-neutral-300";
+  $("verdict").innerHTML = `<div class="border ${cls} rounded-lg px-4 py-3 text-sm font-medium">${html}</div>`;
+}
+
+/* ---- shared sections ---- */
+function descSection(names, descs) {
+  return {
+    title: "Descriptive statistics", head: ["Statistic", ...names],
+    rows: [
+      ["N", ...descs.map(d => String(d.n))],
+      ["Mean", ...descs.map(d => fmt(d.mean))],
+      ["Std. Deviation", ...descs.map(d => fmt(d.sd))],
+      ["Std. Error (SEM)", ...descs.map(d => fmt(d.sem))],
+      ["Median", ...descs.map(d => fmt(d.median))],
+    ],
+    extra: [
+      ["95% CI of mean", ...descs.map(d => `${fmt(d.ciLo)} to ${fmt(d.ciHi)}`)],
+      ["Variance", ...descs.map(d => fmt(d.variance))],
+      ["Minimum", ...descs.map(d => fmt(d.min))],
+      ["Maximum", ...descs.map(d => fmt(d.max))],
+      ["25% percentile (Q1)", ...descs.map(d => fmt(d.q1))],
+      ["75% percentile (Q3)", ...descs.map(d => fmt(d.q3))],
+      ["IQR", ...descs.map(d => fmt(d.iqr))],
+    ],
+  };
+}
+
+/* Normality (Shapiro–Wilk) for each sample, plus Brown–Forsythe when given
+   independent groups. `parametric` decides whether failures produce a hint. */
+function assumptionSection(samples, { variance, parametric, welch }) {
+  const rows = [];
+  let nonNormal = false, unequal = false;
+  samples.forEach(s => {
+    const sw = S.shapiroWilk(s.values);
+    if (!sw) rows.push([`Normality (Shapiro–Wilk): ${s.name}`, "—", "—", s.values.length < 3 ? "n < 3, not tested" : "not tested"]);
+    else {
+      if (sw.p < 0.05) nonNormal = true;
+      rows.push([`Normality (Shapiro–Wilk): ${s.name}`, "W = " + fmt(sw.W), fmtP(sw.p), sw.p < 0.05 ? "Not normal" : "Passed"]);
+    }
+  });
+  if (variance && samples.every(s => s.values.length >= 2)) {
+    const bf = S.brownForsythe(samples.map(s => s.values));
+    if (bf.p < 0.05) unequal = true;
+    rows.push(["Equal variances (Brown–Forsythe)", `F(${bf.df1}, ${bf.df2}) = ${fmt(bf.F, 3)}`, fmtP(bf.p), bf.p < 0.05 ? "Unequal" : "Passed"]);
+  }
+  const hints = [];
+  if (parametric && nonNormal) hints.push("Normality is doubtful — consider the non-parametric alternative (especially with small n).");
+  if (parametric && unequal && !welch) hints.push(welch === false ? "Variances differ — consider Welch's correction." : "Variances differ — interpret with care.");
+  return { title: "Assumption checks", head: ["Check", "Statistic", "P", "Result"], rows, hint: hints.join(" ") || undefined };
+}
+
+const twoNames = (a, b) => `${a.name} − ${b.name}`;
+const ciText = (ci) => ci ? `${fmt(ci[0])} to ${fmt(ci[1])}` : "—";
+
+/* ============================================================
+   ANALYSES  —  each returns { verdict, report, plot } (or null)
+   ============================================================ */
+const ANALYSES = {
+  ttest(groups, problems) {
+    const [a, b] = groups;
+    const welch = $("welchChk").checked;
+    if (a.values.length < 2 || b.values.length < 2) { problems.push("Each group needs at least 2 values for a t-test."); return null; }
+    const r = S.tTest(a.values, b.values, welch);
+    const name = `${welch ? "Welch's" : "Student's"} unpaired t-test`;
+    return {
+      verdict: { sig: r.p < 0.05, html: `Are the means significantly different? <b>${r.p < 0.05 ? "Yes" : "No"}</b> (${name}, <i>P</i> ${pRel(r.p)}, ${starsFor(r.p)}).` },
+      report: { test: name, sections: [
+        descSection([a.name, b.name], [r.A, r.B]),
+        { title: name, rows: [
+          [`Mean difference (${twoNames(a, b)})`, fmt(r.diff)],
+          ["95% CI of difference", ciText(r.ci)],
+          ["t", fmt(r.t)], ["df", fmt(r.df, 2)],
+          ["P value (two-tailed)", bold(fmtP(r.p))],
+          ["Significance", sigCell(r.p)],
+        ], extra: [["Std. error of difference", fmt(r.se)]] },
+        { title: "Effect size", rows: [["Cohen's d", fmt(r.d, 3)], ["Hedges' g", fmt(r.g, 3)]] },
+        assumptionSection(groups, { variance: true, parametric: true, welch }),
+      ] },
+      plot: { groups, mode: "two", p: r.p },
+    };
+  },
+
+  paired(groups, problems) {
+    const [a, b] = groups;
+    const pr = pairUp(a, b);
+    if (pr.dropped) problems.push(`${pr.dropped} value(s) without a partner in the same row were excluded from the paired analysis.`);
+    if (pr.x.length < 2) { problems.push("A paired test needs at least 2 rows with values in both groups."); return null; }
+    const r = S.pairedTTest(pr.x, pr.y);
+    const pg = [{ name: a.name, values: pr.x }, { name: b.name, values: pr.y }];
+    return {
+      verdict: { sig: r.p < 0.05, html: `Is the mean difference significantly different from zero? <b>${r.p < 0.05 ? "Yes" : "No"}</b> (paired t-test, <i>P</i> ${pRel(r.p)}, ${starsFor(r.p)}).` },
+      report: { test: "Paired t-test", sections: [
+        descSection([a.name, b.name], [r.A, r.B]),
+        { title: "Paired t-test", rows: [
+          ["Number of pairs", String(r.n)],
+          [`Mean of differences (${twoNames(a, b)})`, fmt(r.diff)],
+          ["95% CI of mean difference", ciText(r.ci)],
+          ["SD of differences", fmt(r.D.sd)],
+          ["t", fmt(r.t)], ["df", String(r.df)],
+          ["P value (two-tailed)", bold(fmtP(r.p))],
+          ["Significance", sigCell(r.p)],
+        ], extra: [["Std. error of mean difference", fmt(r.se)]] },
+        { title: "Effect size", rows: [["Cohen's dz (mean diff / SD of diffs)", fmt(r.dz, 3)]] },
+        assumptionSection([{ name: "differences", values: pr.x.map((x, i) => x - pr.y[i]) }], { variance: false, parametric: true }),
+      ] },
+      plot: { groups: pg, mode: "two", p: r.p, paired: true },
+    };
+  },
+
+  mwu(groups) {
+    const [a, b] = groups;
+    const r = S.mannWhitney(a.values, b.values);
+    return {
+      verdict: { sig: r.p < 0.05, html: `Are the distributions significantly different? <b>${r.p < 0.05 ? "Yes" : "No"}</b> (Mann–Whitney U, <i>P</i> ${pRel(r.p)}, ${starsFor(r.p)}).` },
+      report: { test: "Mann-Whitney U", sections: [
+        descSection([a.name, b.name], [r.A, r.B]),
+        { title: "Mann–Whitney U / Wilcoxon rank-sum", rows: [
+          ["U statistic", fmt(r.U, 1)],
+          ["P value method", r.exact ? "Exact" : "Normal approx. (tie & continuity corrected)"],
+          ...(r.exact ? [] : [["Z", fmt(r.z)]]),
+          ["P value (two-tailed)", bold(fmtP(r.p))],
+          ["Significance", sigCell(r.p)],
+        ], extra: [
+          [`Sum of ranks (${a.name})`, fmt(r.R1, 1)], [`U (${a.name})`, fmt(r.U1, 1)], [`U (${b.name})`, fmt(r.U2, 1)],
+        ] },
+        { title: "Effect size", rows: [[`Rank-biserial r (+ ⇒ ${a.name} larger)`, fmt(r.r, 3)]] },
+        assumptionSection(groups, { variance: false, parametric: false }),
+      ] },
+      plot: { groups, mode: "two", p: r.p },
+    };
+  },
+
+  wilcoxon(groups, problems) {
+    const [a, b] = groups;
+    const pr = pairUp(a, b);
+    if (pr.dropped) problems.push(`${pr.dropped} value(s) without a partner in the same row were excluded from the paired analysis.`);
+    if (pr.x.length < 1) { problems.push("A paired test needs rows with values in both groups."); return null; }
+    const r = S.wilcoxonSignedRank(pr.x, pr.y);
+    if (r.zeros) problems.push(`${r.zeros} pair(s) with zero difference were dropped (Wilcoxon's method).`);
+    const pg = [{ name: a.name, values: pr.x }, { name: b.name, values: pr.y }];
+    return {
+      verdict: { sig: r.p < 0.05, html: `Is the median difference significantly different from zero? <b>${r.p < 0.05 ? "Yes" : "No"}</b> (Wilcoxon signed-rank, <i>P</i> ${pRel(r.p)}, ${starsFor(r.p)}).` },
+      report: { test: "Wilcoxon signed-rank", sections: [
+        descSection([a.name, b.name], [r.A, r.B]),
+        { title: "Wilcoxon matched-pairs signed-rank test", rows: [
+          ["Number of pairs (non-zero)", `${r.nPairs} (${r.n})`],
+          [`Median of differences (${twoNames(a, b)})`, fmt(r.D.median)],
+          ["W+ (sum of positive ranks)", fmt(r.Wplus, 1)],
+          ["W− (sum of negative ranks)", fmt(r.Wminus, 1)],
+          ["P value method", r.exact ? "Exact" : "Normal approx. (tie & continuity corrected)"],
+          ...(r.exact ? [] : [["Z", fmt(r.z)]]),
+          ["P value (two-tailed)", bold(fmtP(r.p))],
+          ["Significance", sigCell(r.p)],
+        ] },
+        { title: "Effect size", rows: [["Matched-pairs rank-biserial r", fmt(r.r, 3)]] },
+      ] },
+      plot: { groups: pg, mode: "two", p: r.p, paired: true },
+    };
+  },
+
+  anova(groups, problems) {
+    const vals = groups.map(g => g.values);
+    const av = S.anova(vals);
+    if (!(av.dfW >= 1) || !(av.msW > 0)) { problems.push("ANOVA needs replicate values with some within-group variation."); return null; }
+    if (groups.some(g => g.values.length < 2)) problems.push("Some groups have only 1 value — their SD/SEM are undefined.");
+    const method = $("posthocSelect").value;
+    const pairs = S.anovaPosthoc(av, method);
+    const names = groups.map(g => g.name);
+    const METHOD_NAMES = { tukey: "Tukey's HSD", bonferroni: "Bonferroni", holm: "Holm", dunnett: `Dunnett (vs. ${names[0]})` };
+    const sections = [
+      descSection(names, av.desc),
+      { title: "One-way ANOVA", head: ["Source", "SS", "df", "MS", "F", "P"], rows: [
+        ["Between groups", fmt(av.ssB), String(av.dfB), fmt(av.msB), fmt(av.F, 3), bold(fmtP(av.p))],
+        ["Within groups", fmt(av.ssW), String(av.dfW), fmt(av.msW), "—", "—"],
+        ["Total", fmt(av.ssT), String(av.dfB + av.dfW), "—", "—", "—"],
+      ] },
+      { title: "Effect size", rows: [["η² (eta squared)", fmt(av.eta2, 3)], ["ω² (omega squared)", fmt(av.omega2, 3)]] },
+      posthocSection(`Post-hoc comparisons — ${METHOD_NAMES[method]}`, pairs, names, "Mean diff.", method !== "holm"),
+    ];
+    let plot;
+    if (method === "dunnett") plot = { groups, mode: "control", ps: [null, ...pairs.map(p => p.p)] };
+    else {
+      const letters = S.compactLetters(av.k, pairs, av.desc.map(d => d.mean));
+      sections.push(cldSection(names, av.desc.map(d => fmt(d.mean)), "Mean", letters));
+      plot = { groups, mode: "letters", letters };
+    }
+    sections.push(assumptionSection(groups, { variance: true, parametric: true }));
+    return {
+      verdict: { sig: av.p < 0.05, html: `Is there a significant difference among the ${av.k} group means? <b>${av.p < 0.05 ? "Yes" : "No"}</b> (One-way ANOVA, F(${av.dfB}, ${av.dfW}) = ${fmt(av.F, 3)}, <i>P</i> ${pRel(av.p)}).` },
+      report: { test: "One-way ANOVA", sections },
+      plot,
+    };
+  },
+
+  kruskal(groups) {
+    const kw = S.kruskalWallis(groups.map(g => g.values));
+    const adj = $("dunnAdj").value;
+    const pairs = S.dunnTest(kw, adj);
+    const names = groups.map(g => g.name);
+    const letters = S.compactLetters(kw.k, pairs, kw.meanRanks);
+    return {
+      verdict: { sig: kw.p < 0.05, html: `Is there a significant difference among the ${kw.k} groups? <b>${kw.p < 0.05 ? "Yes" : "No"}</b> (Kruskal–Wallis, H(${kw.df}) = ${fmt(kw.H, 3)}, <i>P</i> ${pRel(kw.p)}).` },
+      report: { test: "Kruskal-Wallis", sections: [
+        descSection(names, kw.desc),
+        { title: "Kruskal–Wallis test", rows: [
+          ["H (tie-corrected)", fmt(kw.H, 3)], ["df", String(kw.df)],
+          ["P value (χ² approx.)", bold(fmtP(kw.p))], ["Significance", sigCell(kw.p)],
+          ["ε² (epsilon squared)", fmt(kw.eps2, 3)],
+        ] },
+        posthocSection(`Dunn's multiple comparisons — ${adj === "holm" ? "Holm" : "Bonferroni"} adjusted`, pairs, names, "Mean rank diff.", false),
+        cldSection(names, kw.meanRanks.map(m => fmt(m, 2)), "Mean rank", letters),
+      ] },
+      plot: { groups, mode: "letters", letters },
+    };
+  },
+};
+
+function posthocSection(title, pairs, names, diffLabel, withCI) {
+  const head = ["Comparison", diffLabel, ...(withCI ? ["95% CI (simultaneous)"] : []), "Adj. P", "Sig."];
+  const rows = pairs.map(pr => [
+    `${names[pr.i]} vs ${names[pr.j]}`, fmt(pr.diff), ...(withCI ? [ciText(pr.ci)] : []), fmtP(pr.p), sigCell(pr.p),
+  ]);
+  return { title, head, rows };
+}
+function cldSection(names, stat, statLabel, letters) {
+  return { title: "Compact letter display", note: "(groups sharing a letter are not significantly different)",
+           head: ["Group", statLabel, "Letters"], rows: names.map((n, i) => [n, stat[i], bold(letters[i])]) };
+}
+
+/* ============================================================
+   PLOTTING
+   spec: { groups:[{name, values}], mode: "two"|"letters"|"control",
+           p?, letters?, ps? (per-group P vs control), paired? }
+   ============================================================ */
+/* small deterministic PRNG so jitter is identical on every redraw/export */
+function mulberry32(a) {
+  return function () {
+    a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function drawPlot(spec) {
+  lastPlot = spec;
+  const { groups } = spec;
+  const theme = THEMES[$("themeSelect").value] || THEMES.prism;
+  const errType = $("errType").value;
+  const chartType = $("chartType").value;
+  const dotSize = Math.max(2, parseInt($("dotSize").value, 10) || 6);
+  const descs = groups.map(g => S.describe(g.values));
+  const xIdx = groups.map((_, i) => i);
+  const names = groups.map(g => g.name);
+  const axisFont = { size: 14, family: "Arial, Helvetica, sans-serif" };
+  // error-bar half-width; NaN (e.g. n = 1) → no bar, never poisons the axis range
+  const errOf = (d) => {
+    const e = errType === "sd" ? d.sd : errType === "ci" ? d.ciHi - d.mean : d.sem;
+    return Number.isFinite(e) ? e : 0;
+  };
+
+  const traces = [];
+  const layout = {
+    paper_bgcolor: theme.paper, plot_bgcolor: theme.paper,
+    font: { color: theme.font, family: "Arial, Helvetica, sans-serif", size: 13 },
+    showlegend: false, margin: { t: 36, r: 20, b: 55, l: 60 },
+    xaxis: { title: { text: $("xLabel").value, font: axisFont }, tickvals: xIdx, ticktext: names.map(escapeHtml),
+             range: [-0.7, groups.length - 0.3], zeroline: false, showgrid: false,
+             showline: true, mirror: true, linecolor: theme.line, linewidth: 1.5, ticks: "" },
+    yaxis: { title: { text: $("yLabel").value, font: axisFont }, zeroline: false,
+             gridcolor: GRIDCOL, showline: true, mirror: true, linecolor: theme.line, linewidth: 1.5, ticks: "" },
+    annotations: [], shapes: [],
+  };
+
+  // top of each group's drawn elements (bar + error bar, whisker, and raw points)
+  const tops = groups.map((g, i) => Math.max(...g.values, chartType === "bar" ? descs[i].mean + errOf(descs[i]) : -Infinity));
+  let yMax = Math.max(...tops);
+  let yMin = Math.min(...groups.map((g, i) => Math.min(...g.values, chartType === "bar" ? descs[i].mean - errOf(descs[i]) : Infinity)));
+
+  if (chartType === "bar") {
+    traces.push({
+      type: "bar", x: xIdx, y: descs.map(d => d.mean),
+      marker: { color: names.map((_, i) => theme.colors[i % theme.colors.length]), line: { color: theme.markerLine, width: 1.5 } },
+      width: 0.6,
+      error_y: { type: "data", array: descs.map(errOf), visible: true, color: theme.line, thickness: 1.6, width: 6 },
+      customdata: names.map(escapeHtml),
+      hovertemplate: "%{customdata}<br>mean %{y:.3f}<extra></extra>",
+    });
+  } else {
+    groups.forEach((g, i) => {
+      traces.push({
+        type: "box", y: g.values, x: g.values.map(() => i),
+        name: escapeHtml(g.name), boxpoints: false, width: 0.5,
+        line: { color: theme.markerLine, width: 1.5 },
+        fillcolor: theme.colors[i % theme.colors.length],
+        marker: { color: theme.colors[i % theme.colors.length] },
+        hoverinfo: "y",
+      });
+    });
+  }
+
+  // raw points — deterministic jitter (or exact x with connecting lines for paired data)
+  if (spec.paired) {
+    const [a, b] = groups;
+    const xs = [], ys = [];
+    a.values.forEach((v, j) => { xs.push(0, 1, null); ys.push(v, b.values[j], null); });
+    traces.push({ type: "scatter", mode: "lines", x: xs, y: ys, line: { color: "rgba(0,0,0,0.35)", width: 1 }, hoverinfo: "skip" });
+  }
+  groups.forEach((g, i) => {
+    const rnd = mulberry32(1009 * (i + 1));
+    traces.push({
+      type: "scatter", mode: "markers",
+      x: g.values.map(() => spec.paired ? i : i + (rnd() - 0.5) * 0.28),
+      y: g.values,
+      marker: { color: "rgba(0,0,0,0)", size: dotSize, line: { color: "#000000", width: 1 } },
+      text: g.values.map(() => escapeHtml(g.name)),
+      hovertemplate: "%{text}<br>%{y:.3f}<extra></extra>",
+      showlegend: false,
+    });
+  });
+
+  const span = (yMax - yMin) || Math.abs(yMax) || 1;
+  // Adaptive top padding so significance brackets / letters never overflow the frame.
+  const sigPad = spec.mode === "two" ? 0.28 : 0.16;
+  const lower = chartType === "bar" ? Math.min(0, yMin - span * 0.05) : yMin - span * 0.05;  // bars start at 0; boxes hug the data
+  layout.yaxis.range = [lower, Math.max(yMax + span * sigPad, chartType === "bar" ? 0 : -Infinity)];
+
+  const sigText = (p) => $("sigLabel").value === "pval" ? ("<i>P</i> " + pRel(p)) : starsFor(p);
+  if (spec.mode === "letters") {
+    tops.forEach((top, i) => layout.annotations.push({
+      x: i, y: top + span * 0.04, text: "<b>" + escapeHtml(spec.letters[i]) + "</b>",
+      showarrow: false, font: { size: 15, color: theme.font }, yanchor: "bottom",
+    }));
+  } else if (spec.mode === "control") {
+    tops.forEach((top, i) => {
+      if (i === 0) return;
+      layout.annotations.push({ x: i, y: top + span * 0.04, text: sigText(spec.ps[i]), showarrow: false,
+                                font: { size: 13, color: theme.font }, yanchor: "bottom" });
+    });
+  } else if (spec.mode === "two") {
+    const yBar = yMax + span * 0.12, yLeg = yMax + span * 0.03;
+    const line = { color: theme.line, width: 1.4 };
+    layout.shapes.push(
+      { type: "line", x0: 0, x1: 0, y0: yLeg, y1: yBar, line },
+      { type: "line", x0: 1, x1: 1, y0: yLeg, y1: yBar, line },
+      { type: "line", x0: 0, x1: 1, y0: yBar, y1: yBar, line },
+    );
+    layout.annotations.push({ x: 0.5, y: yBar, text: sigText(spec.p), showarrow: false, yanchor: "bottom", font: { size: 14, color: theme.font } });
+  }
+
+  setPlotBox();
+  Plotly.newPlot("plot", traces, layout, { responsive: true, displayModeBar: false });
+}
+
+/* user-set width/height of the plot (blank width = full width) */
+function plotSize() {
+  const w = parseInt($("plotW").value, 10), h = parseInt($("plotH").value, 10);
+  return { w: Number.isFinite(w) && w > 0 ? w : null, h: Number.isFinite(h) && h > 0 ? h : 400 };
+}
+function setPlotBox() {
+  const el = $("plot"), { w, h } = plotSize();
+  el.style.width = w ? w + "px" : "100%";
+  el.style.height = h + "px";
+  return el;
+}
+["plotW", "plotH"].forEach(id => $(id).addEventListener("input", () => {
+  scheduleSave();
+  const el = setPlotBox();
+  if (el.data) Plotly.Plots.resize(el); // live resize without recomputing stats
+}));
+
+/* ============================================================
+   EXPORT
+   ============================================================ */
+$("copyStats").onclick = async () => {
+  if (!lastReport) { flash($("copyStats"), "Run a test first"); return; }
+  try { await navigator.clipboard.writeText(reportTSV(lastReport)); flash($("copyStats"), "✓ Copied"); }
+  catch { flash($("copyStats"), "Copy failed"); }
+};
+$("resetGraph").onclick = () => {
+  Object.entries(GRAPH_DEFAULTS).forEach(([id, val]) => { $(id).value = val; });
+  scheduleSave();
+  if (lastPlot) drawPlot(lastPlot); // redraw at default options (also clears any zoom/pan)
+  flash($("resetGraph"), "↺ Reset ✓");
+};
+
+// Exports keep the on-screen aspect ratio; PNG is rendered at 5× for print resolution.
+function downloadPlot(format, btn) {
+  if (!lastPlot) { flash(btn, "Run a test first"); return; }
+  const el = $("plot");
+  const w = plotSize().w || el.clientWidth || 700, h = plotSize().h;
+  Plotly.downloadImage("plot", { format, width: w, height: h, scale: format === "png" ? 5 : 1, filename: "graph" });
+}
+$("dlPng").onclick = () => downloadPlot("png", $("dlPng"));
+$("dlSvg").onclick = () => downloadPlot("svg", $("dlSvg"));
+
+/* ============================================================
+   SESSION EXPORT / IMPORT  (.jgz = gzip-compressed JSON)
+   ============================================================ */
+async function exportJH() {
+  const payload = JSON.stringify({ app: "ministat", v: 3, savedAt: new Date().toISOString(), grid, settings: collectSettings(),
+                                   report: lastReport ? reportTSV(lastReport) : "" });
+  let blob;
+  if (typeof CompressionStream !== "undefined") {
+    const stream = new Blob([payload]).stream().pipeThrough(new CompressionStream("gzip"));
+    blob = await new Response(stream).blob();
+  } else {
+    blob = new Blob([payload], { type: "application/octet-stream" }); // uncompressed fallback
+  }
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "analysis-" + new Date().toISOString().slice(0, 10) + ".jgz";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+async function readJH(file) {
+  const buf = await file.arrayBuffer();
+  if (typeof DecompressionStream !== "undefined") {
+    try {
+      const stream = new Blob([buf]).stream().pipeThrough(new DecompressionStream("gzip"));
+      return JSON.parse(await new Response(stream).text());
+    } catch (e) { /* not gzip → fall through to plain */ }
+  }
+  return JSON.parse(new TextDecoder().decode(buf)); // uncompressed fallback
+}
+
+$("exportBtn").onclick = () => exportJH().then(() => flash($("exportBtn"), "✓ Saved")).catch(err => alert("Export failed: " + err.message));
+
+$("importJH").onchange = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  try {
+    const data = await readJH(file);
+    if (!data || !Array.isArray(data.grid)) throw new Error("not a valid .jgz analysis file");
+    pushHistory();
+    grid = sanitizeGrid(data.grid);
+    renderGrid();
+    applySettings(data.settings);
+    scheduleSave();
+    run(); // re-runs analysis so results table + graph appear immediately
+    flash($("importLabel"), "✓ Loaded");
+  } catch (err) {
+    alert("Could not import this file: " + err.message);
+  }
+  e.target.value = ""; // reset so the same file can be re-imported
+};
+
+function flash(btn, msg) {
+  if (btn._flashTimer) clearTimeout(btn._flashTimer); else btn._flashOrig = btn.textContent;
+  btn.textContent = msg;
+  btn._flashTimer = setTimeout(() => { btn.textContent = btn._flashOrig; btn._flashTimer = null; }, 1400);
+}
+function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+
+/* ============================================================
+   INIT — restore the last session, or show the demo on a first visit
+   ============================================================ */
+(function init() {
+  const saved = loadSaved();
+  if (saved && Array.isArray(saved.grid) && saved.grid.length) {
+    grid = sanitizeGrid(saved.grid);
+    applySettings(saved.settings);
+    renderGrid();
+    if (collectGroups().groups.filter(g => g.values.length).length >= 2) run();
+  } else {
+    syncTestOptions();
+    seedFromDemo();
+    run();
+  }
+  updateHistoryButtons();
+})();
+</script>
 </body>
 </html>
