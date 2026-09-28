@@ -6,1264 +6,54 @@
 <meta name="description" content="Free in-browser statistics and scientific graphing: t-tests, Mann–Whitney, Wilcoxon, ANOVA, Kruskal–Wallis, post-hoc tests and publication-ready plots." />
 <title>ministat — Statistics &amp; Scientific Graphing</title>
 <style>
-/* Tailwind source — build with `npm run build:css` → styles.css (committed, served by GitHub Pages) */
-
-*, ::before, ::after {
-  --tw-border-spacing-x: 0;
-  --tw-border-spacing-y: 0;
-  --tw-translate-x: 0;
-  --tw-translate-y: 0;
-  --tw-rotate: 0;
-  --tw-skew-x: 0;
-  --tw-skew-y: 0;
-  --tw-scale-x: 1;
-  --tw-scale-y: 1;
-  --tw-pan-x:  ;
-  --tw-pan-y:  ;
-  --tw-pinch-zoom:  ;
-  --tw-scroll-snap-strictness: proximity;
-  --tw-gradient-from-position:  ;
-  --tw-gradient-via-position:  ;
-  --tw-gradient-to-position:  ;
-  --tw-ordinal:  ;
-  --tw-slashed-zero:  ;
-  --tw-numeric-figure:  ;
-  --tw-numeric-spacing:  ;
-  --tw-numeric-fraction:  ;
-  --tw-ring-inset:  ;
-  --tw-ring-offset-width: 0px;
-  --tw-ring-offset-color: #fff;
-  --tw-ring-color: rgb(59 130 246 / 0.5);
-  --tw-ring-offset-shadow: 0 0 #0000;
-  --tw-ring-shadow: 0 0 #0000;
-  --tw-shadow: 0 0 #0000;
-  --tw-shadow-colored: 0 0 #0000;
-  --tw-blur:  ;
-  --tw-brightness:  ;
-  --tw-contrast:  ;
-  --tw-grayscale:  ;
-  --tw-hue-rotate:  ;
-  --tw-invert:  ;
-  --tw-saturate:  ;
-  --tw-sepia:  ;
-  --tw-drop-shadow:  ;
-  --tw-backdrop-blur:  ;
-  --tw-backdrop-brightness:  ;
-  --tw-backdrop-contrast:  ;
-  --tw-backdrop-grayscale:  ;
-  --tw-backdrop-hue-rotate:  ;
-  --tw-backdrop-invert:  ;
-  --tw-backdrop-opacity:  ;
-  --tw-backdrop-saturate:  ;
-  --tw-backdrop-sepia:  ;
-  --tw-contain-size:  ;
-  --tw-contain-layout:  ;
-  --tw-contain-paint:  ;
-  --tw-contain-style:  ;
-}
-
-::backdrop {
-  --tw-border-spacing-x: 0;
-  --tw-border-spacing-y: 0;
-  --tw-translate-x: 0;
-  --tw-translate-y: 0;
-  --tw-rotate: 0;
-  --tw-skew-x: 0;
-  --tw-skew-y: 0;
-  --tw-scale-x: 1;
-  --tw-scale-y: 1;
-  --tw-pan-x:  ;
-  --tw-pan-y:  ;
-  --tw-pinch-zoom:  ;
-  --tw-scroll-snap-strictness: proximity;
-  --tw-gradient-from-position:  ;
-  --tw-gradient-via-position:  ;
-  --tw-gradient-to-position:  ;
-  --tw-ordinal:  ;
-  --tw-slashed-zero:  ;
-  --tw-numeric-figure:  ;
-  --tw-numeric-spacing:  ;
-  --tw-numeric-fraction:  ;
-  --tw-ring-inset:  ;
-  --tw-ring-offset-width: 0px;
-  --tw-ring-offset-color: #fff;
-  --tw-ring-color: rgb(59 130 246 / 0.5);
-  --tw-ring-offset-shadow: 0 0 #0000;
-  --tw-ring-shadow: 0 0 #0000;
-  --tw-shadow: 0 0 #0000;
-  --tw-shadow-colored: 0 0 #0000;
-  --tw-blur:  ;
-  --tw-brightness:  ;
-  --tw-contrast:  ;
-  --tw-grayscale:  ;
-  --tw-hue-rotate:  ;
-  --tw-invert:  ;
-  --tw-saturate:  ;
-  --tw-sepia:  ;
-  --tw-drop-shadow:  ;
-  --tw-backdrop-blur:  ;
-  --tw-backdrop-brightness:  ;
-  --tw-backdrop-contrast:  ;
-  --tw-backdrop-grayscale:  ;
-  --tw-backdrop-hue-rotate:  ;
-  --tw-backdrop-invert:  ;
-  --tw-backdrop-opacity:  ;
-  --tw-backdrop-saturate:  ;
-  --tw-backdrop-sepia:  ;
-  --tw-contain-size:  ;
-  --tw-contain-layout:  ;
-  --tw-contain-paint:  ;
-  --tw-contain-style:  ;
-}
-
-/* ! tailwindcss v3.4.19 | MIT License | https://tailwindcss.com */
-
-/*
-1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
-2. Allow adding a border to an element by just adding a border-width. (https://github.com/tailwindcss/tailwindcss/pull/116)
-*/
-
-*,
-::before,
-::after {
-  box-sizing: border-box;
-  /* 1 */
-  border-width: 0;
-  /* 2 */
-  border-style: solid;
-  /* 2 */
-  border-color: #e5e7eb;
-  /* 2 */
-}
-
-::before,
-::after {
-  --tw-content: '';
-}
-
-/*
-1. Use a consistent sensible line-height in all browsers.
-2. Prevent adjustments of font size after orientation changes in iOS.
-3. Use a more readable tab size.
-4. Use the user's configured `sans` font-family by default.
-5. Use the user's configured `sans` font-feature-settings by default.
-6. Use the user's configured `sans` font-variation-settings by default.
-7. Disable tap highlights on iOS
-*/
-
-html,
-:host {
-  line-height: 1.5;
-  /* 1 */
-  -webkit-text-size-adjust: 100%;
-  /* 2 */
-  -moz-tab-size: 4;
-  /* 3 */
-  -o-tab-size: 4;
-     tab-size: 4;
-  /* 3 */
-  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  /* 4 */
-  font-feature-settings: normal;
-  /* 5 */
-  font-variation-settings: normal;
-  /* 6 */
-  -webkit-tap-highlight-color: transparent;
-  /* 7 */
-}
-
-/*
-1. Remove the margin in all browsers.
-2. Inherit line-height from `html` so users can set them as a class directly on the `html` element.
-*/
-
-body {
-  margin: 0;
-  /* 1 */
-  line-height: inherit;
-  /* 2 */
-}
-
-/*
-1. Add the correct height in Firefox.
-2. Correct the inheritance of border color in Firefox. (https://bugzilla.mozilla.org/show_bug.cgi?id=190655)
-3. Ensure horizontal rules are visible by default.
-*/
-
-hr {
-  height: 0;
-  /* 1 */
-  color: inherit;
-  /* 2 */
-  border-top-width: 1px;
-  /* 3 */
-}
-
-/*
-Add the correct text decoration in Chrome, Edge, and Safari.
-*/
-
-abbr:where([title]) {
-  -webkit-text-decoration: underline dotted;
-          text-decoration: underline dotted;
-}
-
-/*
-Remove the default font size and weight for headings.
-*/
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-size: inherit;
-  font-weight: inherit;
-}
-
-/*
-Reset links to optimize for opt-in styling instead of opt-out.
-*/
-
-a {
-  color: inherit;
-  text-decoration: inherit;
-}
-
-/*
-Add the correct font weight in Edge and Safari.
-*/
-
-b,
-strong {
-  font-weight: bolder;
-}
-
-/*
-1. Use the user's configured `mono` font-family by default.
-2. Use the user's configured `mono` font-feature-settings by default.
-3. Use the user's configured `mono` font-variation-settings by default.
-4. Correct the odd `em` font sizing in all browsers.
-*/
-
-code,
-kbd,
-samp,
-pre {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  /* 1 */
-  font-feature-settings: normal;
-  /* 2 */
-  font-variation-settings: normal;
-  /* 3 */
-  font-size: 1em;
-  /* 4 */
-}
-
-/*
-Add the correct font size in all browsers.
-*/
-
-small {
-  font-size: 80%;
-}
-
-/*
-Prevent `sub` and `sup` elements from affecting the line height in all browsers.
-*/
-
-sub,
-sup {
-  font-size: 75%;
-  line-height: 0;
-  position: relative;
-  vertical-align: baseline;
-}
-
-sub {
-  bottom: -0.25em;
-}
-
-sup {
-  top: -0.5em;
-}
-
-/*
-1. Remove text indentation from table contents in Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=999088, https://bugs.webkit.org/show_bug.cgi?id=201297)
-2. Correct table border color inheritance in all Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=935729, https://bugs.webkit.org/show_bug.cgi?id=195016)
-3. Remove gaps between table borders by default.
-*/
-
-table {
-  text-indent: 0;
-  /* 1 */
-  border-color: inherit;
-  /* 2 */
-  border-collapse: collapse;
-  /* 3 */
-}
-
-/*
-1. Change the font styles in all browsers.
-2. Remove the margin in Firefox and Safari.
-3. Remove default padding in all browsers.
-*/
-
-button,
-input,
-optgroup,
-select,
-textarea {
-  font-family: inherit;
-  /* 1 */
-  font-feature-settings: inherit;
-  /* 1 */
-  font-variation-settings: inherit;
-  /* 1 */
-  font-size: 100%;
-  /* 1 */
-  font-weight: inherit;
-  /* 1 */
-  line-height: inherit;
-  /* 1 */
-  letter-spacing: inherit;
-  /* 1 */
-  color: inherit;
-  /* 1 */
-  margin: 0;
-  /* 2 */
-  padding: 0;
-  /* 3 */
-}
-
-/*
-Remove the inheritance of text transform in Edge and Firefox.
-*/
-
-button,
-select {
-  text-transform: none;
-}
-
-/*
-1. Correct the inability to style clickable types in iOS and Safari.
-2. Remove default button styles.
-*/
-
-button,
-input:where([type='button']),
-input:where([type='reset']),
-input:where([type='submit']) {
-  -webkit-appearance: button;
-  /* 1 */
-  background-color: transparent;
-  /* 2 */
-  background-image: none;
-  /* 2 */
-}
-
-/*
-Use the modern Firefox focus style for all focusable elements.
-*/
-
-:-moz-focusring {
-  outline: auto;
-}
-
-/*
-Remove the additional `:invalid` styles in Firefox. (https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737)
-*/
-
-:-moz-ui-invalid {
-  box-shadow: none;
-}
-
-/*
-Add the correct vertical alignment in Chrome and Firefox.
-*/
-
-progress {
-  vertical-align: baseline;
-}
-
-/*
-Correct the cursor style of increment and decrement buttons in Safari.
-*/
-
-::-webkit-inner-spin-button,
-::-webkit-outer-spin-button {
-  height: auto;
-}
-
-/*
-1. Correct the odd appearance in Chrome and Safari.
-2. Correct the outline style in Safari.
-*/
-
-[type='search'] {
-  -webkit-appearance: textfield;
-  /* 1 */
-  outline-offset: -2px;
-  /* 2 */
-}
-
-/*
-Remove the inner padding in Chrome and Safari on macOS.
-*/
-
-::-webkit-search-decoration {
-  -webkit-appearance: none;
-}
-
-/*
-1. Correct the inability to style clickable types in iOS and Safari.
-2. Change font properties to `inherit` in Safari.
-*/
-
-::-webkit-file-upload-button {
-  -webkit-appearance: button;
-  /* 1 */
-  font: inherit;
-  /* 2 */
-}
-
-/*
-Add the correct display in Chrome and Safari.
-*/
-
-summary {
-  display: list-item;
-}
-
-/*
-Removes the default spacing and border for appropriate elements.
-*/
-
-blockquote,
-dl,
-dd,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-hr,
-figure,
-p,
-pre {
-  margin: 0;
-}
-
-fieldset {
-  margin: 0;
-  padding: 0;
-}
-
-legend {
-  padding: 0;
-}
-
-ol,
-ul,
-menu {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-/*
-Reset default styling for dialogs.
-*/
-
-dialog {
-  padding: 0;
-}
-
-/*
-Prevent resizing textareas horizontally by default.
-*/
-
-textarea {
-  resize: vertical;
-}
-
-/*
-1. Reset the default placeholder opacity in Firefox. (https://github.com/tailwindlabs/tailwindcss/issues/3300)
-2. Set the default placeholder color to the user's configured gray 400 color.
-*/
-
-input::-moz-placeholder, textarea::-moz-placeholder {
-  opacity: 1;
-  /* 1 */
-  color: #9ca3af;
-  /* 2 */
-}
-
-input::placeholder,
-textarea::placeholder {
-  opacity: 1;
-  /* 1 */
-  color: #9ca3af;
-  /* 2 */
-}
-
-/*
-Set the default cursor for buttons.
-*/
-
-button,
-[role="button"] {
-  cursor: pointer;
-}
-
-/*
-Make sure disabled buttons don't get the pointer cursor.
-*/
-
-:disabled {
-  cursor: default;
-}
-
-/*
-1. Make replaced elements `display: block` by default. (https://github.com/mozdevs/cssremedy/issues/14)
-2. Add `vertical-align: middle` to align replaced elements more sensibly by default. (https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210)
-   This can trigger a poorly considered lint error in some tools but is included by design.
-*/
-
-img,
-svg,
-video,
-canvas,
-audio,
-iframe,
-embed,
-object {
-  display: block;
-  /* 1 */
-  vertical-align: middle;
-  /* 2 */
-}
-
-/*
-Constrain images and videos to the parent width and preserve their intrinsic aspect ratio. (https://github.com/mozdevs/cssremedy/issues/14)
-*/
-
-img,
-video {
-  max-width: 100%;
-  height: auto;
-}
-
-/* Make elements with the HTML hidden attribute stay hidden by default */
-
-[hidden]:where(:not([hidden="until-found"])) {
-  display: none;
-}
-
-.tb-btn {
-  border-radius: 0.375rem;
-  --tw-bg-opacity: 1;
-  background-color: rgb(38 38 38 / var(--tw-bg-opacity, 1));
-  padding-left: 0.625rem;
-  padding-right: 0.625rem;
-  padding-top: 0.375rem;
-  padding-bottom: 0.375rem;
-  font-size: 0.75rem;
-  line-height: 1rem;
-  font-weight: 500;
-  --tw-text-opacity: 1;
-  color: rgb(229 229 229 / var(--tw-text-opacity, 1));
-}
-
-.tb-btn:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(64 64 64 / var(--tw-bg-opacity, 1));
-}
-
-.tb-btn:disabled {
-  cursor: not-allowed;
-  opacity: 0.4;
-}
-
-.tb-btn:disabled:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(38 38 38 / var(--tw-bg-opacity, 1));
-}
-
-.field {
-  width: 100%;
-  border-radius: 0.375rem;
-  border-width: 1px;
-  --tw-border-opacity: 1;
-  border-color: rgb(64 64 64 / var(--tw-border-opacity, 1));
-  --tw-bg-opacity: 1;
-  background-color: rgb(38 38 38 / var(--tw-bg-opacity, 1));
-  padding: 0.5rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  --tw-text-opacity: 1;
-  color: rgb(245 245 245 / var(--tw-text-opacity, 1));
-}
-
-.field:focus {
-  --tw-border-opacity: 1;
-  border-color: rgb(163 163 163 / var(--tw-border-opacity, 1));
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-}
-
-.field-label {
-  margin-bottom: 0.25rem;
-  display: block;
-  font-size: 0.75rem;
-  line-height: 1rem;
-  font-weight: 500;
-  --tw-text-opacity: 1;
-  color: rgb(163 163 163 / var(--tw-text-opacity, 1));
-}
-
-.num-field {
-  border-radius: 0.25rem;
-  border-width: 1px;
-  --tw-border-opacity: 1;
-  border-color: rgb(64 64 64 / var(--tw-border-opacity, 1));
-  --tw-bg-opacity: 1;
-  background-color: rgb(38 38 38 / var(--tw-bg-opacity, 1));
-  padding-left: 0.375rem;
-  padding-right: 0.375rem;
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-  text-align: right;
-  --tw-text-opacity: 1;
-  color: rgb(245 245 245 / var(--tw-text-opacity, 1));
-}
-
-.num-field:focus {
-  --tw-border-opacity: 1;
-  border-color: rgb(163 163 163 / var(--tw-border-opacity, 1));
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-}
-
-.h3 {
-  margin-bottom: 0.375rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: 600;
-  --tw-text-opacity: 1;
-  color: rgb(229 229 229 / var(--tw-text-opacity, 1));
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
-
-.visible {
-  visibility: visible;
-}
-
-.relative {
-  position: relative;
-}
-
-.mx-auto {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.mb-2 {
-  margin-bottom: 0.5rem;
-}
-
-.mr-1 {
-  margin-right: 0.25rem;
-}
-
-.mt-1 {
-  margin-top: 0.25rem;
-}
-
-.mt-1\.5 {
-  margin-top: 0.375rem;
-}
-
-.mt-2 {
-  margin-top: 0.5rem;
-}
-
-.mt-3 {
-  margin-top: 0.75rem;
-}
-
-.block {
-  display: block;
-}
-
-.inline {
-  display: inline;
-}
-
-.flex {
-  display: flex;
-}
-
-.table {
-  display: table;
-}
-
-.\!grid {
-  display: grid !important;
-}
-
-.grid {
-  display: grid;
-}
-
-.hidden {
-  display: none;
-}
-
-.min-h-screen {
-  min-height: 100vh;
-}
-
-.w-1\/2 {
-  width: 50%;
-}
-
-.w-12 {
-  width: 3rem;
-}
-
-.w-14 {
-  width: 3.5rem;
-}
-
-.w-full {
-  width: 100%;
-}
-
-.max-w-\[1100px\] {
-  max-width: 1100px;
-}
-
-.cursor-pointer {
-  cursor: pointer;
-}
-
-.select-none {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
-}
-
-.resize {
-  resize: both;
-}
-
-.grid-cols-2 {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.flex-col {
-  flex-direction: column;
-}
-
-.flex-wrap {
-  flex-wrap: wrap;
-}
-
-.items-center {
-  align-items: center;
-}
-
-.justify-end {
-  justify-content: flex-end;
-}
-
-.justify-between {
-  justify-content: space-between;
-}
-
-.gap-1 {
-  gap: 0.25rem;
-}
-
-.gap-1\.5 {
-  gap: 0.375rem;
-}
-
-.gap-2 {
-  gap: 0.5rem;
-}
-
-.gap-3 {
-  gap: 0.75rem;
-}
-
-.space-y-3 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));
-}
-
-.overflow-auto {
-  overflow: auto;
-}
-
-.overflow-x-auto {
-  overflow-x: auto;
-}
-
-.rounded-lg {
-  border-radius: 0.5rem;
-}
-
-.rounded-md {
-  border-radius: 0.375rem;
-}
-
-.rounded-xl {
-  border-radius: 0.75rem;
-}
-
-.border {
-  border-width: 1px;
-}
-
-.border-amber-500\/30 {
-  border-color: rgb(245 158 11 / 0.3);
-}
-
-.border-emerald-500\/30 {
-  border-color: rgb(16 185 129 / 0.3);
-}
-
-.border-neutral-700 {
-  --tw-border-opacity: 1;
-  border-color: rgb(64 64 64 / var(--tw-border-opacity, 1));
-}
-
-.border-neutral-800 {
-  --tw-border-opacity: 1;
-  border-color: rgb(38 38 38 / var(--tw-border-opacity, 1));
-}
-
-.bg-amber-500\/10 {
-  background-color: rgb(245 158 11 / 0.1);
-}
-
-.bg-black {
-  --tw-bg-opacity: 1;
-  background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
-}
-
-.bg-emerald-500\/10 {
-  background-color: rgb(16 185 129 / 0.1);
-}
-
-.bg-emerald-500\/15 {
-  background-color: rgb(16 185 129 / 0.15);
-}
-
-.bg-neutral-200 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(229 229 229 / var(--tw-bg-opacity, 1));
-}
-
-.bg-neutral-700 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(64 64 64 / var(--tw-bg-opacity, 1));
-}
-
-.bg-neutral-800 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(38 38 38 / var(--tw-bg-opacity, 1));
-}
-
-.p-2 {
-  padding: 0.5rem;
-}
-
-.p-3 {
-  padding: 0.75rem;
-}
-
-.px-3 {
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-}
-
-.px-4 {
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-
-.py-2 {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-}
-
-.py-3 {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-}
-
-.font-mono {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-}
-
-.text-\[11px\] {
-  font-size: 11px;
-}
-
-.text-sm {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-
-.text-xs {
-  font-size: 0.75rem;
-  line-height: 1rem;
-}
-
-.font-medium {
-  font-weight: 500;
-}
-
-.font-normal {
-  font-weight: 400;
-}
-
-.font-semibold {
-  font-weight: 600;
-}
-
-.text-amber-300 {
-  --tw-text-opacity: 1;
-  color: rgb(252 211 77 / var(--tw-text-opacity, 1));
-}
-
-.text-emerald-300 {
-  --tw-text-opacity: 1;
-  color: rgb(110 231 183 / var(--tw-text-opacity, 1));
-}
-
-.text-neutral-100 {
-  --tw-text-opacity: 1;
-  color: rgb(245 245 245 / var(--tw-text-opacity, 1));
-}
-
-.text-neutral-200 {
-  --tw-text-opacity: 1;
-  color: rgb(229 229 229 / var(--tw-text-opacity, 1));
-}
-
-.text-neutral-300 {
-  --tw-text-opacity: 1;
-  color: rgb(212 212 212 / var(--tw-text-opacity, 1));
-}
-
-.text-neutral-400 {
-  --tw-text-opacity: 1;
-  color: rgb(163 163 163 / var(--tw-text-opacity, 1));
-}
-
-.text-neutral-500 {
-  --tw-text-opacity: 1;
-  color: rgb(115 115 115 / var(--tw-text-opacity, 1));
-}
-
-.text-neutral-900 {
-  --tw-text-opacity: 1;
-  color: rgb(23 23 23 / var(--tw-text-opacity, 1));
-}
-
-.text-red-400 {
-  --tw-text-opacity: 1;
-  color: rgb(248 113 113 / var(--tw-text-opacity, 1));
-}
-
-.accent-neutral-400 {
-  accent-color: #a3a3a3;
-}
-
-.blur {
-  --tw-blur: blur(8px);
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
-}
-
-.filter {
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
-}
-
-.transition {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-html {
-  color-scheme: dark;
-}
-
-body {
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
+/* Tailwind CSS v3.4 (generated: base reset + the utility classes used on this page) */
+*,:after,:before{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }
+/*! tailwindcss v3.4.19 | MIT License | https://tailwindcss.com*/*,:after,:before{box-sizing:border-box;border:0 solid #e5e7eb}:after,:before{--tw-content:""}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;-o-tab-size:4;tab-size:4;font-family:ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0}fieldset,legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{opacity:1;color:#9ca3af}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.tb-btn{border-radius:.375rem;--tw-bg-opacity:1;background-color:rgb(38 38 38/var(--tw-bg-opacity,1));padding:.375rem .625rem;font-size:.75rem;line-height:1rem;font-weight:500;--tw-text-opacity:1;color:rgb(229 229 229/var(--tw-text-opacity,1))}.tb-btn:hover{--tw-bg-opacity:1;background-color:rgb(64 64 64/var(--tw-bg-opacity,1))}.tb-btn:disabled{cursor:not-allowed;opacity:.4}.tb-btn:disabled:hover{--tw-bg-opacity:1}.field,.tb-btn:disabled:hover{background-color:rgb(38 38 38/var(--tw-bg-opacity,1))}.field{width:100%;border-radius:.375rem;border-width:1px;--tw-border-opacity:1;border-color:rgb(64 64 64/var(--tw-border-opacity,1));--tw-bg-opacity:1;padding:.5rem;font-size:.875rem;line-height:1.25rem;--tw-text-opacity:1;color:rgb(245 245 245/var(--tw-text-opacity,1))}.field:focus{--tw-border-opacity:1;border-color:rgb(163 163 163/var(--tw-border-opacity,1));outline:2px solid transparent;outline-offset:2px}.field-label{display:block;margin-bottom:.25rem;font-size:.75rem;line-height:1rem;font-weight:500;--tw-text-opacity:1;color:rgb(163 163 163/var(--tw-text-opacity,1))}.num-field{border-radius:.25rem;border-width:1px;--tw-border-opacity:1;border-color:rgb(64 64 64/var(--tw-border-opacity,1));--tw-bg-opacity:1;background-color:rgb(38 38 38/var(--tw-bg-opacity,1));padding:.25rem .375rem;text-align:right;--tw-text-opacity:1;color:rgb(245 245 245/var(--tw-text-opacity,1))}.num-field:focus{--tw-border-opacity:1;border-color:rgb(163 163 163/var(--tw-border-opacity,1));outline:2px solid transparent;outline-offset:2px}.h3{margin-bottom:.375rem;font-size:.875rem;line-height:1.25rem;font-weight:600;--tw-text-opacity:1;color:rgb(229 229 229/var(--tw-text-opacity,1))}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}.relative{position:relative}.mx-auto{margin-left:auto;margin-right:auto}.mb-2{margin-bottom:.5rem}.mr-1{margin-right:.25rem}.mt-1{margin-top:.25rem}.mt-1\.5{margin-top:.375rem}.mt-2{margin-top:.5rem}.mt-3{margin-top:.75rem}.flex{display:flex}.table{display:table}.grid{display:grid}.hidden{display:none}.min-h-screen{min-height:100vh}.w-1\/2{width:50%}.w-12{width:3rem}.w-14{width:3.5rem}.w-full{width:100%}.max-w-\[1100px\]{max-width:1100px}.cursor-pointer{cursor:pointer}.select-none{-webkit-user-select:none;-moz-user-select:none;user-select:none}.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-between{justify-content:space-between}.gap-1{gap:.25rem}.gap-1\.5{gap:.375rem}.gap-2{gap:.5rem}.gap-3{gap:.75rem}.space-y-3>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.75rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.75rem*var(--tw-space-y-reverse))}.overflow-auto{overflow:auto}.overflow-x-auto{overflow-x:auto}.rounded-lg{border-radius:.5rem}.rounded-md{border-radius:.375rem}.rounded-xl{border-radius:.75rem}.border{border-width:1px}.border-amber-500\/30{border-color:rgba(245,158,11,.3)}.border-emerald-500\/30{border-color:rgba(16,185,129,.3)}.border-neutral-700{--tw-border-opacity:1;border-color:rgb(64 64 64/var(--tw-border-opacity,1))}.border-neutral-800{--tw-border-opacity:1;border-color:rgb(38 38 38/var(--tw-border-opacity,1))}.bg-amber-500\/10{background-color:rgba(245,158,11,.1)}.bg-black{--tw-bg-opacity:1;background-color:rgb(0 0 0/var(--tw-bg-opacity,1))}.bg-emerald-500\/10{background-color:rgba(16,185,129,.1)}.bg-emerald-500\/15{background-color:rgba(16,185,129,.15)}.bg-neutral-200{--tw-bg-opacity:1;background-color:rgb(229 229 229/var(--tw-bg-opacity,1))}.bg-neutral-700{--tw-bg-opacity:1;background-color:rgb(64 64 64/var(--tw-bg-opacity,1))}.bg-neutral-800{--tw-bg-opacity:1;background-color:rgb(38 38 38/var(--tw-bg-opacity,1))}.p-2{padding:.5rem}.p-3{padding:.75rem}.px-3{padding-left:.75rem;padding-right:.75rem}.px-4{padding-left:1rem;padding-right:1rem}.py-2{padding-top:.5rem;padding-bottom:.5rem}.py-3{padding-top:.75rem;padding-bottom:.75rem}.font-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace}.text-\[11px\]{font-size:11px}.text-sm{font-size:.875rem;line-height:1.25rem}.text-xs{font-size:.75rem;line-height:1rem}.font-medium{font-weight:500}.font-normal{font-weight:400}.font-semibold{font-weight:600}.text-amber-300{--tw-text-opacity:1;color:rgb(252 211 77/var(--tw-text-opacity,1))}.text-emerald-300{--tw-text-opacity:1;color:rgb(110 231 183/var(--tw-text-opacity,1))}.text-neutral-100{--tw-text-opacity:1;color:rgb(245 245 245/var(--tw-text-opacity,1))}.text-neutral-200{--tw-text-opacity:1;color:rgb(229 229 229/var(--tw-text-opacity,1))}.text-neutral-300{--tw-text-opacity:1;color:rgb(212 212 212/var(--tw-text-opacity,1))}.text-neutral-400{--tw-text-opacity:1;color:rgb(163 163 163/var(--tw-text-opacity,1))}.text-neutral-500{--tw-text-opacity:1;color:rgb(115 115 115/var(--tw-text-opacity,1))}.text-neutral-900{--tw-text-opacity:1;color:rgb(23 23 23/var(--tw-text-opacity,1))}.text-red-400{--tw-text-opacity:1;color:rgb(248 113 113/var(--tw-text-opacity,1))}.accent-neutral-400{accent-color:#a3a3a3}.transition{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.hover\:bg-red-900:hover{--tw-bg-opacity:1;background-color:rgb(127 29 29/var(--tw-bg-opacity,1))}.hover\:bg-white:hover{--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity,1))}.hover\:text-neutral-200:hover{--tw-text-opacity:1;color:rgb(229 229 229/var(--tw-text-opacity,1))}.hover\:text-red-200:hover{--tw-text-opacity:1;color:rgb(254 202 202/var(--tw-text-opacity,1))}.focus\:border-neutral-400:focus{--tw-border-opacity:1;border-color:rgb(163 163 163/var(--tw-border-opacity,1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.active\:scale-\[\.99\]:active{--tw-scale-x:.99;--tw-scale-y:.99;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}
+
+/* ---- ministat styles ---- */
+html { color-scheme: dark; }
+body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
 
 /* Data grid — uniform cells, group-name aligned with its column */
-
-table.data-grid {
-  table-layout: fixed;
-  border-collapse: collapse;
-}
-
-table.data-grid td, table.data-grid th {
-  padding: 2px 4px;
-  box-sizing: border-box;
-}
-
-.cell-input {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 4px 6px;
-  font-size: 14px;
-  line-height: 20px;
-  border: 1px solid #333333;
-  border-radius: 5px;
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-  background: transparent;
-  color: #e5e5e5;
-  transition: border-color .12s, background .12s;
-}
-
-.cell-input:focus {
-  outline: none;
-  border-color: #a3a3a3;
-  background: #171717;
-}
-
-.cell-input.bad {
-  background: #3f1d1d;
-  border-color: #ef4444;
-  color: #fecaca;
-}
-
+table.data-grid { table-layout: fixed; border-collapse: collapse; }
+table.data-grid td, table.data-grid th { padding: 2px 4px; box-sizing: border-box; }
+.cell-input { width: 100%; box-sizing: border-box; padding: 4px 6px; font-size: 14px; line-height: 20px; border: 1px solid #333333; border-radius: 5px; text-align: right; font-variant-numeric: tabular-nums; background: transparent; color: #e5e5e5; transition: border-color .12s, background .12s; }
+.cell-input:focus { outline: none; border-color: #a3a3a3; background: #171717; }
+.cell-input.bad { background: #3f1d1d; border-color: #ef4444; color: #fecaca; }
 /* group-name shares the exact column width of its cells; right padding clears the × button */
-
-.grp-name {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 4px 24px 4px 6px;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: 600;
-  text-align: center;
-  border: 1px solid #333333;
-  border-radius: 5px;
-  background: transparent;
-  color: #f5f5f5;
-  transition: border-color .12s, background .12s;
-}
-
-.grp-name:focus {
-  outline: none;
-  border-color: #a3a3a3;
-  background: #171717;
-}
-
-.delGrp {
-  position: absolute;
-  top: 50%;
-  right: 3px;
-  transform: translateY(-50%);
-  font-size: 13px;
-  line-height: 1;
-  color: #737373;
-}
-
-.delGrp:hover {
-  color: #f87171;
-}
-
+.grp-name { width: 100%; box-sizing: border-box; padding: 4px 24px 4px 6px; font-size: 14px; line-height: 20px; font-weight: 600; text-align: center; border: 1px solid #333333; border-radius: 5px; background: transparent; color: #f5f5f5; transition: border-color .12s, background .12s; }
+.grp-name:focus { outline: none; border-color: #a3a3a3; background: #171717; }
+.delGrp { position: absolute; top: 50%; right: 3px; transform: translateY(-50%); font-size: 13px; line-height: 1; color: #737373; }
+.delGrp:hover { color: #f87171; }
 /* row header: shows the row number; the delete × only appears on hover / focus */
+.rowhdr { font-size: 10px; color: #737373; text-align: center; vertical-align: middle; }
+.rowhdr .delRow { display: none; font-size: 13px; line-height: 1; color: #f87171; }
+tr:hover > .rowhdr .rn, tr:focus-within > .rowhdr .rn { display: none; }
+tr:hover > .rowhdr .delRow, tr:focus-within > .rowhdr .delRow { display: inline; }
 
-.rowhdr {
-  font-size: 10px;
-  color: #737373;
-  text-align: center;
-  vertical-align: middle;
-}
-
-.rowhdr .delRow {
-  display: none;
-  font-size: 13px;
-  line-height: 1;
-  color: #f87171;
-}
-
-tr:hover > .rowhdr .rn, tr:focus-within > .rowhdr .rn {
-  display: none;
-}
-
-tr:hover > .rowhdr .delRow, tr:focus-within > .rowhdr .delRow {
-  display: inline;
-}
-
-.stat-table {
-  border-collapse: collapse;
-  width: 100%;
-  font-size: 13px;
-  color: #e5e5e5;
-}
-
-.stat-table th, .stat-table td {
-  border: 1px solid #333333;
-  padding: 6px 10px;
-  text-align: left;
-}
-
-.stat-table thead th {
-  background: #171717;
-  font-weight: 600;
-}
-
-.stat-table td.num, .stat-table th.num {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-.stat-table tr:nth-child(even) td {
-  background: #0d0d0d;
-}
-
-.pill {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 9999px;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.scroll-thin::-webkit-scrollbar {
-  height: 8px;
-  width: 8px;
-}
-
-.scroll-thin::-webkit-scrollbar-thumb {
-  background: #404040;
-  border-radius: 4px;
-}
-
-[id^="sec-"] {
-  scroll-margin-top: 68px;
-}
-
-details > summary {
-  cursor: pointer;
-  list-style: none;
-}
-
-details > summary::-webkit-details-marker {
-  display: none;
-}
-
-select option, select optgroup {
-  background: #171717;
-  color: #e5e5e5;
-}
-
-input::-moz-placeholder, textarea::-moz-placeholder {
-  color: #737373;
-}
-
-input::placeholder, textarea::placeholder {
-  color: #737373;
-}
-
+.stat-table { border-collapse: collapse; width: 100%; font-size: 13px; color: #e5e5e5; }
+.stat-table th, .stat-table td { border: 1px solid #333333; padding: 6px 10px; text-align: left; }
+.stat-table thead th { background: #171717; font-weight: 600; }
+.stat-table td.num, .stat-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.stat-table tr:nth-child(even) td { background: #0d0d0d; }
+.pill { display: inline-block; padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; }
+.scroll-thin::-webkit-scrollbar { height: 8px; width: 8px; }
+.scroll-thin::-webkit-scrollbar-thumb { background: #404040; border-radius: 4px; }
+details > summary { cursor: pointer; list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+select option, select optgroup { background: #171717; color: #e5e5e5; }
+input::placeholder, textarea::placeholder { color: #737373; }
 /* form field polish (settings + graph toolbar) */
-
 #sec-settings select, #sec-settings input:not([type="checkbox"]):not([type="file"]),
-#sec-graph input[type="number"], #sec-data textarea {
-  transition: border-color .15s, background-color .15s, box-shadow .15s;
-}
-
-#sec-settings select:hover, #sec-settings input:not([type="checkbox"]):not([type="file"]):hover {
-  border-color: #525252;
-  background: #1c1c1c;
-}
-
+#sec-graph input[type="number"], #sec-data textarea { transition: border-color .15s, background-color .15s, box-shadow .15s; }
+#sec-settings select:hover, #sec-settings input:not([type="checkbox"]):not([type="file"]):hover { border-color: #525252; background: #1c1c1c; }
 #sec-settings select:focus, #sec-settings input:not([type="checkbox"]):not([type="file"]):focus,
-#sec-graph input[type="number"]:focus, #sec-data textarea:focus {
-  border-color: #a3a3a3;
-  box-shadow: 0 0 0 3px rgba(163,163,163,.15);
-}
-
+#sec-graph input[type="number"]:focus, #sec-data textarea:focus { border-color: #a3a3a3; box-shadow: 0 0 0 3px rgba(163,163,163,.15); }
 /* buttons */
-
-main button {
-  transition: background-color .15s, color .15s, transform .08s;
-}
-
-main button:active:not(:disabled) {
-  transform: scale(.97);
-}
-
+main button { transition: background-color .15s, color .15s, transform .08s; }
+main button:active:not(:disabled) { transform: scale(.97); }
 /* white plot surface lifted slightly off the dark card */
-
-#plot {
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,.45);
-}
-
-.hover\:bg-red-900:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(127 29 29 / var(--tw-bg-opacity, 1));
-}
-
-.hover\:bg-white:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
-}
-
-.hover\:text-neutral-200:hover {
-  --tw-text-opacity: 1;
-  color: rgb(229 229 229 / var(--tw-text-opacity, 1));
-}
-
-.hover\:text-red-200:hover {
-  --tw-text-opacity: 1;
-  color: rgb(254 202 202 / var(--tw-text-opacity, 1));
-}
-
-.focus\:border-neutral-400:focus {
-  --tw-border-opacity: 1;
-  border-color: rgb(163 163 163 / var(--tw-border-opacity, 1));
-}
-
-.focus\:outline-none:focus {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-}
-
-.active\:scale-\[\.99\]:active {
-  --tw-scale-x: .99;
-  --tw-scale-y: .99;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
+#plot { border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,.45); }
 </style>
 </head>
 
@@ -2297,12 +1087,14 @@ function collectGroups() {
   return { groups, warns, decimalComma };
 }
 
-/* rows where both groups have a value → matched pairs */
-function pairUp(a, b) {
+/* rows where both groups have a value → matched pairs (warns about unmatched values) */
+function pairedData(a, b, problems) {
   const mb = new Map(b.rows.map((r, i) => [r, b.values[i]]));
   const x = [], y = [];
   a.rows.forEach((r, i) => { if (mb.has(r)) { x.push(a.values[i]); y.push(mb.get(r)); } });
-  return { x, y, dropped: a.values.length + b.values.length - 2 * x.length };
+  const dropped = a.values.length + b.values.length - 2 * x.length;
+  if (dropped) problems.push(`${dropped} value(s) without a partner in the same row were excluded from the paired analysis.`);
+  return { x, y, groups: [{ name: a.name, values: x }, { name: b.name, values: y }] };
 }
 
 function showWarnings(list, decimalComma) {
@@ -2476,6 +1268,11 @@ function assumptionSection(samples, { variance, parametric, welch }) {
 
 const twoNames = (a, b) => `${a.name} − ${b.name}`;
 const ciText = (ci) => ci ? `${fmt(ci[0])} to ${fmt(ci[1])}` : "—";
+const pRows = (p) => [["P value (two-tailed)", bold(fmtP(p))], ["Significance", sigCell(p)]];
+const methodRows = (r) => [["P value method", r.exact ? "Exact" : "Normal approx. (tie & continuity corrected)"], ...(r.exact ? [] : [["Z", fmt(r.z)]])];
+/* "<question> Yes/No (<label>, P …[, stars])." */
+const verdict = (question, label, p, stars = true) =>
+  ({ sig: p < 0.05, html: `${question} <b>${p < 0.05 ? "Yes" : "No"}</b> (${label}, <i>P</i> ${pRel(p)}${stars ? ", " + starsFor(p) : ""}).` });
 
 /* ============================================================
    ANALYSES  —  each returns { verdict, report, plot } (or null)
@@ -2488,15 +1285,14 @@ const ANALYSES = {
     const r = S.tTest(a.values, b.values, welch);
     const name = `${welch ? "Welch's" : "Student's"} unpaired t-test`;
     return {
-      verdict: { sig: r.p < 0.05, html: `Are the means significantly different? <b>${r.p < 0.05 ? "Yes" : "No"}</b> (${name}, <i>P</i> ${pRel(r.p)}, ${starsFor(r.p)}).` },
+      verdict: verdict("Are the means significantly different?", name, r.p),
       report: { test: name, sections: [
         descSection([a.name, b.name], [r.A, r.B]),
         { title: name, rows: [
           [`Mean difference (${twoNames(a, b)})`, fmt(r.diff)],
           ["95% CI of difference", ciText(r.ci)],
           ["t", fmt(r.t)], ["df", fmt(r.df, 2)],
-          ["P value (two-tailed)", bold(fmtP(r.p))],
-          ["Significance", sigCell(r.p)],
+          ...pRows(r.p),
         ], extra: [["Std. error of difference", fmt(r.se)]] },
         { title: "Effect size", rows: [["Cohen's d", fmt(r.d, 3)], ["Hedges' g", fmt(r.g, 3)]] },
         assumptionSection(groups, { variance: true, parametric: true, welch }),
@@ -2507,13 +1303,11 @@ const ANALYSES = {
 
   paired(groups, problems) {
     const [a, b] = groups;
-    const pr = pairUp(a, b);
-    if (pr.dropped) problems.push(`${pr.dropped} value(s) without a partner in the same row were excluded from the paired analysis.`);
+    const pr = pairedData(a, b, problems);
     if (pr.x.length < 2) { problems.push("A paired test needs at least 2 rows with values in both groups."); return null; }
     const r = S.pairedTTest(pr.x, pr.y);
-    const pg = [{ name: a.name, values: pr.x }, { name: b.name, values: pr.y }];
     return {
-      verdict: { sig: r.p < 0.05, html: `Is the mean difference significantly different from zero? <b>${r.p < 0.05 ? "Yes" : "No"}</b> (paired t-test, <i>P</i> ${pRel(r.p)}, ${starsFor(r.p)}).` },
+      verdict: verdict("Is the mean difference significantly different from zero?", "paired t-test", r.p),
       report: { test: "Paired t-test", sections: [
         descSection([a.name, b.name], [r.A, r.B]),
         { title: "Paired t-test", rows: [
@@ -2522,13 +1316,12 @@ const ANALYSES = {
           ["95% CI of mean difference", ciText(r.ci)],
           ["SD of differences", fmt(r.D.sd)],
           ["t", fmt(r.t)], ["df", String(r.df)],
-          ["P value (two-tailed)", bold(fmtP(r.p))],
-          ["Significance", sigCell(r.p)],
+          ...pRows(r.p),
         ], extra: [["Std. error of mean difference", fmt(r.se)]] },
         { title: "Effect size", rows: [["Cohen's dz (mean diff / SD of diffs)", fmt(r.dz, 3)]] },
         assumptionSection([{ name: "differences", values: pr.x.map((x, i) => x - pr.y[i]) }], { variance: false, parametric: true }),
       ] },
-      plot: { groups: pg, mode: "two", p: r.p, paired: true },
+      plot: { groups: pr.groups, mode: "two", p: r.p, paired: true },
     };
   },
 
@@ -2536,15 +1329,13 @@ const ANALYSES = {
     const [a, b] = groups;
     const r = S.mannWhitney(a.values, b.values);
     return {
-      verdict: { sig: r.p < 0.05, html: `Are the distributions significantly different? <b>${r.p < 0.05 ? "Yes" : "No"}</b> (Mann–Whitney U, <i>P</i> ${pRel(r.p)}, ${starsFor(r.p)}).` },
+      verdict: verdict("Are the distributions significantly different?", "Mann–Whitney U", r.p),
       report: { test: "Mann-Whitney U", sections: [
         descSection([a.name, b.name], [r.A, r.B]),
         { title: "Mann–Whitney U / Wilcoxon rank-sum", rows: [
           ["U statistic", fmt(r.U, 1)],
-          ["P value method", r.exact ? "Exact" : "Normal approx. (tie & continuity corrected)"],
-          ...(r.exact ? [] : [["Z", fmt(r.z)]]),
-          ["P value (two-tailed)", bold(fmtP(r.p))],
-          ["Significance", sigCell(r.p)],
+          ...methodRows(r),
+          ...pRows(r.p),
         ], extra: [
           [`Sum of ranks (${a.name})`, fmt(r.R1, 1)], [`U (${a.name})`, fmt(r.U1, 1)], [`U (${b.name})`, fmt(r.U2, 1)],
         ] },
@@ -2557,14 +1348,12 @@ const ANALYSES = {
 
   wilcoxon(groups, problems) {
     const [a, b] = groups;
-    const pr = pairUp(a, b);
-    if (pr.dropped) problems.push(`${pr.dropped} value(s) without a partner in the same row were excluded from the paired analysis.`);
+    const pr = pairedData(a, b, problems);
     if (pr.x.length < 1) { problems.push("A paired test needs rows with values in both groups."); return null; }
     const r = S.wilcoxonSignedRank(pr.x, pr.y);
     if (r.zeros) problems.push(`${r.zeros} pair(s) with zero difference were dropped (Wilcoxon's method).`);
-    const pg = [{ name: a.name, values: pr.x }, { name: b.name, values: pr.y }];
     return {
-      verdict: { sig: r.p < 0.05, html: `Is the median difference significantly different from zero? <b>${r.p < 0.05 ? "Yes" : "No"}</b> (Wilcoxon signed-rank, <i>P</i> ${pRel(r.p)}, ${starsFor(r.p)}).` },
+      verdict: verdict("Is the median difference significantly different from zero?", "Wilcoxon signed-rank", r.p),
       report: { test: "Wilcoxon signed-rank", sections: [
         descSection([a.name, b.name], [r.A, r.B]),
         { title: "Wilcoxon matched-pairs signed-rank test", rows: [
@@ -2572,14 +1361,12 @@ const ANALYSES = {
           [`Median of differences (${twoNames(a, b)})`, fmt(r.D.median)],
           ["W+ (sum of positive ranks)", fmt(r.Wplus, 1)],
           ["W− (sum of negative ranks)", fmt(r.Wminus, 1)],
-          ["P value method", r.exact ? "Exact" : "Normal approx. (tie & continuity corrected)"],
-          ...(r.exact ? [] : [["Z", fmt(r.z)]]),
-          ["P value (two-tailed)", bold(fmtP(r.p))],
-          ["Significance", sigCell(r.p)],
+          ...methodRows(r),
+          ...pRows(r.p),
         ] },
         { title: "Effect size", rows: [["Matched-pairs rank-biserial r", fmt(r.r, 3)]] },
       ] },
-      plot: { groups: pg, mode: "two", p: r.p, paired: true },
+      plot: { groups: pr.groups, mode: "two", p: r.p, paired: true },
     };
   },
 
@@ -2611,7 +1398,7 @@ const ANALYSES = {
     }
     sections.push(assumptionSection(groups, { variance: true, parametric: true }));
     return {
-      verdict: { sig: av.p < 0.05, html: `Is there a significant difference among the ${av.k} group means? <b>${av.p < 0.05 ? "Yes" : "No"}</b> (One-way ANOVA, F(${av.dfB}, ${av.dfW}) = ${fmt(av.F, 3)}, <i>P</i> ${pRel(av.p)}).` },
+      verdict: verdict(`Is there a significant difference among the ${av.k} group means?`, `One-way ANOVA, F(${av.dfB}, ${av.dfW}) = ${fmt(av.F, 3)}`, av.p, false),
       report: { test: "One-way ANOVA", sections },
       plot,
     };
@@ -2624,7 +1411,7 @@ const ANALYSES = {
     const names = groups.map(g => g.name);
     const letters = S.compactLetters(kw.k, pairs, kw.meanRanks);
     return {
-      verdict: { sig: kw.p < 0.05, html: `Is there a significant difference among the ${kw.k} groups? <b>${kw.p < 0.05 ? "Yes" : "No"}</b> (Kruskal–Wallis, H(${kw.df}) = ${fmt(kw.H, 3)}, <i>P</i> ${pRel(kw.p)}).` },
+      verdict: verdict(`Is there a significant difference among the ${kw.k} groups?`, `Kruskal–Wallis, H(${kw.df}) = ${fmt(kw.H, 3)}`, kw.p, false),
       report: { test: "Kruskal-Wallis", sections: [
         descSection(names, kw.desc),
         { title: "Kruskal–Wallis test", rows: [
