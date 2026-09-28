@@ -1,0 +1,58 @@
+/* Tailwind source — build with `npm run build:css` → styles.css (committed, served by GitHub Pages) */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .tb-btn { @apply text-xs px-2.5 py-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-200 font-medium; }
+  .tb-btn:disabled { @apply opacity-40 cursor-not-allowed hover:bg-neutral-800; }
+  .field { @apply w-full text-sm border border-neutral-700 rounded-md p-2 bg-neutral-800 text-neutral-100 focus:outline-none focus:border-neutral-400; }
+  .field-label { @apply block text-xs font-medium text-neutral-400 mb-1; }
+  .num-field { @apply border border-neutral-700 rounded px-1.5 py-1 text-right bg-neutral-800 text-neutral-100 focus:outline-none focus:border-neutral-400; }
+  .h3 { @apply font-semibold text-sm text-neutral-200 mb-1.5; }
+}
+
+html { color-scheme: dark; }
+body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+
+/* Data grid — uniform cells, group-name aligned with its column */
+table.data-grid { table-layout: fixed; border-collapse: collapse; }
+table.data-grid td, table.data-grid th { padding: 2px 4px; box-sizing: border-box; }
+.cell-input { width: 100%; box-sizing: border-box; padding: 4px 6px; font-size: 14px; line-height: 20px; border: 1px solid #333333; border-radius: 5px; text-align: right; font-variant-numeric: tabular-nums; background: transparent; color: #e5e5e5; transition: border-color .12s, background .12s; }
+.cell-input:focus { outline: none; border-color: #a3a3a3; background: #171717; }
+.cell-input.bad { background: #3f1d1d; border-color: #ef4444; color: #fecaca; }
+/* group-name shares the exact column width of its cells; right padding clears the × button */
+.grp-name { width: 100%; box-sizing: border-box; padding: 4px 24px 4px 6px; font-size: 14px; line-height: 20px; font-weight: 600; text-align: center; border: 1px solid #333333; border-radius: 5px; background: transparent; color: #f5f5f5; transition: border-color .12s, background .12s; }
+.grp-name:focus { outline: none; border-color: #a3a3a3; background: #171717; }
+.delGrp { position: absolute; top: 50%; right: 3px; transform: translateY(-50%); font-size: 13px; line-height: 1; color: #737373; }
+.delGrp:hover { color: #f87171; }
+/* row header: shows the row number; the delete × only appears on hover / focus */
+.rowhdr { font-size: 10px; color: #737373; text-align: center; vertical-align: middle; }
+.rowhdr .delRow { display: none; font-size: 13px; line-height: 1; color: #f87171; }
+tr:hover > .rowhdr .rn, tr:focus-within > .rowhdr .rn { display: none; }
+tr:hover > .rowhdr .delRow, tr:focus-within > .rowhdr .delRow { display: inline; }
+
+.stat-table { border-collapse: collapse; width: 100%; font-size: 13px; color: #e5e5e5; }
+.stat-table th, .stat-table td { border: 1px solid #333333; padding: 6px 10px; text-align: left; }
+.stat-table thead th { background: #171717; font-weight: 600; }
+.stat-table td.num, .stat-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.stat-table tr:nth-child(even) td { background: #0d0d0d; }
+.pill { display: inline-block; padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; }
+.scroll-thin::-webkit-scrollbar { height: 8px; width: 8px; }
+.scroll-thin::-webkit-scrollbar-thumb { background: #404040; border-radius: 4px; }
+[id^="sec-"] { scroll-margin-top: 68px; }
+details > summary { cursor: pointer; list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+select option, select optgroup { background: #171717; color: #e5e5e5; }
+input::placeholder, textarea::placeholder { color: #737373; }
+/* form field polish (settings + graph toolbar) */
+#sec-settings select, #sec-settings input:not([type="checkbox"]):not([type="file"]),
+#sec-graph input[type="number"], #sec-data textarea { transition: border-color .15s, background-color .15s, box-shadow .15s; }
+#sec-settings select:hover, #sec-settings input:not([type="checkbox"]):not([type="file"]):hover { border-color: #525252; background: #1c1c1c; }
+#sec-settings select:focus, #sec-settings input:not([type="checkbox"]):not([type="file"]):focus,
+#sec-graph input[type="number"]:focus, #sec-data textarea:focus { border-color: #a3a3a3; box-shadow: 0 0 0 3px rgba(163,163,163,.15); }
+/* buttons */
+main button { transition: background-color .15s, color .15s, transform .08s; }
+main button:active:not(:disabled) { transform: scale(.97); }
+/* white plot surface lifted slightly off the dark card */
+#plot { border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,.45); }

@@ -1,0 +1,23 @@
+name: CI
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Statistics regression tests (reference values from SciPy)
+        run: npm test
+      - name: Syntax check
+        run: node --check app.js && node --check stats.js
+      - name: styles.css is up to date with the Tailwind source
+        run: |
+          npm run build:css
+          git diff --exit-code styles.css || (echo "::error::styles.css is stale — run 'npm run build:css' and commit it" && exit 1)
