@@ -21,25 +21,15 @@ Every report also includes **assumption checks**: Shapiro–Wilk normality per g
 
 **Data entry:** spreadsheet-style grid — paste blocks from Excel/Sheets, Enter / arrow-key navigation, undo/redo (⌘/Ctrl+Z), auto-save to the browser, `.jgz` session files, TSV/CSV import (delimiter auto-detected, quoted cells supported). Ambiguous numbers such as `1,5` are flagged instead of being silently misread, with a one-click decimal-comma fix.
 
-## Methods & accuracy
+## Methods
 
-All statistics are implemented in [`stats.js`](stats.js) (pure functions, no DOM) on top of [jStat](https://github.com/jstat/jstat):
+Everything lives in a single file, [`index.html`](index.html): the page, its styles, and the code (the statistics are in the `Stats` module at the top of the script, built on [jStat](https://github.com/jstat/jstat)).
 
 - Studentized range (Tukey) and Dunnett's multivariate-t probabilities are computed by numerical integration (Gauss–Legendre over the χ scale, trapezoid over the normal); Dunnett uses the one-factor correlation structure ρ<sub>ij</sub> = λ<sub>i</sub>λ<sub>j</sub>, which is exact for many-to-one comparisons with unequal n.
 - Shapiro–Wilk follows Royston (1995), algorithm AS R94 — the same as R's `shapiro.test`.
 - Exact Mann–Whitney and Wilcoxon distributions are enumerated with generating functions.
+- Results were validated against SciPy (e.g. Tukey p-values agree to ~1e-13, Shapiro–Wilk to ~1e-9).
 
-[`test/stats.test.js`](test/stats.test.js) checks every test against reference values from SciPy ([`test/make_reference.py`](test/make_reference.py)); e.g. Tukey p-values agree to ~1e-13 and Shapiro–Wilk to ~1e-9.
+## Running locally
 
-## Development
-
-No build step is needed to run the app — open `index.html` via any static server. For development:
-
-```sh
-npm install
-npm test               # statistics regression tests (node --test)
-npm run build:css      # rebuild styles.css after changing classes (Tailwind CLI)
-python3 test/make_reference.py   # regenerate SciPy reference values (needs scipy)
-```
-
-`styles.css` is generated from `src/input.css` and committed so GitHub Pages can serve it directly; CI fails if it is stale. jStat and Plotly (cartesian bundle) load from jsDelivr with pinned versions and Subresource Integrity hashes.
+No build step and no dependencies to install — open `index.html` in a browser (or serve the folder with any static server). jStat and Plotly (cartesian bundle) load from jsDelivr with pinned versions and Subresource Integrity hashes.
