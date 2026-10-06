@@ -1,104 +1,104 @@
 ---
 name: jh-html-to-tbtools-plugin
-description: 把 HTML / 静态网页工具打包成 TBtools 插件（.plugin），在 TBtools 内置的 JxBrowser 里作为标签页运行。只要用户提到 TBtools 插件、.plugin 文件、把网页 / HTML / 单文件工具装进或转成 TBtools，或想在 TBtools 里嵌入网页，就使用此技能，即使没明说"插件"。Packages an index.html-based web app as an installable TBtools plugin.
+description: Package an HTML / static web tool as an installable TBtools plugin (.plugin) that runs as a tab in TBtools' built-in JxBrowser. Use this skill whenever the user mentions a TBtools plugin or .plugin file, installing or converting a web page / HTML / single-file tool into TBtools, or embedding a web page in TBtools — even without saying "plugin".
 ---
 
-# HTML → TBtools 插件
+# HTML → TBtools plugin
 
-Java 侧只是一层薄壳：用 TBtools 自带的 JxBrowser 面板，以 file:// 打开插件文件夹里的 `index.html`。附带脚本：
+The Java side is just a thin shell: it opens the plugin folder's `index.html` via file:// using TBtools' own JxBrowser panel. Bundled scripts:
 
-- `scripts/PluginInject.java`：通用入口类，插件名取插件文件夹名，不需要按应用修改。
-- `scripts/build.sh`：编译并打包成 `.plugin`。
-- `scripts/Verify.java`：用 TBtools 自己的解压和加载代码模拟安装。
+- `scripts/PluginInject.java`: generic entry class; the plugin name is taken from the plugin folder name — no per-app modification needed.
+- `scripts/build.sh`: compiles and packages everything into a `.plugin`.
+- `scripts/Verify.java`: simulates installation using TBtools' own unzip-and-load code.
 
-## 环境
+## Environment
 
-需要 JDK 11+（`javac`、`jar`）、`zip`，以及 TBtools 主 jar。编译只依赖这一个 jar，不需要 JxBrowser 的 jar。
+Requires JDK 11+ (`javac`, `jar`), `zip`, and the TBtools main jar. Compilation depends on that jar only — no JxBrowser jar needed.
 
-判断是不是主 jar：`unzip -l <jar> | grep WebGuiJPanel.class` 能找到 `biocjava/GUIexcutors/WebGuiApp/WebGuiJPanel.class` 就是。
+To tell whether a jar is the main jar: `unzip -l <jar> | grep WebGuiJPanel.class` should find `biocjava/GUIexcutors/WebGuiApp/WebGuiJPanel.class`.
 
-查找顺序：
+Lookup order:
 
-1. 先看 TBtools home（含 `.Plugin/` 的目录）下的 `TBtools_JRE1.6.jar`，TBtools 生成快捷方式的代码引用的就是这个路径。
-2. 没有就在安装目录里按上面的方法搜。
-3. 还找不到就问用户，不要猜。
+1. First check `TBtools_JRE1.6.jar` under the TBtools home (the directory containing `.Plugin/`) — this is the path referenced by TBtools' shortcut-generation code.
+2. If absent, search the installation directory using the check above.
+3. If still not found, ask the user — do not guess.
 
-## 流程
+## Workflow
 
-### 1. staging
+### 1. Staging
 
-把应用复制到一个 staging 目录，所有修改都在副本里做，不动用户的原始仓库。
+Copy the app into a staging directory and make all modifications in the copy; never touch the user's original repo.
 
-- 入口文件必须叫 `index.html`。
-- 顶层不能有其他 `.jar`：TBtools 只加载找到的第一个 jar，build.sh 遇到会报错。
-- 点开头的文件（`.git`、`.DS_Store` 等）会在打包时自动去掉。
+- The entry file must be named `index.html`.
+- No other `.jar` at the top level: TBtools loads only the first jar it finds, and build.sh errors out on any extra one.
+- Dot-prefixed files (`.git`, `.DS_Store`, etc.) are dropped automatically during packaging.
 
-### 2. 外部依赖本地化
+### 2. Localizing external dependencies
 
-页面跑在 file:// 下，先列出所有外链：
+The page runs under file://, so first list all external links:
 
 ```bash
 grep -noE '(src|href)="https?://[^"]+"' index.html
 ```
 
-然后逐个按类型处理：
+Then handle each one by type:
 
-- **`<script src>` 和样式表**：下载到 `vendor/`，引用改成相对路径，同时删掉这个标签上的 `integrity` 和 `crossorigin`。
-  - 原因：file:// 页面的 origin 是 opaque，带 `crossorigin` 的本地加载会被 Chromium 的 CORS 拦截，SRI 校验也会跟着失败。
-  - 原标签带 SRI 时，删属性前先核对下载的文件：`openssl dgst -sha384 -binary <file> | base64`，结果应与原 SRI 一致。
-  - CDN 连不上时，用 `npm pack <pkg>@<ver>` 从 npm registry 取同一个文件。
-- **CDN CSS 里的相对 `url()`**（字体、图片）：一起下载，并保持原来的相对目录结构。
-- **字体服务的 CSS**（如 Google Fonts）：可以保留，离线时回落到系统字体。
-- **`<a href>`、远程 API 的 `fetch`**：不用处理。
-- **`<script type="module" src>`、`import` 本地文件、`new Worker('x.js')`**：file:// 下都会被拦截。可以改成内联脚本或经典脚本；如果保留远程 URL，插件就只能联网使用，要告诉用户。
+- **`<script src>` and stylesheets**: download into `vendor/`, rewrite the reference to a relative path, and drop `integrity` and `crossorigin` from the tag.
+  - Why: a file:// page has an opaque origin, so a local load carrying `crossorigin` is blocked by Chromium's CORS, and SRI verification fails with it.
+  - If the original tag carried SRI, verify the downloaded file before removing the attributes: `openssl dgst -sha384 -binary <file> | base64` must match the original SRI digest.
+  - If the CDN is unreachable, fetch the same file from the npm registry with `npm pack <pkg>@<ver>`.
+- **Relative `url()`s inside CDN CSS** (fonts, images): download them as well, keeping the original relative directory layout.
+- **Font-service CSS** (e.g. Google Fonts): can stay as is; offline it falls back to system fonts.
+- **`<a href>` and `fetch` to remote APIs**: nothing to do.
+- **`<script type="module" src>`, `import` of local files, `new Worker('x.js')`**: all blocked under file://. Rewrite as inline or classic scripts; if a remote URL is kept, the plugin only works online — tell the user.
 
-### 3. 打包
+### 3. Packaging
 
 ```bash
 bash scripts/build.sh <tbtools_jar> <staging_dir> <name> [menu_path]
 ```
 
-输出 `./<name>.plugin`。`<name>` 同时决定插件文件夹名、菜单名和标签页名，可以含空格。
+Outputs `./<name>.plugin`. `<name>` determines the plugin folder name, the menu name, and the tab title; it may contain spaces.
 
-`menu_path` 可选，用来把插件放进子菜单，多级之间用 tab 分隔，如 `$'Graphics\tSVG'`（要在 bash 里调用）。
+`menu_path` is optional and nests the plugin in a submenu; levels are tab-separated, e.g. `$'Graphics\tSVG'` (call from bash).
 
-### 4. 验证
+### 4. Verification
 
 ```bash
 java -Djava.awt.headless=true -cp <tbtools_jar> scripts/Verify.java <name>.plugin
 ```
 
-只用主 jar 时，正常结果是 `OK: reached WebGuiJPanel, stopped at missing JxBrowser`。这说明插件结构和类加载都走通了，一直到创建浏览器那一步才停下。
+With only the main jar on the classpath, the expected result is `OK: reached WebGuiJPanel, stopped at missing JxBrowser` — plugin structure and class loading have both worked, stopping only at browser creation.
 
-有 Playwright 或其他 headless Chromium 的话，再以 file:// 打开 staging 里的 `index.html`，确认控制台没有报错，依赖的全局对象也已定义（如 `typeof Plotly`）。
+If Playwright or another headless Chromium is available, also open the staged `index.html` via file:// and confirm the console is error-free and all depended-on globals are defined (e.g. `typeof Plotly`).
 
-### 5. 交付
+### 5. Delivery
 
-`.plugin` 通过 TBtools 菜单里的 Install Plugin 安装。交付时把下面"已知限制"中和这个应用相关的几条告诉用户，请他实测。
+The `.plugin` is installed through Install Plugin in the TBtools menu. On delivery, tell the user the items under Known limitations below that apply to this app, and ask them to test it themselves.
 
-## TBtools 插件机制（反编译所得）
+## TBtools plugin mechanics (from decompilation)
 
-- `.plugin` 就是一个 zip，安装时解压到 TBtools home 下的 `.Plugin/`。zip 内用正斜杠路径，各平台都能装。
-- TBtools 用 URLClassLoader 加载插件文件夹里的第一个 `*.jar`，父加载器是 TBtools 自身，然后反射调用 `Plugin.PluginInject`。这个类需要：
-  - 无参构造；
-  - `JPanel generatePanel()`；
-  - `String getPluginName()`。
+- A `.plugin` is just a zip; installation extracts it to `.Plugin/` under the TBtools home. Use forward-slash paths inside the zip so it installs on every platform.
+- TBtools loads the first `*.jar` in the plugin folder with a URLClassLoader (parented to TBtools itself), then reflectively invokes `Plugin.PluginInject`. That class needs:
+  - a no-arg constructor;
+  - `JPanel generatePanel()`;
+  - `String getPluginName()`.
 
-  不需要实现接口，jar 也不需要 manifest。编译用 `--release 11`，与 TBtools 的 class 版本一致。
-- 启动后，菜单项显示的是文件夹名；`getPluginName()` 只在刚安装的那一次用到。
-- `MenuConfig.ini` 读入时不做 trim，结尾换行会变成菜单名的一部分，所以 build.sh 用 `printf` 写入。
-- 插件面板加入后 TBtools 会调用 `pack()`。PluginInject 设了 preferredSize，不设的话窗口可能缩得很小。
-- `biocjava.GUIexcutors.WebGuiApp.WebGuiJPanel(String url, boolean controlMenu)` 使用共享的静态 Engine（`getEngine()`，OFF_SCREEN 模式，用户数据在 TBtools home 下的 `.jxbrowser`），license 由它自己注入。`controlMenu=false` 时不显示导航栏。
-- 卸载：在菜单里按住 Ctrl 点击插件项。
+  No interface needs implementing, and the jar needs no manifest. Compile with `--release 11`, matching TBtools' class-file version.
+- After startup, the menu item shows the folder name; `getPluginName()` is used only once, right after installation.
+- `MenuConfig.ini` is read without trimming, so a trailing newline would become part of the menu name — hence build.sh writes it with `printf`.
+- Once the plugin panel is added, TBtools calls `pack()`. PluginInject sets a preferredSize; without one the window may shrink to something tiny.
+- `biocjava.GUIexcutors.WebGuiApp.WebGuiJPanel(String url, boolean controlMenu)` uses a shared static Engine (`getEngine()`, OFF_SCREEN mode, user data under `.jxbrowser` in the TBtools home) and injects its license itself. With `controlMenu=false` the navigation bar is hidden.
+- Uninstall: Ctrl-click the plugin's item in the menu.
 
-## 已知限制
+## Known limitations
 
-- **下载**：`<a download>`、Blob、`Plotly.downloadImage` 等下载的文件都存到系统临时目录，完成后弹窗 "Download Finished. Browse It?"，没有"另存为"。另外，文件名以 `.zip` 或 `plugin` 结尾时，TBtools 会提示把它当插件安装。
-  - 要改成"另存为"，需要自建 Browser：`WebGuiJPanel.getEngine().newBrowser()` 加 `BrowserView`，再设置 `StartDownloadCallback`。
-  - 这需要对着 TBtools 安装目录里的 JxBrowser jar 编译。
-  - 调用 `getEngine()` 之前先执行 `System.setProperty("jxbrowser.license.key", toolsKit.LicenseHub.GetLicense.getJxBroswerLicense())`。
-- **打印和拖拽**：`window.print()` 和从文件管理器拖入文件在 OFF_SCREEN 模式下的表现未验证。
-- **localStorage**：数据存在 TBtools 共享的 `.jxbrowser` 目录。所有 file:// 页面同源、可以互相读取，如果应用在里面存了 API key，要告诉用户。
-- **不要用 data: URL 加载页面**：它的 origin 是 opaque，访问 localStorage 会抛 SecurityError。
-- **更新**：只改了 `index.html`、且不需要重新本地化依赖时，可以直接替换 `.Plugin/<name>/index.html`；其他情况重新 build。
-- **版本兼容**：插件只依赖 `WebGuiJPanel(String, boolean)` 这一个构造器。TBtools 升级后加载失败，先检查这个类还在不在。
+- **Downloads**: files downloaded via `<a download>`, Blob, `Plotly.downloadImage`, etc. land in the system temp directory, followed by a "Download Finished. Browse It?" popup — there is no "Save As". Additionally, when a filename ends in `.zip` or `plugin`, TBtools prompts to treat it as a plugin install.
+  - To get "Save As" instead, build your own Browser: `WebGuiJPanel.getEngine().newBrowser()` plus `BrowserView`, then set a `StartDownloadCallback`.
+  - This requires compiling against the JxBrowser jar in the TBtools installation directory.
+  - Before calling `getEngine()`, run `System.setProperty("jxbrowser.license.key", toolsKit.LicenseHub.GetLicense.getJxBroswerLicense())`.
+- **Printing and drag-and-drop**: `window.print()` and dragging files in from a file manager are unverified in OFF_SCREEN mode.
+- **localStorage**: data lives in TBtools' shared `.jxbrowser` directory. All file:// pages share one origin and can read each other's data — if the app stores an API key there, tell the user.
+- **Do not load the page from a data: URL**: its origin is opaque and localStorage access throws SecurityError.
+- **Updates**: if only `index.html` changed and dependencies need no re-localization, replace `.Plugin/<name>/index.html` in place; otherwise rebuild.
+- **Version compatibility**: the plugin depends on the single constructor `WebGuiJPanel(String, boolean)`. If loading breaks after a TBtools upgrade, first check that this class still exists.
