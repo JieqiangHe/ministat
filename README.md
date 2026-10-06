@@ -6,4 +6,4 @@ Free, in-browser statistics and scientific graphing. Paste data from Excel, pick
 
 **Live:** https://jieqianghe.github.io/ministat/
 
-Also available as a plugin inside [TBtools-II](https://github.com/CJ-Chen/TBtools-II).
+[TBtools-II](https://github.com/CJ-Chen/TBtools-II) users can use it directly as a plugin.
