@@ -56,7 +56,7 @@
   --panel: #f5f5f5;
   --fg: #262626;  --fg-strong: #171717;  --fg-soft: #525252;
   --fg-muted: #525252;  --fg-faint: #8a8a8a;
-  --btn-bg: #f5f5f5;  --btn-hover: #e5e5e5;
+  --btn-bg: #ffffff;  --btn-hover: #e9f0fd;
   --input-bg: #ffffff;  --input-border: #d4d4d4;
   --input-hover-bg: #ffffff;  --input-hover-border: #a3a3a3;
   --focus-border: #737373;  --focus-ring: 0 0 0 3px rgba(38,38,38,.12);
@@ -75,12 +75,12 @@
   --plot-shadow: 0 2px 8px rgba(0,0,0,.12);
 }
 /* component classes from the generated block, re-pointed at the theme */
-.tb-btn{background-color:var(--btn-bg);color:var(--fg)}
+.tb-btn{background-color:var(--btn-bg);color:var(--fg);border:1px solid var(--input-border);border-radius:3px;padding:2px 7px;font-size:11.5px;line-height:1.5}
 .tb-btn:hover{background-color:var(--btn-hover)}
 .tb-btn:disabled:hover{background-color:var(--btn-bg)}
-.field{background-color:var(--input-bg);border-color:var(--input-border);color:var(--fg-strong)}
+.field{background-color:var(--input-bg);border-color:var(--input-border);color:var(--fg-strong);border-radius:3px;padding:3px 6px;font-size:12.5px}
 .field:focus{border-color:var(--focus-border)}
-.num-field{background-color:var(--input-bg);border-color:var(--input-border);color:var(--fg-strong)}
+.num-field{background-color:var(--input-bg);border-color:var(--input-border);color:var(--fg-strong);border-radius:3px;padding:2px 5px;font-size:12.5px}
 .num-field:focus{border-color:var(--focus-border)}
 .h3{color:var(--fg)}
 /* Tailwind color utilities used on this page, re-pointed at the theme */
@@ -116,11 +116,11 @@ body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
 /* Data grid — uniform cells, group-name aligned with its column */
 table.data-grid { table-layout: fixed; border-collapse: collapse; }
 table.data-grid td, table.data-grid th { padding: 2px 4px; box-sizing: border-box; }
-.cell-input { width: 100%; box-sizing: border-box; padding: 4px 6px; font-size: 14px; line-height: 20px; border: 1px solid var(--cell-border); border-radius: 5px; text-align: right; font-variant-numeric: tabular-nums; background: transparent; color: var(--fg); transition: border-color .12s, background .12s; }
+.cell-input { width: 100%; box-sizing: border-box; padding: 3px 6px; font-size: 13px; line-height: 19px; border: 1px solid var(--cell-border); border-radius: 3px; text-align: right; font-variant-numeric: tabular-nums; background: transparent; color: var(--fg); transition: border-color .12s, background .12s; }
 .cell-input:focus { outline: none; border-color: var(--focus-border); background: var(--cell-focus-bg); }
 .cell-input.bad { background: var(--bad-bg); border-color: var(--bad-border); color: var(--bad-fg); }
 /* group-name shares the exact column width of its cells; right padding clears the × button */
-.grp-name { width: 100%; box-sizing: border-box; padding: 4px 24px 4px 6px; font-size: 14px; line-height: 20px; font-weight: 600; text-align: center; border: 1px solid var(--cell-border); border-radius: 5px; background: transparent; color: var(--fg-strong); transition: border-color .12s, background .12s; }
+.grp-name { width: 100%; box-sizing: border-box; padding: 3px 22px 3px 6px; font-size: 13px; line-height: 19px; font-weight: 600; text-align: center; border: 1px solid var(--cell-border); border-radius: 3px; background: transparent; color: var(--fg-strong); transition: border-color .12s, background .12s; }
 .grp-name:focus { outline: none; border-color: var(--focus-border); background: var(--cell-focus-bg); }
 .delGrp { position: absolute; top: 50%; right: 3px; transform: translateY(-50%); font-size: 13px; line-height: 1; color: var(--fg-faint); }
 .delGrp:hover { color: var(--err); }
@@ -130,12 +130,12 @@ table.data-grid td, table.data-grid th { padding: 2px 4px; box-sizing: border-bo
 tr:hover > .rowhdr .rn, tr:focus-within > .rowhdr .rn { display: none; }
 tr:hover > .rowhdr .delRow, tr:focus-within > .rowhdr .delRow { display: inline; }
 
-.stat-table { border-collapse: collapse; width: 100%; font-size: 13px; color: var(--fg); }
-.stat-table th, .stat-table td { border: 1px solid var(--cell-border); padding: 6px 10px; text-align: left; }
+.stat-table { border-collapse: collapse; width: 100%; font-size: 12px; color: var(--fg); }
+.stat-table th, .stat-table td { border: 1px solid var(--cell-border); padding: 4px 8px; text-align: left; }
 .stat-table thead th { background: var(--thead-bg); font-weight: 600; }
 .stat-table td.num, .stat-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
 .stat-table tr:nth-child(even) td { background: var(--row-alt); }
-.pill { display: inline-block; padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; }
+.pill { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; }
 .scroll-thin::-webkit-scrollbar { height: 8px; width: 8px; }
 .scroll-thin::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 4px; }
 details > summary { cursor: pointer; list-style: none; }
@@ -152,36 +152,75 @@ input::placeholder, textarea::placeholder { color: var(--fg-faint); }
 main button { transition: background-color .15s, color .15s, transform .08s; }
 main button:active:not(:disabled) { transform: scale(.97); }
 /* white plot surface lifted slightly off the card */
-#plot { border-radius: 8px; box-shadow: var(--plot-shadow); }
+#plot { border-radius: 2px; box-shadow: var(--plot-shadow); }
+
+/* Bottom menu bar (theme + help) below four fixed, equal quadrants —
+   Data TL / Figure TR / Analysis BL / Stat BR. Each section scrolls its own
+   content; narrow screens stack vertically. */
+body { display: flex; flex-direction: column; height: 100vh; height: 100dvh; overflow: hidden; }
+#menuBar { flex: none; display: flex; align-items: center; justify-content: flex-end; gap: 6px; height: 30px; padding: 0 10px; background: var(--panel); border-top: 1px solid var(--card-border); }
+/* minisvg-style flat menu items: no border, no fill, hover tint only */
+#menuBar .tb-btn { border-color: transparent; background: transparent; }
+#menuBar .tb-btn:hover:not(:disabled) { background: var(--btn-hover); }
+main.quad { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 10px; padding: 10px; }
+main.quad > section { overflow: auto; min-height: 0; border-radius: 4px; padding: 8px 10px; }
+#sec-data { display: flex; flex-direction: column; }
+#sec-data .quad-fill { flex: 1 1 auto; min-height: 160px; border-radius: 4px; }
+#sec-graph #plot { width: auto; margin: 0 auto; }
+
+/* minisvg-flavored density: small radii, tight spacing, hairline section headers */
+main.quad h2 { font-size: 12px; font-weight: 600; color: var(--fg-muted); border-bottom: 1px solid var(--grid-border); padding-bottom: 3px; margin: 0 0 6px; }
+main.quad .text-sm { font-size: 12.5px; }
+main.quad .h3 { font-size: 12.5px; }
+main.quad .field-label { font-size: 11px; margin-bottom: 2px; }
+#runBtn { border-radius: 3px; padding: 4px; margin-top: 8px; font-size: 12.5px; }
+#verdict > div { border-radius: 4px; padding: 5px 10px; font-size: 12.5px; }
+#parseWarn { border-radius: 4px; }
+@media (max-width: 880px) {
+  body { display: block; height: auto; overflow: auto; }
+  main.quad { display: flex; flex-direction: column; }
+  main.quad > section { overflow: visible; min-height: auto; }
+  #sec-data .quad-fill { min-height: auto; }
+  #sec-graph #plot { width: 100%; }
+}
+/* help dialog */
+dialog { border: 1px solid var(--card-border); border-radius: 6px; padding: 0; background: var(--surface); color: var(--fg); }
+dialog::backdrop { background: #0007; }
+#helpDlg { width: min(480px, 92vw); }
+#helpDlg form { padding: 12px 16px 14px; }
+#helpDlg header { display: flex; align-items: center; margin-bottom: 8px; }
+#helpDlg h3 { flex: 1; margin: 0; font-size: 13px; font-weight: 600; }
+#helpDlg header button { border: 0; background: none; font-size: 15px; line-height: 18px; padding: 0 4px; color: var(--fg-muted); }
+#helpDlg header button:hover { color: var(--fg); }
+#helpDlg dl { display: grid; grid-template-columns: 88px 1fr; gap: 4px 10px; margin: 0; font-size: 12px; }
+#helpDlg dd { margin: 0; }
 </style>
 </head>
 
-<body class="bg-black text-neutral-200 min-h-screen">
-  <main class="max-w-[1100px] mx-auto p-3 flex flex-col gap-3">
+<body class="bg-black text-neutral-200">
+  <main class="quad">
 
     <!-- ============ DATA ============ -->
     <section id="sec-data" class="bg-black rounded-xl border border-neutral-800 p-3">
-      <div class="flex items-center justify-between mb-2 flex-wrap gap-1.5">
-        <h2 class="font-semibold text-neutral-100 flex items-center gap-2">Data</h2>
-        <div class="flex gap-1.5 flex-wrap">
-          <button id="undoBtn" class="tb-btn" title="Undo (⌘/Ctrl+Z)" disabled>↶ Undo</button>
-          <button id="redoBtn" class="tb-btn" title="Redo (⌘/Ctrl+Shift+Z)" disabled>↷ Redo</button>
-          <button id="addRowBtn" class="tb-btn">+ Row</button>
-          <button id="addGroupBtn" class="tb-btn">+ Group</button>
-          <button id="clearBtn" class="tb-btn hover:bg-red-900 hover:text-red-200">✕ Clear</button>
-          <button id="exportBtn" class="tb-btn">⬇ Export .jgz</button>
-          <label for="importJH" id="importLabel" class="tb-btn cursor-pointer">⬆ Import .jgz</label>
-          <input id="importJH" type="file" accept=".jgz,.jh" class="hidden" />
-          <button id="themeBtn" class="tb-btn" title="Switch between light and dark interface">theme:light</button>
-        </div>
+      <h2>Data</h2>
+      <div class="flex gap-1.5 flex-wrap mb-2">
+        <button id="undoBtn" class="tb-btn" title="Undo (⌘/Ctrl+Z)" disabled>Undo</button>
+        <button id="redoBtn" class="tb-btn" title="Redo (⌘/Ctrl+Shift+Z)" disabled>Redo</button>
+        <button id="addRowBtn" class="tb-btn">Add row</button>
+        <button id="addGroupBtn" class="tb-btn">Add group</button>
+        <button id="clearBtn" class="tb-btn hover:bg-red-900 hover:text-red-200">Clear</button>
+        <button id="exportBtn" class="tb-btn">Export .jgz</button>
+        <label for="importJH" id="importLabel" class="tb-btn cursor-pointer">Import .jgz</label>
+        <input id="importJH" type="file" accept=".jgz,.jh" class="hidden" />
+        <button id="copyData" class="tb-btn" title="Copy the grid as TSV (paste into Excel/Sheets)">Copy data</button>
       </div>
 
-      <div class="overflow-auto scroll-thin border border-neutral-700 rounded-lg" style="max-height: 360px;">
+      <div class="overflow-auto scroll-thin border border-neutral-700 quad-fill">
         <table class="data-grid text-sm" id="dataTable" aria-label="Data grid"></table>
       </div>
-      <p class="mt-1.5 text-[11px] text-neutral-400">Tip: paste a block from Excel/Sheets into any cell (⌘/Ctrl+V). Enter / ↑ ↓ move between rows, ← → between groups at the edge of a cell. Hover a row number to delete the row.</p>
+      <p class="mt-1.5 text-[11px] text-neutral-400">Tip: paste from Excel/Sheets into any cell (⌘/Ctrl+V) · hover a row number to delete it.</p>
 
-      <div id="parseWarn" class="hidden mt-2 text-xs text-amber-300 bg-amber-500/10 border border-amber-500/30 rounded-md px-3 py-2" role="status"></div>
+      <div id="parseWarn" class="hidden mt-2 text-xs text-amber-300 bg-amber-500/10 border border-amber-500/30 px-3 py-2" role="status"></div>
 
       <details class="mt-2">
         <summary class="text-xs font-medium text-neutral-400 hover:text-neutral-200 select-none">⌗ Paste / import TSV or CSV (from Excel, Sheets…)</summary>
@@ -196,9 +235,24 @@ main button:active:not(:disabled) { transform: scale(.97); }
       </details>
     </section>
 
-    <!-- ============ ANALYSIS SETTINGS ============ -->
+    <!-- ============ FIGURE (top-right quadrant) ============ -->
+    <section id="sec-graph" class="bg-black rounded-xl border border-neutral-800 p-3">
+      <h2>Figure</h2>
+      <div class="flex items-center gap-1.5 flex-wrap mb-2 text-xs text-neutral-500">
+        <label for="plotW">W</label><input id="plotW" type="number" min="220" step="20" value="300" class="num-field w-14" />
+        <label for="plotH">H</label><input id="plotH" type="number" min="220" step="20" value="400" class="num-field w-14" />
+        <label for="dotSize">Dot</label><input id="dotSize" type="number" min="2" max="20" step="1" value="6" class="num-field w-12" />
+        <span class="text-neutral-400">px</span>
+        <button id="resetGraph" class="tb-btn" title="Restore graph to default options, size &amp; view">Reset</button>
+        <button id="dlPng" class="tb-btn" title="PNG at 5× the on-screen size (≈ 300 dpi for a 2–3 inch figure)">PNG 300 dpi</button>
+        <button id="dlSvg" class="tb-btn" title="Download as vector SVG">SVG</button>
+      </div>
+      <div id="plot" class="w-full" style="height: 400px;"></div>
+    </section>
+
+    <!-- ============ ANALYSIS SETTINGS (bottom-left quadrant) ============ -->
     <section id="sec-settings" class="bg-black rounded-xl border border-neutral-800 p-3">
-      <h2 class="font-semibold text-neutral-100 flex items-center gap-2 mb-2">Analysis</h2>
+      <h2>Analysis</h2>
 
       <label for="testSelect" class="field-label">Test</label>
       <select id="testSelect" class="field mb-2">
@@ -287,35 +341,32 @@ main button:active:not(:disabled) { transform: scale(.97); }
       </button>
     </section>
 
-    <!-- ============ FIGURE ============ -->
-    <section id="sec-graph" class="bg-black rounded-xl border border-neutral-800 p-3">
-      <div class="flex items-center justify-between mb-2 flex-wrap gap-1.5">
-        <h2 class="font-semibold text-neutral-100 flex items-center gap-2">Figure</h2>
-        <div class="flex items-center gap-1.5 flex-wrap justify-end">
-          <div class="flex items-center gap-1 text-xs text-neutral-500 mr-1">
-            <label for="plotW">W</label><input id="plotW" type="number" min="220" step="20" value="300" class="num-field w-14" />
-            <label for="plotH">H</label><input id="plotH" type="number" min="220" step="20" value="400" class="num-field w-14" />
-            <label for="dotSize">Dot</label><input id="dotSize" type="number" min="2" max="20" step="1" value="6" class="num-field w-12" />
-            <span class="text-neutral-400">px</span>
-          </div>
-          <button id="resetGraph" class="tb-btn" title="Restore graph to default options, size &amp; view">↺ Reset</button>
-          <button id="dlPng" class="tb-btn" title="PNG at 5× the on-screen size (≈ 300 dpi for a 2–3 inch figure)">⬇ PNG</button>
-          <button id="dlSvg" class="tb-btn">⬇ SVG</button>
-        </div>
-      </div>
-      <div id="plot" class="w-full" style="height: 400px;"></div>
-    </section>
-
-    <!-- ============ REPORT ============ -->
+    <!-- ============ REPORT (bottom-right quadrant) ============ -->
     <section id="sec-report" class="bg-black rounded-xl border border-neutral-800 p-3">
-      <div class="flex items-center justify-between mb-2">
-        <h2 class="font-semibold text-neutral-100">Stat</h2>
-        <button id="copyStats" class="tb-btn">⧉ Copy table</button>
-      </div>
+      <h2>Stat</h2>
+      <button id="copyStats" class="tb-btn mb-2">Copy table</button>
       <div id="verdict" class="mb-2"></div>
       <div id="report" class="space-y-3 overflow-x-auto scroll-thin"></div>
     </section>
   </main>
+
+  <footer id="menuBar">
+    <button id="themeBtn" class="tb-btn" title="Switch between light and dark interface">theme:light</button>
+    <button id="helpBtn" class="tb-btn">Help</button>
+  </footer>
+
+  <dialog id="helpDlg"><form method="dialog">
+    <header><h3>ministat — tips</h3><button type="submit" value="" aria-label="Close">×</button></header>
+    <dl>
+      <dt>Paste</dt><dd>Paste a block from Excel/Sheets into any cell (⌘/Ctrl+V); the grid expands to fit.</dd>
+      <dt>Move</dt><dd><kbd>Enter</kbd> / <kbd>↑</kbd> <kbd>↓</kbd> move between rows; <kbd>←</kbd> <kbd>→</kbd> move between groups at a cell's edge.</dd>
+      <dt>Delete</dt><dd>Hover a row number and click × to delete the row; the × in a column header deletes the group.</dd>
+      <dt>Undo</dt><dd><kbd>⌘/Ctrl+Z</kbd>; add <kbd>Shift</kbd> for redo.</dd>
+      <dt>Session</dt><dd>Saved in this browser automatically; Export / Import (.jgz) moves a session between machines.</dd>
+      <dt>Export</dt><dd>PNG at 5× the on-screen size (≈ 300 dpi for a 2–3 inch figure); SVG is vector.</dd>
+      <dt>Theme</dt><dd>theme:light / theme:dark in the bottom bar.</dd>
+    </dl>
+  </form></dialog>
 
 <script src="https://cdn.jsdelivr.net/npm/jstat@1.9.6/dist/jstat.min.js" integrity="sha384-7uGOMhLhjroTamet5l69PR8EGxKUyWZlZOFFDRymtVqIfsh4Hj7uZRctW67ZCdkD" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/plotly.js-cartesian-dist-min@2.35.2/plotly-cartesian.min.js" integrity="sha384-gKF7EaMDoWW1zLWkouldmVWF5jqEKrAswAciW73iNzqlomabVVPO60XkJvL5q/Ie" crossorigin="anonymous"></script>
@@ -1689,11 +1740,18 @@ $("copyStats").onclick = async () => {
   try { await navigator.clipboard.writeText(reportTSV(lastReport)); flash($("copyStats"), "✓ Copied"); }
   catch { flash($("copyStats"), "Copy failed"); }
 };
+$("copyData").onclick = async () => {
+  const tsv = [grid.map(g => g.name).join("\t")].concat(
+    Array.from({ length: nRows() }, (_, r) => grid.map(g => g.cells[r] ?? "").join("\t"))
+  ).join("\n");
+  try { await navigator.clipboard.writeText(tsv); flash($("copyData"), "✓ Copied"); }
+  catch { flash($("copyData"), "Copy failed"); }
+};
 $("resetGraph").onclick = () => {
   Object.entries(GRAPH_DEFAULTS).forEach(([id, val]) => { $(id).value = val; });
   scheduleSave();
   if (lastPlot) drawPlot(lastPlot); // redraw at default options (also clears any zoom/pan)
-  flash($("resetGraph"), "↺ Reset ✓");
+  flash($("resetGraph"), "Reset ✓");
 };
 
 // Exports keep the on-screen aspect ratio; PNG is rendered at 5× for print resolution.
@@ -1783,6 +1841,7 @@ themeBtn.onclick = () => {
   try { localStorage.setItem("ministat:theme", light ? "light" : "dark"); } catch (e) { /* storage unavailable */ }
 };
 applyUiTheme(document.documentElement.dataset.theme === "light");
+$("helpBtn").onclick = () => $("helpDlg").showModal();
 
 /* ============================================================
    INIT — restore the last session, or show the demo on a first visit
