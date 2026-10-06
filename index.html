@@ -171,7 +171,7 @@ main button:active:not(:disabled) { transform: scale(.97); }
           <button id="exportBtn" class="tb-btn">⬇ Export .jgz</button>
           <label for="importJH" id="importLabel" class="tb-btn cursor-pointer">⬆ Import .jgz</label>
           <input id="importJH" type="file" accept=".jgz,.jh" class="hidden" />
-          <button id="themeBtn" class="tb-btn" title="Switch to light interface">◐</button>
+          <button id="themeBtn" class="tb-btn" title="Switch between light and dark interface">theme:light</button>
         </div>
       </div>
 
@@ -1773,6 +1773,7 @@ function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp
 const themeBtn = $("themeBtn");
 function applyUiTheme(light) {
   document.documentElement.dataset.theme = light ? "light" : "dark";
+  themeBtn.textContent = light ? "theme:light" : "theme:dark";
   themeBtn.title = light ? "Switch to dark interface" : "Switch to light interface";
 }
 themeBtn.onclick = () => {
