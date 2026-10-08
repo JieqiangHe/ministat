@@ -1216,6 +1216,23 @@ document.addEventListener("keydown", e => {
   if (k === "y" || e.shiftKey) redo(); else undo();
 });
 
+/* JxBrowser (TBtools) runs the browser's own Select All on Ctrl/Cmd+A and
+   highlights the whole interface even when a keydown handler swallows the key.
+   The command fires a cancelable selectstart first: cancel it outside editable
+   elements and land on the first data cell instead. Drag-selections keep
+   working (a pointer is down); document.execCommand('selectAll') reproduces
+   the command in any Chromium. */
+let selDown = 0;
+addEventListener("pointerdown", () => selDown = 1, true);
+addEventListener("pointerup", () => selDown = 0, true);
+document.addEventListener("selectstart", e => {
+  const t = e.target.nodeType === 1 ? e.target : e.target.parentElement;
+  if (!t || t.closest("input,textarea,select,[contenteditable]") || document.querySelector("dialog[open]")) return;
+  if (selDown) return; // a drag selection, not the Select All command
+  e.preventDefault();
+  focusCell(0, 0); // the app's select-all: back to the top-left data cell
+});
+
 /* ============================================================
    COLLECTING DATA
    ============================================================ */
