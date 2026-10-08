@@ -1,21 +1,29 @@
 package Plugin;
 
 import biocjava.GUIexcutors.WebGuiApp.WebGuiJPanel;
+import java.awt.AWTEvent;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dialog;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.FileDialog;
 import java.awt.Frame;
+import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
+import java.awt.event.InputMethodEvent;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Proxy;
 import java.nio.file.Path;
+import java.text.AttributedCharacterIterator;
+import java.text.CharacterIterator;
+import java.util.Optional;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -27,6 +35,7 @@ public class PluginInject {
 
     private static final String CB = "com.teamdev.jxbrowser.browser.callback.";
     private static File lastDir;
+    private static boolean queued;
     private final File dir;
 
     public PluginInject() throws Exception {
@@ -59,6 +68,8 @@ public class PluginInject {
                     if (found == null && B.isAssignableFrom(f.getType())) { f.setAccessible(true); found = f.get(p); }
             if (found == null) return false;
             Object b = found;
+            p.putClientProperty(PluginInject.class, b);
+            if (System.getProperty("os.name", "").startsWith("Mac")) ime();
             set(b, "StartDownloadCallback", (pa, tell) -> save(p, (String) call(call(call(pa, "download"), "target"), "suggestedFileName"), tell, f -> call(tell, "download", f)));
             if (set(b, "PrintHtmlCallback", (pa, tell) -> save(p, pdfName(b), tell, f -> pdf(pa, tell, f)))) set(b, "PrintCallback", (pa, tell) -> call(tell, "print"));
             else System.err.println("PluginInject: no PrintHtmlCallback in this JxBrowser, printing left to TBtools");
@@ -66,6 +77,51 @@ public class PluginInject {
             e.printStackTrace();
         }
         return true;
+    }
+
+    private static synchronized void ime() {
+        if (queued) return;
+        queued = true;
+        Toolkit.getDefaultToolkit().getSystemEventQueue().push(new EventQueue() {
+            private boolean composing;
+
+            protected void dispatchEvent(AWTEvent e) {
+                if (e instanceof InputMethodEvent && e.getID() == InputMethodEvent.INPUT_METHOD_TEXT_CHANGED) try {
+                    InputMethodEvent m = (InputMethodEvent) e;
+                    String s = text(m.getText());
+                    boolean was = composing;
+                    composing = s.length() > m.getCommittedCharacterCount();
+                    if (!was && !composing && !s.isEmpty() && insert(m.getSource(), s)) return;
+                } catch (Throwable x) {
+                    x.printStackTrace();
+                }
+                super.dispatchEvent(e);
+            }
+        });
+    }
+
+    private static String text(AttributedCharacterIterator it) {
+        if (it == null) return "";
+        StringBuilder b = new StringBuilder();
+        for (char c = it.first(); c != CharacterIterator.DONE; c = it.next()) b.append(c);
+        it.first();
+        return b.toString();
+    }
+
+    private static boolean insert(Object source, String s) throws Exception {
+        Object b = null, f = null;
+        for (Object c = source; b == null && c instanceof Component; c = ((Component) c).getParent())
+            if (c instanceof JComponent) b = ((JComponent) c).getClientProperty(PluginInject.class);
+        if (b == null) return false;
+        for (String w : new String[]{"focusedFrame", "mainFrame"}) if (f == null) try {
+            f = call(b, w);
+            if (f instanceof Optional) f = ((Optional<?>) f).orElse(null);
+        } catch (NoSuchMethodException x) {
+        }
+        if (f == null) return false;
+        StringBuilder js = new StringBuilder("document.execCommand('insertText',false,'");
+        for (char c : s.toCharArray()) js.append(String.format("\\u%04x", (int) c));
+        return Boolean.TRUE.equals(call(f, "executeJavaScript", js.append("')").toString()));
     }
 
     private static Object browser(Class<?> B, Component c) {

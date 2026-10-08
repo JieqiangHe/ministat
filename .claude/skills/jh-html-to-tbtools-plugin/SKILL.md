@@ -23,6 +23,8 @@ Lookup order:
 2. If absent, search the installation directory using the check above.
 3. If still not found, ask the user — do not guess.
 
+Without the jar (a cloud sandbox, for instance), compile against a stub `biocjava.GUIexcutors.WebGuiApp.WebGuiJPanel extends JPanel` with a public `(String, boolean)` constructor, and package only the `Plugin/` classes. The bytecode matched a build against the real jar except for javac-version ordering (Oct 2026). `Verify.java` still needs the real jar.
+
 ## Workflow
 
 ### 1. Staging
@@ -106,10 +108,18 @@ The `.plugin` is installed through Install Plugin in the TBtools menu. On delive
 - If the Browser can't be reached at all with a future TBtools, the alternative is to build your own: set `System.setProperty("jxbrowser.license.key", toolsKit.LicenseHub.GetLicense.getJxBroswerLicense())`, then `WebGuiJPanel.getEngine().newBrowser()` plus `BrowserView.newInstance(browser)`, and close the browser when the tab closes.
 - Without TBtools, the hooks can be exercised against mock `WebGuiJPanel`/JxBrowser classes (package-private implementations behind public interfaces, like the real ones) on Xvfb. Xvfb has no window manager, so drive the GTK dialog with `java.awt.Robot` mouse clicks, not keys.
 
+## Chinese punctuation on macOS (input-method commits)
+
+- Reported in TBtools-II on macOS (Oct 2026) with the built-in Pinyin: Chinese characters type fine, but full-width punctuation (，。？) does nothing.
+- Cause, from OpenJDK's `AWTView.m` and `CInputMethod.java`: `insertText:` sends text in U+3000–303F or U+FF00–FFEF, or longer than one character, as an `InputMethodEvent` commit through the event queue, and sends no key event. Pinyin syllables come as a composition followed by a commit and work, so JxBrowser's off-screen view apparently drops a commit that no composition preceded. JxBrowser's code could not be checked.
+- Fix, on macOS only: once it finds the Browser, PluginInject stores it as the panel's client property (key `PluginInject.class`) and pushes one `EventQueue`. That queue tracks whether a composition is in progress. A commit made while none is, whose source lies inside a plugin panel, is inserted with `focusedFrame()` (else `mainFrame()`) `.executeJavaScript("document.execCommand('insertText',false,'\uXXXX…')")` and is not dispatched. If the script returns anything but true (no editable element has focus) or throws, the event goes on to JxBrowser as before. Windows is left alone: its IME path differs, and the text might arrive twice.
+- Tested only with mock classes on Xvfb (Oct 2026). A mock view must return non-null `getInputMethodRequests()`, or it never receives input-method events.
+
 ## Known limitations
 
 - **Downloads**: `<a download>`, Blob and `Plotly.downloadImage` downloads open a Save dialog (see above). Confirmed in TBtools-II on macOS (Oct 2026).
 - **Printing**: `window.print()` saves a PDF through JxBrowser's PDF printer; it never reaches a paper printer and shows no preview. Requires JxBrowser 7.13+. Confirmed in TBtools-II on macOS (Oct 2026); still check each app's page size and margins with `pdfinfo`.
+- **Chinese punctuation (macOS)**: fixed as described above, not yet confirmed in TBtools. Pinyin's “ ” ‘ ’ and · lie outside those blocks, so Java sends them as ordinary key events; what JxBrowser makes of them is untested.
 - **Drag-and-drop**: dragging files in from a file manager is unverified in OFF_SCREEN mode.
 - **Ctrl/Cmd+A selects the whole page**: reported in TBtools-II on macOS (Oct 2026). JxBrowser runs the browser's own Select All even when the page's `keydown` handler takes Ctrl/Cmd+A and calls `preventDefault()`, so every label and button in the app's interface gets highlighted. Fix it in the page, not in Java. The Select All command fires a cancelable `selectstart` first, so cancel it when it starts outside editable elements, and if no pointer is down it was a select-all command, so run the app's own select-all there:
   ```js
