@@ -108,9 +108,17 @@ The `.plugin` is installed through Install Plugin in the TBtools menu. On delive
 
 ## Known limitations
 
-- **Downloads**: `<a download>`, Blob and `Plotly.downloadImage` downloads open a Save dialog (see above). Confirmed inside TBtools.
-- **Printing**: `window.print()` saves a PDF through JxBrowser's PDF printer; it never reaches a paper printer and shows no preview. Requires JxBrowser 7.13+. CSS `@page size` and `margin` are honoured — if a page ever comes out the wrong size, check with `pdfinfo`. Confirmed inside TBtools.
+- **Downloads**: `<a download>`, Blob and `Plotly.downloadImage` downloads open a Save dialog (see above). Confirmed in TBtools-II on macOS (Oct 2026).
+- **Printing**: `window.print()` saves a PDF through JxBrowser's PDF printer; it never reaches a paper printer and shows no preview. Requires JxBrowser 7.13+. Confirmed in TBtools-II on macOS (Oct 2026); still check each app's page size and margins with `pdfinfo`.
 - **Drag-and-drop**: dragging files in from a file manager is unverified in OFF_SCREEN mode.
+- **Ctrl/Cmd+A selects the whole page**: reported in TBtools-II on macOS (Oct 2026). JxBrowser runs the browser's own Select All even when the page's `keydown` handler takes Ctrl/Cmd+A and calls `preventDefault()`, so every label and button in the app's interface gets highlighted. Fix it in the page, not in Java. The Select All command fires a cancelable `selectstart` first, so cancel it when it starts outside editable elements, and if no pointer is down it was a select-all command, so run the app's own select-all there:
+  ```js
+  let down=0;addEventListener('pointerdown',()=>down=1,true);addEventListener('pointerup',()=>down=0,true);
+  document.addEventListener('selectstart',e=>{const t=e.target.nodeType===1?e.target:e.target.parentElement;
+    if(!t||t.closest('input,textarea,select,[contenteditable]')||document.querySelector('dialog[open]'))return;
+    e.preventDefault();down||appSelectAll()});
+  ```
+  `document.execCommand('selectAll')` reproduces the problem in any Chromium for testing. Applied in minisvg; not yet confirmed inside TBtools.
 - **localStorage**: data lives in TBtools' shared `.jxbrowser` directory. All file:// pages share one origin and can read each other's data — if the app stores an API key there, tell the user.
 - **Do not load the page from a data: URL**: its origin is opaque and localStorage access throws SecurityError.
 - **Updates**: if only `index.html` changed and dependencies need no re-localization, replace `.Plugin/<name>/index.html` in place; otherwise rebuild.
