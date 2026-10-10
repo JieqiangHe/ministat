@@ -5,5 +5,3 @@
 Free, in-browser statistics and scientific graphing. Paste data from Excel, pick a test, and get a report and a publication-ready figure. Nothing is uploaded; everything runs locally.
 
 **Live:** https://jieqianghe.github.io/ministat/
-
-[TBtools-II](https://github.com/CJ-Chen/TBtools-II) users can use `ministat.plugin` directly.
